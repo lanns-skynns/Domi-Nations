@@ -9,4 +9,6 @@ public class Joueur {
 
     public  Joueur(){}
 
+    //public CartesEnJeu choxCarte(){}
+
 }
