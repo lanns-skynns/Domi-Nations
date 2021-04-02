@@ -1,7 +1,7 @@
 package dominations.model;
 
 public class Royaume {
-    private Cartes[] carte;
+    private Carte[] carte;
     private  Couleur couleur;
     private Cellule[] grille;
 

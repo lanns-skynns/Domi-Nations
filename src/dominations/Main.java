@@ -6,18 +6,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // System.out.println(tab.length);
-        int[] tab={2,3};
-        char[] ch={'a','a'};
-        Cartes cartes = new Cartes(1, tab, ch);
-        Cartes[] deuxJoueurs=cartes.pourLaPile(36);
-        System.out.println(deuxJoueurs[0].getNumeroDeCarte());
-         deuxJoueurs[0].getInfoCarte();
+        Pile pile = new Pile(36);
+
+        Carte[] cartesDansPile = pile.getCartesPile();
+        System.out.println(cartesDansPile[20].getInfoCarte());
         int i;
-        System.out.print("Les dominos en jeu sont les suivants  : ");
-        for (i=0;i<deuxJoueurs.length;i++){
-            System.out.print(deuxJoueurs[i].getNumeroDeCarte());
-            System.out.print(" || ");
+
+        //System.out.print("Les dominos en jeu sont les suivants  : ");
+
+
+        for (i=0;i<cartesDansPile.length;i++){
+            System.out.println(cartesDansPile[i].getInfoCarte());
         }
     }
 }
