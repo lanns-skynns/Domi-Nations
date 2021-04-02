@@ -6,6 +6,8 @@ public class Carte {
     private int numeroCarte;
     private int[] nombreCouronne;
     private char[] typeCarte;
+    private boolean jouee;
+    private int orientation;
 
     public Carte(int numCarte, int[] nombreCouronne, char[] typeCarte){
         this.nombreCouronne = nombreCouronne;

@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Pile pile = new Pile(36);
+        Pile pile = new Pile(48);
 
         Carte[] cartesDansPile = pile.getCartesPile();
         System.out.println(cartesDansPile[20].getInfoCarte());
