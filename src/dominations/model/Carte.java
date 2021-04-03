@@ -6,6 +6,12 @@ public class Carte {
     private int numeroCarte;
     private int[] nombreCouronne;
     private char[] typeCarte;
+    private boolean jouee;
+    private int orientation;
+    //0: vers le haut
+    //1: vers la droite
+    //2: vers le bas
+    //3: vers la gauche
 
     public Carte(int numCarte, int[] nombreCouronne, char[] typeCarte){
         this.nombreCouronne = nombreCouronne;
@@ -15,6 +21,7 @@ public class Carte {
         this.numeroCarte=numCarte;
         this.typeCarte[0]=typeCarte[0];
         this.typeCarte[1]=typeCarte[1];
+        this.jouee = false;
     };
 
     public int getNumeroDeCarte(){
