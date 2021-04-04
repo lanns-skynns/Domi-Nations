@@ -8,35 +8,24 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //création de la pile et de la défausse
+
         Pile pile = new Pile(36,4);
+        CartesJouer defausse = new CartesJouer();
 
         List <Carte> cartesDansPile = pile.getCartesPile();
        // System.out.println(cartesDansPile.get(0).getInfoCarte());
-        int i;
 
-        for (i=0;i<cartesDansPile.size();i++){
-            System.out.println(cartesDansPile.get(i).getInfoCarte());
-        }
-        System.out.println(" ");
-        System.out.println("Cartes restantes -> "+pile.getNombreCartesRestantes());
+        System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
-        List <Carte> cartesPiochees= pile.piocherCartes();
-        int j;
-        System.out.println("cartes piochées : ");
-        for (j=0;j<cartesPiochees.size();j++){
-            System.out.println(cartesPiochees.get(j).getInfoCarte());
-        }
+        //On créé les cartes en jeu (4 cartes y sont automatiquement ajoutées)
+        CartesEnJeu cartesEnJeu = new CartesEnJeu(pile, defausse);
 
-        System.out.println("Carte restantes -> "+pile.getNombreCartesRestantes());
+        cartesEnJeu.getCartesPile();
 
-        List <Carte> cartesPiopio= pile.piocherCartes();
-
-        System.out.println("cartes piochées : ");
-        for (j=0;j<cartesPiochees.size();j++){
-            System.out.println(cartesPiopio.get(j).getInfoCarte());
-        }
-
-        System.out.println("Carte restantes -> "+pile.getNombreCartesRestantes());
+        pile.getNombreCartesRestantes();
+        defausse.getCartesPile();
 
     }
+
 }

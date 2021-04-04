@@ -5,8 +5,8 @@ import java.util.*;
 public class Pile {
 
     private final int nbrCarte;
-    private List<Carte> cartesPile;
-    private int nbrCartesRestantes;
+    protected List<Carte> cartesPile;
+    protected int nbrCartesRestantes;
     private final int nbrCartesApiocher;
 
     /* ************
@@ -21,10 +21,20 @@ public class Pile {
     }
 
     public List<Carte> getCartesPile() {
-        return cartesPile;
+
+        int i;
+
+        for (i=0;i<this.cartesPile.size();i++){
+            System.out.println(this.cartesPile.get(i).getInfoCarte());
+        }
+
+        return this.cartesPile;
     }
 
     public int getNombreCartesRestantes() {
+
+        System.out.println("Cartes dans la pile -> "+ nbrCartesRestantes);
+
         return nbrCartesRestantes;
     }
 
