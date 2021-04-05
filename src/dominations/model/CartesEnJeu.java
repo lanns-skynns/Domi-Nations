@@ -1,5 +1,6 @@
 package dominations.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartesEnJeu extends Pile  {
@@ -23,6 +24,14 @@ public class CartesEnJeu extends Pile  {
         return this.cartesPile;
     }
 
+    public List<Carte> nouvellesCartes(Pile pileSource, CartesJouer defausse){
+        List<Carte> cartesPiochees = new ArrayList<Carte>(pileSource.piocherCartes());
+
+        this.cartesPile = cartesPiochees;
+        defausse.ajouterCartes(cartesPiochees);
+
+        return cartesPiochees;
+    }
 
     //Trois cartes placées au milieu du plateau sur lesquelles les joueurs posent les rois.
 
