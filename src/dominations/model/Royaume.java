@@ -5,14 +5,16 @@ public class Royaume {
     private  Couleur couleur;
     private Cellule[] grille;
 
-    public  Royaume(){}
+    public  Royaume(Couleur couleur){
+        this.couleur=couleur;
+    }
 
-    public Couleur couleur(){
+    public Couleur getCouleur(){
         return  couleur;
     }
 
     public  int score(){
-        return 1;
+        return this.score();
     }
 }
 
