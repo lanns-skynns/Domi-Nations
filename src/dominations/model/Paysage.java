@@ -4,6 +4,14 @@ public class Paysage {
     private String typePaysage;
     private int nbrDeCouronne;
 
-    public Paysage(){};
+    public Paysage(String type){
+
+        this.typePaysage = type;
+
+    };
+
+    public String getType(){
+        return this.typePaysage;
+    }
 
 }
