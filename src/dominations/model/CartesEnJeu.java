@@ -1,22 +1,21 @@
 package dominations.model;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CartesEnJeu extends Pile {
+   protected  int nbrCartesEnJeuRestantes;
+   protected Pile pileSource;
 
-public class CartesEnJeu extends Pile  {
-
-    public CartesEnJeu(Pile pileSource, CartesJouer defausse) {
+    public CartesEnJeu(Pile pileSource) {
         super(0, 0);
+        this.pileSource=pileSource;
+        this.cartesPile =  nouvellesCartes();
 
-        this.cartesPile = pileSource.piocherCartes();
-        defausse.ajouterCartes(this.cartesPile);
     }
 
     @Override
-    public List<Carte> getCartesPile(){
-
+    public List<Carte> getCartesPile() {
         System.out.println("Les cartes au centre sont les suivantes: ");
-        for(Carte carte : this.cartesPile){
+        for (Carte carte : this.cartesPile) {
             System.out.print(carte.getInfoCarte() + " || ");
         }
         System.out.println(" ");
@@ -24,15 +23,31 @@ public class CartesEnJeu extends Pile  {
         return this.cartesPile;
     }
 
-    public List<Carte> nouvellesCartes(Pile pileSource, CartesJouer defausse){
-        List<Carte> cartesPiochees = new ArrayList<Carte>(pileSource.piocherCartes());
-
-        this.cartesPile = cartesPiochees;
-        defausse.ajouterCartes(cartesPiochees);
-
-        return cartesPiochees;
+    public int getNbrCartesEnJeuRestantes() {
+        return nbrCartesEnJeuRestantes;
     }
 
-    //Trois cartes placées au milieu du plateau sur lesquelles les joueurs posent les rois.
+    public List<Carte> nouvellesCartes() {
+        List<Carte> cartesPiochees = new ArrayList<Carte>(this.pileSource.piocherCartes());
+        List<Carte> cartesPiocheesTriees=new ArrayList<>();
+        int[] intermediaire= new int[cartesPiochees.size()];
+        Map <Integer,Carte> map=new HashMap<>();
+        int i;
+        for (i=0;i<cartesPiochees.size();i++){
+            intermediaire[i]=cartesPiochees.get(i).getNumeroDeCarte();
+            map.put(intermediaire[i],cartesPiochees.get(i));
+        }
+       Arrays.sort(intermediaire);
+        int j;
+        for(j=0;j<intermediaire.length;j++){
+            cartesPiocheesTriees.add(map.get(intermediaire[j]));
+        }
+        this.cartesPile = cartesPiocheesTriees;
+        nbrCartesEnJeuRestantes=cartesPile.size();
+        return cartesPile;
+    }
+
+    // Trois cartes placées au milieu du plateau sur lesquelles les joueurs posent
+    // les rois.
 
 }
