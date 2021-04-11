@@ -43,7 +43,10 @@ public class Cellule  {
     }
 
     public List<String> getVoisins(){
-        //Retourne le type des casses voi
+        //Retourne le type des casses voisines dans une liste de cellules.
+        //dans l'ordre suivant: [haut droit bas gauche].
+        //Si la cellule ne possède pas de case voisine en haut/bas/droite/gauche, la valeur retournée
+        //Pour la case correspondante est "bordure"
 
         String droite;
         String gauche;
@@ -52,7 +55,7 @@ public class Cellule  {
 
         //droite
         if(this.longitude < 4){
-            Cellule cellule = this.royaume.getCellule(this.longitude, this.latitude );
+            Cellule cellule = this.royaume.getCellule(this.longitude + 1, this.latitude );
             Paysage type = cellule.getPaysage();
 
             droite = type.getType();
@@ -62,7 +65,7 @@ public class Cellule  {
 
         //gauche
         if(this.longitude > 0){
-            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude);
+            Cellule cellule = this.royaume.getCellule(this.longitude - 1 , this.latitude);
             Paysage type = cellule.getPaysage();
 
             gauche = type.getType();
@@ -72,7 +75,7 @@ public class Cellule  {
 
         //bas
         if(this.latitude < 4){
-            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude);
+            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude  + 1);
             Paysage type = cellule.getPaysage();
 
             bas = type.getType();
@@ -81,7 +84,7 @@ public class Cellule  {
         }
         //haut
         if(this.latitude > 0){
-            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude);
+            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude - 1);
             Paysage type = cellule.getPaysage();
 
             haut = type.getType();

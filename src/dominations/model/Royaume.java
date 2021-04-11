@@ -18,7 +18,7 @@ public class Royaume {
     }
 
     public void creerGrille(){
-        //création de la grille
+        //création d'une grille de 5x5 avec toutes les cases vides.
         Cellule[][] grille = new Cellule[5][5];
 
         int i;
@@ -26,7 +26,7 @@ public class Royaume {
         for(i = 0; i<5; i++){
             for(j = 0; j<5; j++){
                 Cellule cell = new Cellule(this, j, i);
-                cell.setPaysage(new Paysage(""+i + j+""));
+                cell.setPaysage(new Paysage("vide"));
                 grille[i][j] = cell;
             }
         }
@@ -39,7 +39,19 @@ public class Royaume {
         return cell;
     }
 
+    public Cellule[] getLine(int ligne){
+        Cellule[] ligneCell = this.grilleCellules[ligne];
+
+        for(Cellule cell : ligneCell){
+            System.out.print(cell.getPaysage().getType() + " ");
+        }
+
+        return ligneCell;
+
+    }
+
     public void afficherGrille(){
+        //Affiche une grille des types de chaque case de la grille
         int i;
         int j;
         for(i = 0; i<5; i++){

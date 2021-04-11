@@ -19,12 +19,17 @@ public class Main {
         System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
         //On créé les cartes en jeu (4 cartes y sont automatiquement ajoutées)
-        CartesEnJeu cartesEnJeu = new CartesEnJeu(pile, defausse);
+        Couleur couleur = Couleur.BLEU;
+        Royaume roy = new Royaume(couleur);
+        Cellule cell = roy.getCellule(4, 0);
 
-        cartesEnJeu.getCartesPile();
+        List<String> voisins = cell.getVoisins();
 
-        pile.getNombreCartesRestantes();
-        defausse.getCartesPile();
+        System.out.println(voisins);
+
+        roy.afficherGrille();
+
+        System.out.println(cell.getPaysage().getType());
 
     }
 
