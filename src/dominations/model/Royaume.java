@@ -26,14 +26,17 @@ public class Royaume {
         for(i = 0; i<5; i++){
             for(j = 0; j<5; j++){
                 Cellule cell = new Cellule(this, j, i);
+                cell.setPaysage(new Paysage(""+i + j+""));
                 grille[i][j] = cell;
             }
         }
         this.grilleCellules = grille;
     }
 
-    public void getInfosCellule(int lon, int lat){
+    public Cellule getCellule(int lon, int lat){
+        Cellule cell = this.grilleCellules[lat][lon];
 
+        return cell;
     }
 
     public void afficherGrille(){

@@ -7,8 +7,8 @@ import java.util.List;
 public class Cellule  {
 
     private Paysage paysage;
-    private final int longitude; // abscisse
-    private final int latitude; // ordonnées
+    private final int longitude; // abscisse / Numero de colonne
+    private final int latitude; // ordonnées / Numero de ligne
     private int numeroCarte;
     private boolean caseVide;
     private final Royaume royaume; // Royaume auquel appartient la cellule
@@ -52,29 +52,41 @@ public class Cellule  {
 
         //droite
         if(this.longitude < 4){
-            droite = "pas vide";
+            Cellule cellule = this.royaume.getCellule(this.longitude, this.latitude );
+            Paysage type = cellule.getPaysage();
+
+            droite = type.getType();
         } else {
-            droite = "vide";
+            droite = "bordure";
         }
 
         //gauche
         if(this.longitude > 0){
-            gauche = "pas vide";
+            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude);
+            Paysage type = cellule.getPaysage();
+
+            gauche = type.getType();
         } else {
-            gauche = "vide";
+            gauche = "bordure";
         }
 
-        //haut
-        if(this.latitude < 4){
-            haut = "pas vide";
-        } else {
-            haut = "vide";
-        }
         //bas
-        if(this.latitude > 0){
-            bas = "pas vide";
+        if(this.latitude < 4){
+            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude);
+            Paysage type = cellule.getPaysage();
+
+            bas = type.getType();
         } else {
-            bas = "vide";
+            bas = "bordure";
+        }
+        //haut
+        if(this.latitude > 0){
+            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude);
+            Paysage type = cellule.getPaysage();
+
+            haut = type.getType();
+        } else {
+            haut = "bordure";
         }
 
         //retourne les types en partant du haut dans l'ordre des aiguilles
