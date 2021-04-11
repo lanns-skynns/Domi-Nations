@@ -14,4 +14,8 @@ public class Paysage {
         return this.typePaysage;
     }
 
+    public void changeType(String newPaysage){
+        this.typePaysage = newPaysage;
+    }
+
 }

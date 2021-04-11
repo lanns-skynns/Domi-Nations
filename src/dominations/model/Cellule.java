@@ -20,6 +20,7 @@ public class Cellule  {
         this.latitude = lat;
         this.caseVide = true;
         this.paysage = new Paysage("vide");
+        this.numeroCarte = 666;
     }
 
     public int[] getPosition(){
@@ -34,8 +35,26 @@ public class Cellule  {
     }
 
     public void setPaysage(Paysage nouveauPaysage){
-        this.paysage=nouveauPaysage;
+        this.paysage = nouveauPaysage;
+
+        changeCellState();
     };
+
+    public void changePaysageType(String typePaysage){
+        this.paysage.changeType(typePaysage);
+
+        changeCellState();
+    }
+
+    public void changeCellState(){
+        //Vérifie si la case est vide et change la valeur de "caseVide" en conséquence
+
+        if (this.paysage.getType() != "vide"){
+            this.caseVide = false;
+        } else {
+            this.caseVide = true;
+        }
+    }
 
     public Paysage getPaysage(){
 
