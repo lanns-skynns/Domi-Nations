@@ -29,7 +29,7 @@ public class Cellule  {
         return position;
     }
 
-    public boolean isEmpyy(){
+    public boolean isEmpty(){
         //Vrai si vide, faux si occupée
         return this.caseVide;
     }

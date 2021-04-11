@@ -50,10 +50,11 @@ public class Royaume {
 
     }
 
-    public void afficherGrille(){
+    public void afficherTypesGrille(){
         //Affiche une grille des types de chaque case de la grille
         int i;
         int j;
+        System.out.println("Paysages de la grille: ");
         for(i = 0; i<5; i++){
             System.out.print("| ");
             for(j = 0; j<5; j++){
@@ -64,6 +65,35 @@ public class Royaume {
                 System.out.print(type + " | " );
             }
             System.out.println("");
+        }
+    }
+
+    public void afficherEtatGrille(){
+        //Affiche une grille des types de chaque case de la grille
+        int i;
+        int j;
+        System.out.println("Cases vides de la grille: ");
+        for(i = 0; i<5; i++){
+            System.out.print("| ");
+            for(j = 0; j<5; j++){
+                Cellule c = this.grilleCellules[i][j];
+
+                System.out.print(c.isEmpty() + " | " );
+
+            }
+            System.out.println("");
+        }
+    }
+
+    public void updateGrille(){
+        //update l'etat de toutes les cellule de la grille
+        int i;
+        int j;
+
+        for(i = 0; i<5; i++){
+            for(j = 0; j<5; j++){
+                this.grilleCellules[i][j].changeCellState();
+            }
         }
     }
 }

@@ -27,9 +27,9 @@ public class Main {
 
         System.out.println(voisins);
 
-        roy.afficherGrille();
+        roy.afficherTypesGrille();
 
-        System.out.println(cell.getPaysage().getType());
+        roy.afficherEtatGrille();
 
     }
 
