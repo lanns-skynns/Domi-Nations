@@ -6,17 +6,31 @@ import java.util.Scanner;
 
 public class Partie {
     private  Joueur[] joueur;
-    private Joueur toutJoueur;
+    private Joueur tourJoueur;
     private Pile pile;
     private CartesEnJeu cartesEnJeu;
     private final int NBRTOUR=12;
     private int tourActuel;
+    private CartesJouer cartesJouees;
     public  Partie(){
         int[] initialisationPartie=initialisationPartie();// c'est un tableau contenant trois valeurs :  nbr de joueurs, nbr carte pour la pile, nbr carte a piocher
         List <Joueur> listeJoueurs=creerJoueurs(initialisationPartie[0]);
-        afficherListeJoueurs(listeJoueurs);
-        Pile pile=new Pile(initialisationPartie[1],initialisationPartie[2]);
-        afficherListeCartesPile(pile.getCartesPile());
+       // afficherListeJoueurs(listeJoueurs);
+        int i=0;
+        while (i<20) {
+            Pile pile = new Pile(initialisationPartie[1], initialisationPartie[2]);
+            // afficherListeCartesPile(pile.getCartesPile());
+            CartesEnJeu cartesEnJeu = new CartesEnJeu(pile);
+            //System.out.println(cartesEnJeu.getNbrCartesEnJeuRestantes());
+
+            cartesEnJeu.getCartesPile();
+            i++;
+        }
+
+
+
+       // System.out.println(pile.getNombreCartesRestantes());
+
 
 
     };
@@ -104,10 +118,10 @@ public class Partie {
     }
 
     public Joueur getToutJoueur() {
-        return toutJoueur;
+        return tourJoueur;
     }
 
     public void setToutJoueur(Joueur toutJoueur) {
-        this.toutJoueur = toutJoueur;
+        this.tourJoueur = toutJoueur;
     }
 }
