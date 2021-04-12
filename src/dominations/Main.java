@@ -27,9 +27,11 @@ public class Main {
 
         System.out.println(voisins);
 
-        roy.afficherTypesGrille();
+        Joueur p1 = new Joueur("julo", roy);
 
-        roy.afficherEtatGrille();
+        p1.setChateau(3, 2);
+
+        roy.afficherTypesGrille();
 
     }
 

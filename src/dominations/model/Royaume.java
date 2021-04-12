@@ -95,6 +95,8 @@ public class Royaume {
                 this.grilleCellules[i][j].changeCellState();
             }
         }
+
+        afficherEtatGrille();
     }
 }
 
