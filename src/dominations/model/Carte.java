@@ -21,7 +21,6 @@ public class Carte {
         this.numeroCarte=numCarte;
         this.typeCarte[0]=typeCarte[0];
         this.typeCarte[1]=typeCarte[1];
-        this.jouee = false;
     };
 
     public int getNumeroDeCarte(){

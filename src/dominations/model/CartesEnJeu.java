@@ -1,15 +1,22 @@
 package dominations.model;
+
 import java.util.*;
 
 public class CartesEnJeu extends Pile {
-   protected  int nbrCartesEnJeuRestantes;
-   protected Pile pileSource;
+    protected int nbrCartesEnJeuRestantes;
+    protected Pile pileSource;
 
     public CartesEnJeu(Pile pileSource) {
         super(0, 0);
-        this.pileSource=pileSource;
-        this.cartesPile =  nouvellesCartes();
+        this.pileSource = pileSource;
+        // this.cartesPile = nouvellesCartes();
 
+    }
+
+    public int carteChoisie(int choix) {
+        cartesPile.remove(cartesPile.get(choix));
+        nbrCartesEnJeuRestantes = cartesPile.size();
+        return nbrCartesEnJeuRestantes;
     }
 
     @Override
@@ -29,21 +36,21 @@ public class CartesEnJeu extends Pile {
 
     public List<Carte> nouvellesCartes() {
         List<Carte> cartesPiochees = new ArrayList<Carte>(this.pileSource.piocherCartes());
-        List<Carte> cartesPiocheesTriees=new ArrayList<>();
-        int[] intermediaire= new int[cartesPiochees.size()];
-        Map <Integer,Carte> map=new HashMap<>();
+        List<Carte> cartesPiocheesTriees = new ArrayList<>();
+        int[] intermediaire = new int[cartesPiochees.size()];
+        Map<Integer, Carte> map = new HashMap<>();
         int i;
-        for (i=0;i<cartesPiochees.size();i++){
-            intermediaire[i]=cartesPiochees.get(i).getNumeroDeCarte();
-            map.put(intermediaire[i],cartesPiochees.get(i));
+        for (i = 0; i < cartesPiochees.size(); i++) {
+            intermediaire[i] = cartesPiochees.get(i).getNumeroDeCarte();
+            map.put(intermediaire[i], cartesPiochees.get(i));
         }
-       Arrays.sort(intermediaire);
+        Arrays.sort(intermediaire);
         int j;
-        for(j=0;j<intermediaire.length;j++){
+        for (j = 0; j < intermediaire.length; j++) {
             cartesPiocheesTriees.add(map.get(intermediaire[j]));
         }
         this.cartesPile = cartesPiocheesTriees;
-        nbrCartesEnJeuRestantes=cartesPile.size();
+        nbrCartesEnJeuRestantes = cartesPile.size();
         return cartesPile;
     }
 
