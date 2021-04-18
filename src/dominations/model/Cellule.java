@@ -4,64 +4,73 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Cellule  {
+/*
+changePaysageType ??
+ */
+public class Cellule {
 
     private Paysage paysage;
     private final int longitude; // abscisse / Numero de colonne
     private final int latitude; // ordonnées / Numero de ligne
+    private int[] coordonnees = new int[2];
     private int numeroCarte;
     private boolean caseVide;
     private final Royaume royaume; // Royaume auquel appartient la cellule
 
 
-    public  Cellule(Royaume royaumeRef, int lon, int lat){
+    /* **************
+        Constructeur de la classe
+    ************** */
+
+    public Cellule(Royaume royaumeRef, int lon, int lat) {
         this.royaume = royaumeRef;
         this.longitude = lon;
         this.latitude = lat;
         this.caseVide = true;
         this.paysage = new Paysage("vide");
         this.numeroCarte = 666;
+        this.coordonnees[0] = lon;
+        this.coordonnees[1] = lat;
     }
 
-    public int[] getPosition(){
+    public int[] getPosition() {
         int[] position = {this.longitude, this.latitude};
 
         return position;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         //Vrai si vide, faux si occupée
         return this.caseVide;
     }
 
-    public void setPaysage(Paysage nouveauPaysage){
+    public void setPaysage(Paysage nouveauPaysage) {
         this.paysage = nouveauPaysage;
-
         changeCellState();
-    };
+    }
 
-    public void changePaysageType(String typePaysage){
+    public void changePaysageType(String typePaysage) {
         this.paysage.changeType(typePaysage);
 
         changeCellState();
     }
 
-    public void changeCellState(){
+    public void changeCellState() {
         //Vérifie si la case est vide et change la valeur de "caseVide" en conséquence
 
-        if (this.paysage.getType() != "vide"){
+        if (this.paysage.getType() != "vide") {
             this.caseVide = false;
         } else {
             this.caseVide = true;
         }
     }
 
-    public Paysage getPaysage(){
+    public Paysage getPaysage() {
 
         return this.paysage;
     }
 
-    public List<String> getVoisins(){
+    public List<String> getVoisins() {
         //Retourne le type des casses voisines dans une liste de cellules.
         //dans l'ordre suivant: [haut droit bas gauche].
         //Si la cellule ne possède pas de case voisine en haut/bas/droite/gauche, la valeur retournée
@@ -73,8 +82,8 @@ public class Cellule  {
         String bas;
 
         //droite
-        if(this.longitude < 4){
-            Cellule cellule = this.royaume.getCellule(this.longitude + 1, this.latitude );
+        if (this.longitude < 4) {
+            Cellule cellule = this.royaume.getCellule(this.longitude + 1, this.latitude);
             Paysage type = cellule.getPaysage();
 
             droite = type.getType();
@@ -83,8 +92,8 @@ public class Cellule  {
         }
 
         //gauche
-        if(this.longitude > 0){
-            Cellule cellule = this.royaume.getCellule(this.longitude - 1 , this.latitude);
+        if (this.longitude > 0) {
+            Cellule cellule = this.royaume.getCellule(this.longitude - 1, this.latitude);
             Paysage type = cellule.getPaysage();
 
             gauche = type.getType();
@@ -93,8 +102,8 @@ public class Cellule  {
         }
 
         //bas
-        if(this.latitude < 4){
-            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude  + 1);
+        if (this.latitude < 4) {
+            Cellule cellule = this.royaume.getCellule(this.longitude, this.latitude + 1);
             Paysage type = cellule.getPaysage();
 
             bas = type.getType();
@@ -102,8 +111,8 @@ public class Cellule  {
             bas = "bordure";
         }
         //haut
-        if(this.latitude > 0){
-            Cellule cellule = this.royaume.getCellule(this.longitude , this.latitude - 1);
+        if (this.latitude > 0) {
+            Cellule cellule = this.royaume.getCellule(this.longitude, this.latitude - 1);
             Paysage type = cellule.getPaysage();
 
             haut = type.getType();
@@ -117,7 +126,7 @@ public class Cellule  {
         return voisins;
     }
 
-    public int getNumeroCarte(){
+    public int getNumeroCarte() {
         return this.numeroCarte;
     }
 

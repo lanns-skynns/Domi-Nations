@@ -15,12 +15,8 @@ public class CartesJouer extends Pile{
 
     public void ajouterCartes(List<Carte> cartes){
         if(this.cartesPile == null) {
-            System.out.println("hey pelo");
             this.cartesPile = new ArrayList<Carte>(cartes);
         } else {
-            System.out.println("heya pelo");
-            Carte test = cartes.get(0);
-
             for(Carte carte: cartes){
                 this.cartesPile.add(carte);
             }

@@ -1,8 +1,9 @@
 package dominations.model;
 
 public enum Couleur {
-    VERT,
-    ROUGE,
     BLEU,
+    ROUGE,
+    VERT,
     JAUNE,
 }
+

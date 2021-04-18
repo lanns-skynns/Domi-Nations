@@ -2,12 +2,13 @@ package dominations;
 
 import dominations.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-
+/*
         //création de la pile et de la défausse
 
         Pile pile = new Pile(36,4);
@@ -27,12 +28,16 @@ public class Main {
 
         System.out.println(voisins);
 
-        Joueur p1 = new Joueur("julo", roy);
-
-        p1.setChateau(3, 2);
-
         roy.afficherTypesGrille();
 
+        roy.afficherEtatGrille();
+*/
+       Partie partie =new Partie();
+
+
+
+
     }
+
 
 }

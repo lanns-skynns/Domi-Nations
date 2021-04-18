@@ -10,36 +10,26 @@ public class Pile {
     private final int nbrCartesApiocher;
 
     /* ************
-    Constructeur de la classe
+        Constructeur de la classe
     ************ */
 
-    public Pile(int nbrCartes,int nbrCartesApiocher) {
+    public Pile(int nbrCartes, int nbrCartesApiocher) {
         this.nbrCarte = nbrCartes;
         this.cartesPile = creerPile(this.nbrCarte);
         this.nbrCartesRestantes = cartesPile.size();
-        this.nbrCartesApiocher=nbrCartesApiocher;
+        this.nbrCartesApiocher = nbrCartesApiocher;
     }
 
     public List<Carte> getCartesPile() {
-
-        int i;
-
-        for (i=0;i<this.cartesPile.size();i++){
-            System.out.println(this.cartesPile.get(i).getInfoCarte());
-        }
-
-        return this.cartesPile;
+        return cartesPile;
     }
 
     public int getNombreCartesRestantes() {
-
-        System.out.println("Cartes dans la pile -> "+ nbrCartesRestantes);
-
         return nbrCartesRestantes;
     }
 
     /* ***************
-    La méthode piocherCartes permet  de piocher un certain nombre de carte à chaque de jeu
+         La méthode piocherCartes permet  de piocher un certain nombre de carte à chaque de jeu
     *************** */
 
     public List<Carte> piocherCartes() {
@@ -53,12 +43,6 @@ public class Pile {
         return cartesPiochees;
     }
 
-    public void melanger() {
-
-    }
-
-
-
     /* ************
         Cette méthode permet de choisir un certain nombre de carte de manière alétoire pour la pile de carte.
     ************* */
@@ -68,13 +52,14 @@ public class Pile {
 
         int i;
         int carteAleatoire;
+        Carte intermediaire;
         List<Carte> pourLapioche = new ArrayList<>();// cette veriable contiendra la liste de carte qui servira de pioche
         for (i = 0; i < nbrDeCarte; i++) {// cette boucle permet de sélectionner un nombre précis de carte pour la pile
             carteAleatoire = (int) (Math.round(Math.random() * (numCartes.size() - 1)));// on sélectionne  un nombre aléatoire entre 0 et et le nombre de carte qui n'ont pas encore été ajouté dans le pile
             int[] nbrCouronne = {this.couronnes.get(carteAleatoire)[0], this.couronnes.get(carteAleatoire)[1]};
             char[] typePaysage = {this.paysages.get(carteAleatoire)[0], this.paysages.get(carteAleatoire)[1]};
-            Carte intermediaire = new Carte(this.numCartes.get(carteAleatoire), nbrCouronne, typePaysage);// création d'une carte
-            pourLapioche.add(intermediaire);// ajout de  ²                                                                                             cette carte dans la pioche
+            intermediaire = new Carte(this.numCartes.get(carteAleatoire), nbrCouronne, typePaysage);// création d'une carte
+            pourLapioche.add(intermediaire);// ajout de cette carte dans la pioche
             this.numCartes.remove(carteAleatoire);//suppression...
             this.couronnes.remove(carteAleatoire);//de la carte
             this.paysages.remove(carteAleatoire);// choisi
@@ -83,7 +68,7 @@ public class Pile {
     }
 
 
-    final private int[][] LISTECOURONNES = {
+    final private int[][] LISTECOURONNES = { // liste des couronnes, récupérées dans le fichier excel du projet.
             {0, 0},
             {0, 0},
             {0, 0},
@@ -135,8 +120,7 @@ public class Pile {
     };
 
 
-
-   final private char[][] LISTEPAYSAGES = {
+    final private char[][] LISTEPAYSAGES = {//liste des paysages  : récupérée dans le fichier excel du proje
             {'c', 'c'},
             {'c', 'c'},
             {'f', 'f'},
@@ -187,17 +171,25 @@ public class Pile {
             {'c', 'n'},
     };
 
-    private List<Integer> numCartes() {// créer une "List" qui contient les numéros de cartes au lieu du tableau de base.
+    /* *********
+         numCartes() :  crée une liste  qui contient les numéros de cartes au lieu du tableau de base.
+    ******** */
+
+    private List<Integer> numCartes() {
         int i;
         List<Integer> numC;
         numC = new ArrayList<>();
-        for (i = 0; i < 48; i++) {
+        for (i = 1; i < 49; i++) {// crée une liste d'entier entre 1 et 49
             numC.add(i);
         }
         return numC;
     }
 
-    private List<int[]> couronnes() { //créer une "List" qui contient les coruonnes au lieu du tableau de base.
+    /*
+       couronnes() :  crée une "List" qui contient les couronnes au lieu du tableau de base.
+     */
+
+    private List<int[]> couronnes() {
         int j;
         List<int[]> c = new ArrayList<>();
         for (j = 0; j < 48; j++) {
@@ -206,7 +198,11 @@ public class Pile {
         return c;
     }
 
-    private List<char[]> paysages() {// créer une "List" qui paysages de cartes au lieu du tableau de base.
+     /* *********
+        paysages(): créer une "List" qui paysages de cartes au lieu du tableau de base.
+     ********* */
+
+    private List<char[]> paysages() {
         int j;
         List<char[]> c = new ArrayList<>();
         for (j = 0; j < 48; j++) {
@@ -214,9 +210,10 @@ public class Pile {
         }
         return c;
     }
-     private List<Integer> numCartes = numCartes();
-     private List<char[]> paysages = paysages();
-     private List<int[]> couronnes = couronnes();
+
+    private List<Integer> numCartes = numCartes();// contient une liste de 48 cartes classé par ordre croissant
+    private List<char[]> paysages = paysages();//contient un couple de deux paysages
+    private List<int[]> couronnes = couronnes();//contient un couple  de nombre de  couronnes.
 
 }
 

@@ -9,11 +9,17 @@ public class Joueur {
     private boolean tour = false;
     private int[] coordonneesChateau = new int[2];
 
+    /* **************
+        Constructeur de la classe
+    ************** */
+
     public Joueur(String nom, Royaume royaume, int nbrCouronnes) {
         this.nom = nom;
         this.royaume = royaume;
         this.couleur = royaume.getCouleur();
         this.nbrCouronnes = nbrCouronnes;
+
+        setChateau(0, 0);// passager, les joeurs devront placer leurs chateaux eux même;
     }
 
     public String getNom() {
@@ -36,26 +42,39 @@ public class Joueur {
         this.tour = tour;
     }
 
+
+    /* **********
+         Cette fonction retourne un string qui est une concaténation des infos concernant la carte :
+     ********* */
+
     public String getInfosJoueur() {
-        return "nom :" + this.nom + "  \n" + "couleur royaume  : " + this.couleur + "\nscore : " + this.score + " \n"
-                + "tour : " + this.tour;
+        return "nom :" + this.nom + "  \n" + "couleur royaume  : " + this.couleur + "\nscore : " + this.score + " \n" + "tour : " + this.tour;
     }
 
     public int getNbrCouronnes() {
         return nbrCouronnes;
     }
 
+    /* ***********
+        setChateau(int lon, int lat) : Cette méthode permet de placer le chateau dans le royaume
+    *********** */
     public void setChateau(int lon, int lat) {
-        this.royaume.getCellule(lon, lat).setPaysage(new Paysage("chateau"));
-        this.royaume.updateGrille();
+        this.royaume.getCellule(lon, lat).setPaysage(new Paysage("chateau"));//surtout ne pas modifie le type chateau
         this.coordonneesChateau[0] = lon;
         this.coordonneesChateau[1] = lat;
     }
 
-    public int[] getCoordonneesChateau() {
-        return this.coordonneesChateau;
+    public Royaume getRoyaume() {
+        return this.royaume;
     }
 
-    // public CartesEnJeu choxCarte(){}
+    public int[] getCoordonneesChateau() {
+        if( this.coordonneesChateau.length!=0 && this.coordonneesChateau !=null) {
+            return this.coordonneesChateau;
+        }
+        return  null;
+    }
+
+    //public CartesEnJeu choxCarte(){}
 
 }
