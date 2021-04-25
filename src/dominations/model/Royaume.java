@@ -1,6 +1,9 @@
 package dominations.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Royaume {
     private Couleur couleur;
@@ -169,6 +172,140 @@ public class Royaume {
         }
         //si au moins une cellule cible n'est pas vides, on retourne false
         return false;
+    }
+
+    public void genererRoyaumeAleatoire(){
+        //fonction qui génère un royaume aléatoire avce tous les paysages remplis (deboggage)
+
+        String[] typesDispo = {"A", "B", "C", "D"};
+        int[] couronnesDispo = {0, 1, 2};
+
+        int i;
+        int j;
+
+        for(i=0; i<5; i++){
+            for(j=0; j<5; j++){
+                Random r=new Random();
+                int randomType=r.nextInt(typesDispo.length);
+                String type = typesDispo[randomType];
+
+                int randomCour=r.nextInt(couronnesDispo.length);
+                int couronne = couronnesDispo[randomCour];
+
+                Paysage paysage = new Paysage(type, 1, couronne);
+
+                this.grilleCellules[i][j].setPaysage(paysage);
+            }
+        }
+
+
+    }
+
+    public List<List<Integer>> detectionVoisinsCellule(int i, int j, int direction, List<List<Integer>> dejaVisites){
+        //Fonction regroupant les cellules adjacentes de meme type en groupes à partir d'une cellule
+        /*direction est la position relative à la cellule précédente dans la recurcivité:
+        0 -> premiere fois qu'on execute la fonction
+        1 -> la cellule précédente est a droite
+        2 -> la cellule précédente est en haut
+        3 -> la cellule precedente est a gauche
+        4 -> la cellule precedente est en bas
+        cela empeche d'avoir une boucle ou la recurcivité fait gauche/droite en boucle.
+         */
+
+        List<Integer> coordonneesCellule =new ArrayList<Integer>();
+        coordonneesCellule.add(i);
+        coordonneesCellule.add(j);
+
+        Cellule cellule = this.getCellule(i, j);
+        String typeCellule = cellule.getPaysage().getType();
+
+        List<String> voisins = cellule.getVoisins();
+
+
+        List<List<Integer>> coords = new ArrayList<>();
+        coords.add(coordonneesCellule);
+
+        System.out.println(coords);
+
+
+        if(typeCellule.toString() == voisins.get(1).toString() && direction != 1){
+            //droite
+            Integer[] coord = {i+1, j};
+            List<Integer> coordList = Arrays.asList(coord);
+
+            if(!dejaVisites.contains(coordList)) {
+
+                //coords.add(coordList);
+                dejaVisites.add(coordList);
+
+                //System.out.println(Arrays.toString(coord));
+                //System.out.println("----------");
+
+                //System.out.println(dejaVisites + "e");
+                List<List<Integer>> results = detectionVoisinsCellule(coord[0], coord[1], 3, dejaVisites);
+                coords.addAll(results);
+            }
+        }
+
+        if(typeCellule.toString() == voisins.get(2).toString() && direction != 4){
+            //bas
+            Integer[] coord = {i, j+1};
+            List<Integer> coordList = Arrays.asList(coord);
+
+            if(!dejaVisites.contains(coordList)) {
+
+                //coords.add(coordList);
+                dejaVisites.add(coordList);
+
+                //System.out.println(Arrays.toString(coord));
+                //System.out.println("----------");
+
+                //System.out.println(dejaVisites + "e");
+                List<List<Integer>> results = detectionVoisinsCellule(coord[0], coord[1], 2, dejaVisites);
+                coords.addAll(results);
+            }
+        }
+
+        if(typeCellule.toString() == voisins.get(3).toString() && direction != 3){
+            //gauche
+            Integer[] coord = {i-1, j};
+            List<Integer> coordList = Arrays.asList(coord);
+
+            if(!dejaVisites.contains(coordList)) {
+
+                //coords.add(coordList);
+                dejaVisites.add(coordList);
+
+                //System.out.println(Arrays.toString(coord));
+                //System.out.println("----------");
+                //System.out.println(dejaVisites + "e");
+                List<List<Integer>> results = detectionVoisinsCellule(coord[0], coord[1], 1, dejaVisites);
+                coords.addAll(results);
+            }
+
+        }
+
+        if(typeCellule.toString() == voisins.get(0).toString() && direction != 2){
+            //haut
+            Integer[] coord = {i, j-1};
+            List<Integer> coordList = Arrays.asList(coord);
+
+            if(!dejaVisites.contains(coordList)) {
+
+                //coords.add(coordList);
+                dejaVisites.add(coordList);
+
+                //System.out.println(Arrays.toString(coord));
+                //System.out.println("----------");
+                //System.out.println(dejaVisites + "e");
+                List<List<Integer>> results = detectionVoisinsCellule(coord[0], coord[1], 4, dejaVisites);
+                coords.addAll(results);
+            }
+
+        }
+
+        return coords;
+
     }
 
 }

@@ -2,8 +2,10 @@ package dominations;
 
 import dominations.model.*;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -32,10 +34,26 @@ public class Main {
 
         roy.afficherEtatGrille();
 */
-       Partie partie =new Partie();
+       //Partie partie =new Partie();
+
+        Scanner scanner = new Scanner(System.in);
+
+        Couleur couleur = Couleur.BLEU;
+        Royaume roy = new Royaume(couleur);
+        roy.genererRoyaumeAleatoire();
+
+        roy.afficherTypesGrille();
+
+        System.out.println("abs: ");
+        int i = scanner.nextInt();
+
+        System.out.println("ord: ");
+        int j = scanner.nextInt();
 
 
-
+        List<List<Integer>> listRef = new ArrayList<>();
+        List<List<Integer>> xxx = roy.detectionVoisinsCellule(i, j, 0, listRef);
+        System.out.println("resultat: "+xxx);
 
     }
 
