@@ -43,17 +43,23 @@ public class Main {
         roy.genererRoyaumeAleatoire();
 
         roy.afficherTypesGrille();
-
+        /*
         System.out.println("abs: ");
         int i = scanner.nextInt();
 
         System.out.println("ord: ");
         int j = scanner.nextInt();
+        */
 
+        //List<List<Integer>> listRef = new ArrayList<>();
+        //List<List<Integer>> xxx = roy.detectionVoisinsCellule(i, j, 0, listRef);
+        //System.out.println("resultat: "+xxx);
 
-        List<List<Integer>> listRef = new ArrayList<>();
-        List<List<Integer>> xxx = roy.detectionVoisinsCellule(i, j, 0, listRef);
-        System.out.println("resultat: "+xxx);
+        List<List<List<Integer>>> xxx = roy.analyserGroupesGrille();
+
+        for (int i = 0; i < xxx.size(); i++) {
+            System.out.println(xxx.get(i));
+        }
 
     }
 

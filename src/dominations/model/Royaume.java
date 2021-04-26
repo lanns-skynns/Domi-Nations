@@ -225,7 +225,7 @@ public class Royaume {
         List<List<Integer>> coords = new ArrayList<>();
         coords.add(coordonneesCellule);
 
-        System.out.println(coords);
+        //System.out.println(coords);
 
 
         if(typeCellule.toString() == voisins.get(1).toString() && direction != 1){
@@ -306,6 +306,45 @@ public class Royaume {
 
         return coords;
 
+    }
+
+    public List<List<List<Integer>>> analyserGroupesGrille(){
+        //Fonction qui regroupe les differentes zones de la grille
+
+        List<List<Integer>> cellulesAnalysees = new ArrayList<>();
+        List<List<List<Integer>>> regroupements = new ArrayList<>();
+
+
+        int i;
+        int j;
+
+        for (i=0; i<5; i++){
+            for(j=0; j<5; j++){
+
+                List<Integer> coordonneesCellule =new ArrayList<Integer>();
+                coordonneesCellule.add(i);
+                coordonneesCellule.add(j);
+
+                if(!cellulesAnalysees.contains(coordonneesCellule)){
+                    //System.out.println(coordonneesCellule);
+
+                    List<List<Integer>> listRef = new ArrayList<>();
+                    List<List<Integer>> regroupement = this.detectionVoisinsCellule(coordonneesCellule.get(0), coordonneesCellule.get(1), 0, listRef);
+
+                    cellulesAnalysees.addAll(regroupement);
+
+                    regroupements.add(regroupement);
+
+                    //System.out.println(cellulesAnalysees);
+                }
+
+
+
+            }
+        }
+
+        //System.out.println(regroupements);
+        return regroupements;
     }
 
 }
