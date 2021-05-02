@@ -82,7 +82,7 @@ public class Cellule {
         String bas;
 
         //droite
-        if (this.longitude < 4) {
+        if (this.longitude < 8) {
             Cellule cellule = this.royaume.getCellule(this.longitude + 1, this.latitude);
             Paysage type = cellule.getPaysage();
 
@@ -102,7 +102,7 @@ public class Cellule {
         }
 
         //bas
-        if (this.latitude < 4) {
+        if (this.latitude < 8) {
             Cellule cellule = this.royaume.getCellule(this.longitude, this.latitude + 1);
             Paysage type = cellule.getPaysage();
 

@@ -28,12 +28,12 @@ public class Royaume {
 
     public void creerGrille() {
         //création d'une grille de 5x5 avec toutes les cases vides.
-        Cellule[][] grille = new Cellule[5][5];
+        Cellule[][] grille = new Cellule[9][9];
 
         int i;
         int j;
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 5; j++) {
+        for (i = 0; i < 9; i++) {
+            for (j = 0; j < 9; j++) {
                 Cellule cell = new Cellule(this, j, i);
                 cell.setPaysage(new Paysage("vide"));
                 grille[i][j] = cell;
@@ -85,9 +85,9 @@ public class Royaume {
         int i;
         int j;
         System.out.println("Paysages de la grille: ");
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 9; i++) {
             System.out.print("| ");
-            for (j = 0; j < 5; j++) {
+            for (j = 0; j < 9; j++) {
                 Cellule c = this.grilleCellules[i][j];
                 Paysage paysage = c.getPaysage();
                 String type = paysage.getType();
@@ -103,9 +103,9 @@ public class Royaume {
         int i;
         int j;
         System.out.println("Cases vides de la grille: ");
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 9; i++) {
             System.out.print("| ");
-            for (j = 0; j < 5; j++) {
+            for (j = 0; j < 9; j++) {
                 Cellule c = this.grilleCellules[i][j];
                 System.out.print(c.isEmpty() + " | ");
             }
@@ -118,8 +118,8 @@ public class Royaume {
         int i;
         int j;
 
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 5; j++) {
+        for (i = 0; i < 9; i++) {
+            for (j = 0; j < 9; j++) {
                 this.grilleCellules[i][j].changeCellState();
             }
         }
@@ -177,14 +177,14 @@ public class Royaume {
     public void genererRoyaumeAleatoire(){
         //fonction qui génère un royaume aléatoire avce tous les paysages remplis (deboggage)
 
-        String[] typesDispo = {"A", "B", "C", "D"};
+        String[] typesDispo = {"A", "B", "C"};
         int[] couronnesDispo = {0, 1, 2};
 
         int i;
         int j;
 
-        for(i=0; i<5; i++){
-            for(j=0; j<5; j++){
+        for(i=0; i<9; i++){
+            for(j=0; j<9; j++){
                 Random r=new Random();
                 int randomType=r.nextInt(typesDispo.length);
                 String type = typesDispo[randomType];
@@ -318,8 +318,8 @@ public class Royaume {
         int i;
         int j;
 
-        for (i=0; i<5; i++){
-            for(j=0; j<5; j++){
+        for (i=0; i<9; i++){
+            for(j=0; j<9; j++){
 
                 List<Integer> coordonneesCellule =new ArrayList<Integer>();
                 coordonneesCellule.add(i);
