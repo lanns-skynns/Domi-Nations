@@ -54,11 +54,12 @@ public class Royaume {
             int latp1 = nouveauPaysage[0].getCelluleCible()[1];// recup latitude paysage 1
             int longp2 = nouveauPaysage[1].getCelluleCible()[0];//  recup longitude paysage 2
             int latp2 = nouveauPaysage[1].getCelluleCible()[1]; // recup latitude paysage 2
-            this.grilleCellules[longp1][latp1].setPaysage(nouveauPaysage[0]);//ajout du paysage dans la bonne cellule
-            this.grilleCellules[longp2][latp2].setPaysage(nouveauPaysage[1]);// ajout du seconde paysage dans la bonne cellule
+            this.grilleCellules[latp1][longp1].setPaysage(nouveauPaysage[0]);//ajout du paysage dans la bonne cellule
+            this.grilleCellules[latp2][longp2].setPaysage(nouveauPaysage[1]);// ajout du seconde paysage dans la bonne cellule
             return  true;
         }
         else{
+            System.out.println("fuck");
             return false;
         }
     }
@@ -222,7 +223,7 @@ public class Royaume {
     public void genererRoyaumeAleatoire(){
         //fonction qui génère un royaume aléatoire avce tous les paysages remplis (deboggage)
 
-        String[] typesDispo = {"c", "f", "s", "p", "m", "n", "x", "x", "x", "x"};
+        String[] typesDispo = {"c", /* "f", "s", "p", "m", "n",*/ "x", "x", "x", "x"};
         int[] couronnesDispo = {0, 1, 2, 3};
 
         int i;

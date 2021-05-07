@@ -36,6 +36,7 @@ import java.net.URL;
 import java.sql.Array;
 import java.sql.Struct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -191,7 +192,6 @@ public class CRoyaume {
             }
         }
 
-
         //Affichage des tiles
 
         ArrayList<ArrayList<Character>> typesGrille = this.royaume.getTypesCellules();
@@ -289,6 +289,7 @@ public class CRoyaume {
         validerButton = new Button("Valider le placement");
         rotateButtonHorr.setAlignment(Pos.CENTER);
         validerButton.setAlignment(Pos.CENTER);
+        validerButton.setDisable(true);
 
         rightVBox.getChildren().add(rotateButtonHorr);
         rightVBox.getChildren().add(rotateButtonAntiHorr);
@@ -296,6 +297,7 @@ public class CRoyaume {
 
         rotateButtonHorr.setOnAction(event -> rotationHorraire(cartePays2, cartePays1));
         rotateButtonAntiHorr.setOnAction(event -> rotationAntiHorraire(cartePays2, cartePays1));
+        validerButton.setOnAction(event -> validerPlacement());
 
         rightVBox.setStyle("-fx-border-color: black");
 
@@ -337,20 +339,30 @@ public class CRoyaume {
                 gridy = 0;
                 gridx2 = 10;
                 gridy2 = 1;
+                validerButton.setDisable(true);
             } else {
                 gridx2 = 10;
                 gridy2 = 0;
                 gridx = 10;
                 gridy = 1;
+                validerButton.setDisable(true);
             }
         } else {
             //vérification que le placement au sein de la grille est valide
             //Si non: on place le domino mais on grise le bouton pour valider le placement
-            if(verifierPlacement(gridx, gridy, gridx2, gridy2) == true){
-                validerButton.setDisable(false);
-            } else {
-                validerButton.setDisable(true);
-            }
+             if(tileN==0) {
+                 if (verifierPlacement(gridx, gridy, gridx2, gridy2) == true) {
+                     validerButton.setDisable(false);
+                 } else {
+                     validerButton.setDisable(true);
+                 }
+             }else{
+                 if (verifierPlacement(gridx2, gridy2, gridx, gridy) == true) {
+                     validerButton.setDisable(false);
+                 } else {
+                     validerButton.setDisable(true);
+                 }
+             }
         }
 
         //En cas de bug (les deux tiles sont positionnées sur la meme case) on renvoie le domino dans la reserve
@@ -581,6 +593,37 @@ public class CRoyaume {
         Paysage[] paysages = {paysageCarte1, paysageCarte2};
 
         return royaume.bonPlacement(paysages);
+    }
+
+    public void validerPlacement(){
+        int x1 = (int) (cartePays1.getX()/cellWidth);
+        int y1 = (int) (cartePays1.getY()/cellWidth);
+
+        int[] cible1 = {x1, y1};
+
+        int x2 = (int) (cartePays2.getX()/cellWidth);
+        int y2 = (int) (cartePays2.getY()/cellWidth);
+
+        int[] cible2 = {x2, y2};
+
+        int numCouronnes1 = carteAPlacer.getNombreCouronne()[0];
+        int numCouronnes2 = carteAPlacer.getNombreCouronne()[1];
+
+        Paysage nvxPaysage1 = new Paysage(String.valueOf(this.paysage1), numeroCarte, numCouronnes1);
+        Paysage nvxPaysage2 = new Paysage(String.valueOf(this.paysage2), numeroCarte, numCouronnes2);
+
+        nvxPaysage1.setCelluleCible(cible1);
+        nvxPaysage2.setCelluleCible(cible2);
+
+        Paysage[] paysagesAPlacer = {nvxPaysage1, nvxPaysage2};
+
+        royaume.placerCarte(paysagesAPlacer);
+
+        System.out.println(paysage1 + " ; " + paysage2);
+        System.out.println(x2 + " ; " + y2);
+        System.out.println(numCouronnes1 + " ; " + numCouronnes2);
+
+        royaume.afficherTypesGrille();
     }
 
     final private int[][] LISTECOURONNES = { // liste des couronnes, récupérées dans le fichier excel du projet.
