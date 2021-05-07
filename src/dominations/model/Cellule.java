@@ -34,7 +34,7 @@ public class Cellule {
     }
 
     public int[] getPosition() {
-        int[] position = {this.longitude, this.latitude};
+        int[] position = {this.latitude, this.longitude};
 
         return position;
     }
@@ -58,7 +58,7 @@ public class Cellule {
     public void changeCellState() {
         //Vérifie si la case est vide et change la valeur de "caseVide" en conséquence
 
-        if (this.paysage.getType() != "vide") {
+        if (this.paysage.getType() != "x") {
             this.caseVide = false;
         } else {
             this.caseVide = true;

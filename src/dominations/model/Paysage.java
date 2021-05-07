@@ -24,6 +24,10 @@ public class Paysage {
         return this.typePaysage;
     }
 
+    public int getNbrDeCouronne() {
+        return nbrDeCouronne;
+    }
+
     public void changeType(String newPaysage) {
         this.typePaysage = newPaysage;
     }

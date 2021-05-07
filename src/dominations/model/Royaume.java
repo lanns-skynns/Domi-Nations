@@ -35,7 +35,7 @@ public class Royaume {
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 9; j++) {
                 Cellule cell = new Cellule(this, j, i);
-                cell.setPaysage(new Paysage("vide"));
+                cell.setPaysage(new Paysage("x"));
                 grille[i][j] = cell;
             }
         }
@@ -63,10 +63,52 @@ public class Royaume {
         }
     }
 
+    public Cellule[][] getGrilleCellules() {
+        return grilleCellules;
+    }
+
     public Cellule getCellule(int lon, int lat) {
         Cellule cell = this.grilleCellules[lat][lon];
 
         return cell;
+    }
+
+    public ArrayList<ArrayList<Character>> getTypesCellules(){
+        ArrayList<ArrayList<Character>> typesArray;
+        typesArray = new ArrayList<>();
+
+        int i;
+        int j;
+
+        for(i=0; i<9; i++){
+            ArrayList<Character> ligne = new ArrayList<>();
+            for(j=0; j<9; j++){
+                Cellule c = this.getCellule(j, i);
+                char type = c.getPaysage().getType().charAt(0);
+                ligne.add(type);
+            }
+            typesArray.add(ligne);
+        }
+        return typesArray;
+    }
+
+    public ArrayList<ArrayList<Integer>> getNbrCouronnesGrille(){
+        ArrayList<ArrayList<Integer>> nbrArray;
+        nbrArray = new ArrayList<>();
+
+        int i;
+        int j;
+
+        for(i=0; i<9; i++){
+            ArrayList<Integer> ligne = new ArrayList<>();
+            for(j=0; j<9; j++){
+                Cellule c = this.getCellule(j, i);
+                int nbr = c.getPaysage().getNbrDeCouronne();
+                ligne.add(nbr);
+            }
+            nbrArray.add(ligne);
+        }
+        return nbrArray;
     }
 
     public Cellule[] getLine(int ligne) {
@@ -132,7 +174,7 @@ public class Royaume {
         placer dans le royaume
      */
 
-    private boolean bonPlacement(Paysage[] paysages) {
+    public boolean bonPlacement(Paysage[] paysages) {
         // récupération des coordonnées de la cellule cible de chaque paysages
         int[] tabCellulePaysage1 = paysages[0].getCelluleCible();
         int[] tabCellulePaysage2 = paysages[1].getCelluleCible();
@@ -143,14 +185,17 @@ public class Royaume {
         }
 
         // vérifiacation de l'atat des cellules cibles : ie, si elles sont vides
-        Cellule cellPaysage1 = grilleCellules[tabCellulePaysage1[0]][tabCellulePaysage1[1]];
-        Cellule cellPaysage2 = grilleCellules[tabCellulePaysage2[0]][tabCellulePaysage2[1]];
+        Cellule cellPaysage1 = grilleCellules[tabCellulePaysage1[1]][tabCellulePaysage1[0]];
+        Cellule cellPaysage2 = grilleCellules[tabCellulePaysage2[1]][tabCellulePaysage2[0]];
+
         boolean etatCelluleP1 = cellPaysage1.isEmpty();
         boolean etatCelluleP2 = cellPaysage2.isEmpty();
 
         if (etatCelluleP1 && etatCelluleP2) {// si elles sont toutes les deux vides, ie,
+
             List<String> listeVoisinsP1 = cellPaysage1.getVoisins();
             List<String> listeVoisinsP2 = cellPaysage2.getVoisins();
+
             for (String voisin : listeVoisinsP1) {
                 // si le paysage a le chateau parmi ses voisin, on retourne true
                 if (voisin.equals("chateau")) {
@@ -177,8 +222,8 @@ public class Royaume {
     public void genererRoyaumeAleatoire(){
         //fonction qui génère un royaume aléatoire avce tous les paysages remplis (deboggage)
 
-        String[] typesDispo = {"A", "B", "C"};
-        int[] couronnesDispo = {0, 1, 2};
+        String[] typesDispo = {"c", "f", "s", "p", "m", "n", "x", "x", "x", "x"};
+        int[] couronnesDispo = {0, 1, 2, 3};
 
         int i;
         int j;
@@ -190,6 +235,7 @@ public class Royaume {
                 String type = typesDispo[randomType];
 
                 int randomCour=r.nextInt(couronnesDispo.length);
+
                 int couronne = couronnesDispo[randomCour];
 
                 Paysage paysage = new Paysage(type, 1, couronne);

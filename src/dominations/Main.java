@@ -42,21 +42,35 @@ public class Main   extends Application {
         double height = screen.getBounds().getHeight();
         double width = screen.getBounds().getWidth();
 
-        Scene scene = new CAccueil().Accueil(); //scene page d'accueil
+        //creation d'un royaume aleatoire
+        Royaume royaume1 = new Royaume(Couleur.BLEU);
+        royaume1.genererRoyaumeAleatoire();
+        royaume1.afficherTypesGrille();
+
+        //creation d'une carte
+        int[] courronnes = {2, 1};
+        char[] paysages = {'c', 'p'};
+        Carte cartetest = new Carte(36, courronnes , paysages);
+
+        Joueur joueur1 = new Joueur("Julo", royaume1, 0);
+
+        //Scene scene = new CAccueil().Accueil(); //scene page d'accueil
+        Scene sceneR = new CRoyaume(joueur1, cartetest).RoyaumeScene(); //scene royaume
 
         // paramètre Stage
         Image logo=new Image("dominations/images/Kingdomino-Logo.png");
         primaryStage.getIcons().add(logo);
         primaryStage.setMaximized(true);
+        primaryStage.setResizable(false);
         primaryStage.setTitle("King-Domino");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(sceneR);
         primaryStage.show();
 
     }
 
     public static void main(String[] args) throws Exception {
-        new Partie();
-       // launch();
+        //new Partie();
+        launch();
         //new Partie();
     }
 }
