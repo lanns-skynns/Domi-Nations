@@ -47,23 +47,41 @@ public class Main   extends Application {
         royaume1.genererRoyaumeAleatoire();
         royaume1.afficherTypesGrille();
 
+        Royaume royaume2 = new Royaume(Couleur.ROUGE);
+        Royaume royaume3 = new Royaume(Couleur.VERT);
+
         //creation d'une carte
-        int[] courronnes = {2, 1};
+        int[] courronnes = {0, 1};
         char[] paysages = {'c', 'p'};
         Carte cartetest = new Carte(36, courronnes , paysages);
 
+        int[] courronnes1 = {1, 0};
+        char[] paysages1 = {'f', 'c'};
+        Carte cartetest1 = new Carte(27, courronnes1 , paysages1);
+
+        int[] courronnes2 = {0, 0};
+        char[] paysages2 = {'c', 'f'};
+        Carte cartetest2 = new Carte(13, courronnes2 , paysages2);
+
+        Carte[] cartesAPiocher = {cartetest, cartetest1, cartetest2};
+
         Joueur joueur1 = new Joueur("Julo", royaume1, 0);
+        Joueur joueur2 = new Joueur("Kevin", royaume2, 0);
+        Joueur joueur3 = new Joueur("Ketchup", royaume3, 0);
+
+        Joueur[] joueursliste = {joueur1, joueur2, joueur3};
 
         //Scene scene = new CAccueil().Accueil(); //scene page d'accueil
         Scene sceneR = new CRoyaume(joueur1, cartetest).RoyaumeScene(); //scene royaume
+        Scene sceneC = new CChoixCarte(cartesAPiocher, joueursliste).ChoixScene();
 
         // paramètre Stage
-        Image logo=new Image("dominations/images/Kingdomino-Logo.png");
+        Image logo =new Image("dominations/images/Kingdomino-Logo.png");
         primaryStage.getIcons().add(logo);
         primaryStage.setMaximized(true);
         primaryStage.setResizable(false);
         primaryStage.setTitle("King-Domino");
-        primaryStage.setScene(sceneR);
+        primaryStage.setScene(sceneC);
         primaryStage.show();
 
     }

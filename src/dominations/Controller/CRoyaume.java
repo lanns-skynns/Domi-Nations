@@ -282,6 +282,7 @@ public class CRoyaume {
         //right
 
         VBox rightVBox = new VBox();
+        rightVBox.setAlignment(Pos.CENTER);
 
         rotateButtonHorr = new Button("Rotation horraire");
         rotateButtonAntiHorr = new Button("Rotation anti-horraire");
