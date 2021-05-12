@@ -223,7 +223,7 @@ public class Royaume {
     public void genererRoyaumeAleatoire(){
         //fonction qui génère un royaume aléatoire avce tous les paysages remplis (deboggage)
 
-        String[] typesDispo = {"c", /* "f", "s", "p", "m", "n",*/ "x", "x", "x", "x"};
+        String[] typesDispo = {"c",  "f", "s", "p", "m", "n", "x", "x", "x", "x"};
         int[] couronnesDispo = {0, 1, 2, 3};
 
         int i;

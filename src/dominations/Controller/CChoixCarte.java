@@ -50,7 +50,9 @@ public class CChoixCarte {
     private CarteChoix choixJoueurPane;
     private ArrayList<CarteChoix> listeCarteVBox = new ArrayList<>();
     private int n = 0;
+    //Liste des joueurs dans l'ordre pour le tour suivant
     private Joueur[] ordreJoueursTourSuivant;
+
     Button validerChoixButton = new Button("Valider");
 
     public CChoixCarte(Carte[] cartesEnJeu, Joueur[] ordreJoueurs){
