@@ -1,17 +1,65 @@
-.root{
-    -fx-background-color: skyBlue;
+
+.root {
+   /* -fx-background-image: url("https://paradoxetemporel.fr/wp-content/uploads/2018/08/Ce-Kingdomino-dominos.png");*/
+
+    -fx-background-image: url("https://www.toysandgeek.fr/jeux-de-plateau/kingdomino-la-review/attachment/kingdomino-tiles/")
 }
 #bouton{
     -fx-position: fixed;
 }
-HBox{
-    -fx-background-color: white;
-    -fx-border-color: #2ab387;
-    -fx-border-radius: 4;
-
+#hboxHeader{
+    -fx-opacity: 0.9;
+    -fx-text-fill: white;
+    -fx-font-family: Algerian;
 }
 Button{
-
     -fx-border-color: #2ab387;
     -fx-text-fill: black;
 }
+#gridPane{
+
+}
+SplitPane{
+    -fx-background-color: #e5f6f6;
+    -fx-opacity: 1;
+    -fx-border-color: #161fd2;
+    -fx-border-insets: 3,2,2,2;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+
+}
+#textHeader{
+    -fx-text-fill: blue;
+    -fx-background-color:e5f6f6 ;
+    -fx-opacity: 0.6;
+    -fx-font-weight: bold;
+    -fx-font-size: 5.5em;
+    -fx-padding: 0,10,0,10;
+
+}
+#texteErreur{
+    -fx-text-fill: #1e74a2;
+    -fx-font-size: 2.5em;
+}
+#labelJoueurs{
+    -fx-font-size: 1.5em;
+    -fx-text-fill:#1e74a2 ;
+
+}
+Button{
+    -fx-background-color: #1e74a2;
+    -fx-text-fill: white;
+}
+
+Button:hover{
+    -fx-background-color: #3ba2db;
+    -fx-border-color: #d8e3ea;
+}
+.split-pane *.split-pane-divider{
+    -fx-border-color: #3ba2db;
+    -fx-background-color: #3ba2db;
+    -fx-opacity: .2;
+    /* -fx-shape: " "; */
+    -fx-padding:-10 ;
+}
+

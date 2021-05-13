@@ -1,6 +1,13 @@
 package dominations.model;
 
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+
 import java.util.*;
+import dominations.Controller.CAccueil;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import dominations.Controller.*;
 
 public class Partie {
     private final int NBRTOUR = 12;
@@ -10,19 +17,52 @@ public class Partie {
     private CartesEnJeu cartesEnJeu;
     private int tourActuel;
     private CartesJouer cartesJouees;
+    Scene scene;
+    private int nbrJoueurs;
+    private List<String> recupListeNomsJoueurs;
+    private  CAccueil cAccueil;
 
-    public Partie() {
+    /*
+    public   void RecupInfosUtilisateurs(List<String> listeNomsJoueurs){
+        this.recupListeNomsJoueurs=listeNomsJoueurs;
+        this.nbrJoueurs=listeNomsJoueurs.size();
+        System.out.println(" il ya : "+this.nbrJoueurs+" joueurs");
+      ;
+        Iterator nomsListesJouers= listeNomsJoueurs.listIterator();
+        while (nomsListesJouers.hasNext()){
+            System.out.println(nomsListesJouers.next());
+        }
+        Partie2();
+    }*/
+
+    public  void setRecupListeNomsJoueurs(List <String> recupListeNomsJoueurs){
+        this.recupListeNomsJoueurs=recupListeNomsJoueurs;
+    }
+
+    public  void setNbrJoueurs(int nbrJoueurs){
+        this.nbrJoueurs=nbrJoueurs;
+    }
+
+    public void  Partie2(ActionEvent e) {
+
+        Iterator nomsListesJouers= this.recupListeNomsJoueurs.listIterator();
+        while (nomsListesJouers.hasNext()){
+            System.out.println(nomsListesJouers.next());
+        }
+        new Test().test1(e);
+
+
         int[] initialisationPartie = initialisationPartie();// c'est un tableau contenant trois valeurs :  nbr de joueurs, nbr carte pour la pile, nbr carte a piocher; nbr couronne
-        List<Joueur> listeJoueurs = creerJoueurs(initialisationPartie[0], initialisationPartie[3]);// Création joueurs
+        List<Joueur> listeJoueurs = creerJoueurs(initialisationPartie[2]);// Création joueurs
         System.out.println(listeJoueurs.get(0).getNbrCouronnes());
-        Pile pile = new Pile(initialisationPartie[1], initialisationPartie[2]);//création pile
+        Pile pile = new Pile(initialisationPartie[0], initialisationPartie[1]);//création pile
         CartesEnJeu cartesEnJeu = new CartesEnJeu(pile);// initialisation de la classe cartes en jeu
         Paysage[] paysages;
         Scanner scanner;
         Carte carteChoisie;
         List<Integer> numeroCartesTemoins;
         Royaume rj;
-
+/*
         //tour 1
         // List<Carte> carteEGN=cartesEnJeu.nouvellesCartes();
         List<Joueur> ordreJoueurs = ordreJoueurs(listeJoueurs);// ordre de jeu des joueurs
@@ -91,6 +131,9 @@ public class Partie {
             ordreJoueurs = tourDeQUi(pourTourSuivant);
             tourActuel++;
         }
+        */
+
+
     }
 
     /* ************
@@ -185,16 +228,14 @@ public class Partie {
 
      */
 
-    private List<Joueur> creerJoueurs(int nbrJoueurs, int nbrCouronnes) {
+    private List<Joueur> creerJoueurs( int nbrCouronnes) {
         Couleur couleurRoyaume;
-        Scanner scanner;
         String nomJoueurs;
         Joueur intermediaire;
         Royaume royaume;
-        scanner = new Scanner(System.in);
         List<Joueur> listeJoueurs = new ArrayList<>();
         int j;
-        for (j = 1; j < nbrJoueurs + 1; j++) {
+        for (j = 1; j < this.nbrJoueurs + 1; j++) {
             if (j == 1) {
                 couleurRoyaume = Couleur.BLEU; // associe une couleur au royaume
             } else if (j == 2) {
@@ -204,8 +245,7 @@ public class Partie {
             } else {
                 couleurRoyaume = Couleur.JAUNE;
             }
-            System.out.print("nom du joueur " + j + " : ");
-            nomJoueurs = scanner.nextLine();// récupère le nom des joueurs
+            nomJoueurs =this.recupListeNomsJoueurs.get(j-1);
             royaume = new Royaume(couleurRoyaume);
             intermediaire = new Joueur(nomJoueurs, royaume, nbrCouronnes);// création du joueur
             listeJoueurs.add(intermediaire);// ajout dans la liste
@@ -220,14 +260,10 @@ public class Partie {
     */
 
     private int[] initialisationPartie() {
-        int[] initialisationPartie = new int[4];
+        int[] initialisationPartie = new int[3];
         int nbrCartesPourPile = 0;
-        boolean nbrCorrect = true;
-        System.out.print("nombre de joueurs : ");
-        Scanner scanner = new Scanner(System.in);
-        int nbrJoueurs = scanner.nextInt();
 
-        switch (nbrJoueurs) {
+        switch (this.nbrJoueurs) {
             case 2:
                 nbrCartesPourPile = 48;
                 break;
@@ -243,10 +279,10 @@ public class Partie {
 
         int nbrCouronnes = (nbrJoueurs == 2) ? 2 : 1;
         int nbrCarteAPiocher = (nbrJoueurs == 3) ? 3 : 4;
-        initialisationPartie[0] = nbrJoueurs;
-        initialisationPartie[1] = nbrCartesPourPile;
-        initialisationPartie[2] = nbrCarteAPiocher;
-        initialisationPartie[3] = nbrCouronnes;
+        initialisationPartie[0] = nbrCartesPourPile;
+        initialisationPartie[1] = nbrCarteAPiocher;
+        initialisationPartie[2] = nbrCouronnes;
+        System.out.println(",nbr de carte a piocher"+nbrCarteAPiocher);
         return initialisationPartie;
     }
 
