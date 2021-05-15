@@ -1,5 +1,3 @@
-
-/*
 package dominations;
 
 import javafx.application.Application;
@@ -48,7 +46,7 @@ public class Main {
         //new Partie();
     }
 }
-*/
+/*
 
 
 package dominations;
@@ -146,3 +144,4 @@ public class Main   extends Application {
     }
 }
 
+ */

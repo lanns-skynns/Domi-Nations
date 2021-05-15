@@ -1,7 +1,10 @@
-.root{
-    -fx-background-color: #e5f6f6;
-}
 
+.root {
+    /* -fx-background-image: url("https://paradoxetemporel.fr/wp-content/uploads/2018/08/Ce-Kingdomino-dominos.png");*/
+
+    -fx-background-color: #e5f6f6;
+
+}
 Button{
     -fx-background-color: #1e74a2;
     -fx-text-fill: white;
@@ -11,3 +14,5 @@ Button:hover{
     -fx-background-color: #3ba2db;
     -fx-border-color: #d8e3ea;
 }
+
+

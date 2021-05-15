@@ -2,10 +2,14 @@ package dominations.Controller;
 
 import dominations.model.Carte;
 import dominations.model.*;
+import javafx.event.ActionEvent;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
+
 import java.lang.Math;
 
 import javafx.application.Application;
@@ -38,49 +42,87 @@ import java.sql.Array;
 import java.sql.Struct;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public class CChoixCarte {
 
     private ArrayList<Integer> numerosCartes = new ArrayList<>();
-    private Joueur[] ordreJoueurs;
-    private Carte[] cartesEnJeu;
+    private List<Joueur> ordreJoueurs;
+    private List<Carte> cartesEnJeu;
     private Joueur joueurQuiChoisis;
     private ArrayList<Carte> choixDesJoueurs = new ArrayList<>();
     private Carte choixJoueur;
     private CarteChoix choixJoueurPane;
     private ArrayList<CarteChoix> listeCarteVBox = new ArrayList<>();
     private int n = 0;
+    private  ActionEvent event;
     //Liste des joueurs dans l'ordre pour le tour suivant
     private Joueur[] ordreJoueursTourSuivant;
+    int nbrJoueursTourPrecedent=-1;
+    Pile pile;
+    CartesEnJeu cartesEnG;
+    Label labelTop=new Label("");
+    private Color couleurJoueur;
+
+    Map map = new HashMap();
+    List<Integer> ordreCroissant=new ArrayList<>();
 
     Button validerChoixButton = new Button("Valider");
 
-    public CChoixCarte(Carte[] cartesEnJeu, Joueur[] ordreJoueurs){
-        this.ordreJoueurs = ordreJoueurs;
-        this.cartesEnJeu = cartesEnJeu;
+    public  void setPile(Pile pile){
+        this.pile = pile;
+    }
 
-        for(int i = 0; i<cartesEnJeu.length; i++){
-            numerosCartes.add(cartesEnJeu[i].getNumeroDeCarte());
-        }
+    public  void setActionEvent(ActionEvent event){
+        this.event = event;
+    }
 
-        this.joueurQuiChoisis = ordreJoueurs[0];
-
-        System.out.println("Joueur qui choisis: " + joueurQuiChoisis.getNom());
+    public  void setCartesEnG(CartesEnJeu cartesEnG){
+        this.cartesEnG = cartesEnG;
 
     }
 
-    public Scene ChoixScene() {
-        final URL cssURL = getClass().getResource("/dominations/css/royaume.css");//css
+    public CChoixCarte(ActionEvent event, List<Joueur> ordreJoueurs){
+        this.event = event;
+        this.ordreJoueurs = ordreJoueurs;
+
+
+    }
+
+    void  piocherCartes(){
+        this.cartesEnJeu = cartesEnG.nouvellesCartes();
+        for(int i = 0; i<cartesEnJeu.size(); i++){
+            numerosCartes.add(cartesEnJeu.get(i).getNumeroDeCarte());
+        }
+        System.out.println("nbr de carte restantes :  "+ this.pile.getNombreCartesRestantes());
+        for (Joueur j : ordreJoueurs){
+            System.out.println(ordreJoueurs.size()+" pioooooooooooooo");
+            System.out.println("ordre "+j.getNom());
+        }
+        this.joueurQuiChoisis = ordreJoueurs.get(0);
+        this.couleurJoueur = CRoyaume.styleEnFonctionJoueur(ordreJoueurs.get(0).getCouleur());
+        this.labelTop.setTextFill(couleurJoueur);
+    }
+
+    public void ChoixScene() {
+        piocherCartes();
+        final URL cssURL = getClass().getResource("/dominations/css/choixCartes.css");//css
+       // final URL cssURL = getClass().getResource("/dominations/css/accueil.css");//css
+
+
 
         BorderPane bp = new BorderPane();
 
         final Screen screen = Screen.getPrimary();
-        double height = screen.getBounds().getHeight();
-        double width = screen.getBounds().getWidth();
+        Rectangle2D bounds = screen.getVisualBounds();
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setResizable(false);
+
 
         //Top
         HBox topHBox = new HBox();
-        Label labelTop = new Label("C'est à "+joueurQuiChoisis.getNom()+" de choisir");
+        labelTop.setText("C'est à "+joueurQuiChoisis.getNom()+" de choisir");
+        affichageNomsJoueurs(labelTop);
 
         labelTop.setAlignment(Pos.CENTER);
         topHBox.setAlignment(Pos.CENTER);
@@ -94,10 +136,10 @@ public class CChoixCarte {
 
         validerChoixButton.setFont(Font.font(40));
         validerChoixButton.setDisable(true);
-        validerChoixButton.setOnAction(event -> confirmerChoix(choixJoueurPane));
+        validerChoixButton.setOnAction(event -> confirmerChoix(choixJoueurPane,event));
 
         botHbox.getChildren().add(validerChoixButton);
-
+        botHbox.setPadding(new Insets(1,0,0,1));
         bp.setBottom(botHbox);
 
         botHbox.setAlignment(Pos.CENTER);
@@ -108,10 +150,10 @@ public class CChoixCarte {
         centerHbox.setAlignment(Pos.CENTER);
 
         HBox cartesHbox = new HBox(20);
-        cartesHbox.setMinWidth(cartesEnJeu.length * 200 + (cartesEnJeu.length-1)*20);
+        cartesHbox.setMinWidth(cartesEnJeu.size() * 200 + (cartesEnJeu.size()-1)*20);
         cartesHbox.setMinHeight(400 + 100);
         cartesHbox.setMaxHeight(400 + 100);
-        System.out.println(cartesEnJeu.length);
+        System.out.println(cartesEnJeu.size());
 
         Map typesmap = new HashMap();
         typesmap.put('c', "F");
@@ -121,8 +163,9 @@ public class CChoixCarte {
         typesmap.put('p', "D");
         typesmap.put('m', "M");
 
+
         //Cartes
-        for(int i = 0; i<cartesEnJeu.length; i++){
+        for(int i = 0; i<cartesEnJeu.size(); i++){
             VBox carteVbox = new VBox();
             carteVbox.setPrefHeight(500);
             carteVbox.setPrefWidth(200);
@@ -130,11 +173,11 @@ public class CChoixCarte {
             VBox paysagesVBox = new VBox();
 
             //System.out.println(typesmap.get("W"));
-            Object type1 = typesmap.get(cartesEnJeu[i].getTypeCarte()[0]);
-            Object type2 = typesmap.get(cartesEnJeu[i].getTypeCarte()[1]);
+            Object type1 = typesmap.get(cartesEnJeu.get(i).getTypeCarte()[0]);
+            Object type2 = typesmap.get(cartesEnJeu.get(i).getTypeCarte()[1]);
 
-            int couronne1 = cartesEnJeu[i].getNombreCouronne()[0];
-            int couronne2 = cartesEnJeu[i].getNombreCouronne()[1];
+            int couronne1 = cartesEnJeu.get(i).getNombreCouronne()[0];
+            int couronne2 = cartesEnJeu.get(i).getNombreCouronne()[1];
 
             Image image1 = new Image("/dominations/images/dominos/"+type1+couronne1+".png");
             Image image2 = new Image("/dominations/images/dominos/"+type2+couronne2+".png");
@@ -157,7 +200,7 @@ public class CChoixCarte {
             numeroLabel.setTranslateY(20);
 
             carteVbox.setAlignment(Pos.TOP_CENTER);
-            Carte carte = cartesEnJeu[i];
+            Carte carte = cartesEnJeu.get(i);
 
             CarteChoix cartePane = new CarteChoix(paysagesVBox, carte);
 
@@ -169,13 +212,29 @@ public class CChoixCarte {
 
         }
 
+
         centerHbox.getChildren().add(cartesHbox);
 
         centerHbox.setStyle("-fx-border-color: black");
 
         bp.setCenter(centerHbox);
 
-        return new Scene(bp);
+        Scene scene= new Scene(bp,bounds.getWidth(),bounds.getHeight());
+        scene.getStylesheets().add(cssURL.toExternalForm());
+        window.setScene(scene);
+        Image logo = new Image("dominations/images/Kingdomino-Logo.png");
+        window.getIcons().add(logo);
+        window.setMaximized(true);
+       /* window.setX(bounds.getMinX());
+        window.setY(bounds.getMinY());
+        window.setWidth(bounds.getWidth());
+        window.setHeight(bounds.getHeight());
+*/
+        window.setResizable(false);
+        //window.setFullScreen(true);
+        window.setTitle("King-Domino");
+        window.show();
+
     }
 
     private void setChoice(MouseEvent event, Carte carte, CarteChoix carteChoisie){
@@ -183,8 +242,6 @@ public class CChoixCarte {
         this.choixJoueurPane = carteChoisie;
 
         validerChoixButton.setDisable(false);
-
-
         if(carteChoisie.getChoosed() == false){
             for(int i = 0; i<listeCarteVBox.toArray().length; i++){
                 listeCarteVBox.get(i).setFocused(false);
@@ -197,27 +254,77 @@ public class CChoixCarte {
         }
     }
 
-    private void confirmerChoix(CarteChoix cartechoisie){
+    private void confirmerChoix(CarteChoix cartechoisie,ActionEvent event){
+
+        if(this.nbrJoueursTourPrecedent == this.choixDesJoueurs.size()-2){
+            this.nbrJoueursTourPrecedent++;
+        }
+        System.out.println("uoooooooooop  " +nbrJoueursTourPrecedent);
         choixDesJoueurs.add(choixJoueur);
-        cartechoisie.setChoosed(true, joueurQuiChoisis);
+        Set<Carte> setListe =choixDesJoueurs.stream().collect(Collectors.toSet());
+        choixDesJoueurs.clear();
+        choixDesJoueurs.addAll(setListe);
 
-        //on augmente de un le numero du joueur qui joue
-        if(n<ordreJoueurs.length - 1) {
-            n++;
-            joueurQuiChoisis = ordreJoueurs[n];
-            System.out.println("Joueur qui choisis: " + joueurQuiChoisis.getNom());
-            validerChoixButton.setDisable(true);
+        System.out.println("yasssssssssssssssssss " +choixDesJoueurs.size());
 
-            //On modifie le text du boutton si c'est le dernier joueur qui choisi la pièce
-            if(n== ordreJoueurs.length - 1){
-                validerChoixButton.setText("Valider et placer les pièces");
+        for  (Carte c : choixDesJoueurs){
+            System.out.println(c.getInfoCarte());
+        }
+        if (choixDesJoueurs.size() ==  nbrJoueursTourPrecedent+2) {
+            cartechoisie.setChoosed(true, joueurQuiChoisis);
+            //on augmente de un le numero du joueur qui joue
+            System.out.println("iciiiiiiiiiiiiiiiiiiiii");
+            ordreCroissant.add(choixJoueur.getNumeroDeCarte());
+            map.put(choixJoueur.getNumeroDeCarte(),joueurQuiChoisis);
+            if (n < ordreJoueurs.size() - 1) {
+                n++;
+                joueurQuiChoisis = ordreJoueurs.get(n);
+                this.couleurJoueur = CRoyaume.styleEnFonctionJoueur(ordreJoueurs.get(n).getCouleur());
+                labelTop.setTextFill(couleurJoueur);
+                affichageNomsJoueurs(labelTop);
+                System.out.println("Joueur qui choisis: " + joueurQuiChoisis.getNom());
+                validerChoixButton.setDisable(true);
+
+                //On modifie le text du boutton si c'est le dernier joueur qui choisi la pièce
+                if (n == ordreJoueurs.size() - 1) {
+                    validerChoixButton.setText("Valider et placer les pièces");
+                }
             }
         }
-
-
-        if(n == ordreJoueurs.length - 1){
-            System.out.println("ready to go next");
+        else{
+            System.out.println("iiiiiiiiiiiiiiiiiiii");
         }
 
+        System.out.println("n :"+n );
+        if(this.cartesEnJeu.size() == choixDesJoueurs.size()){
+            System.out.println("ready to go next");
+            List<Joueur> bonOrdre =ordreJoueur();
+
+            validerChoixButton.setText("Valider");
+
+            this.n=0;
+            this.nbrJoueursTourPrecedent = -1;
+            choixDesJoueurs.clear();
+            ordreCroissant.clear();
+
+            new CRoyaume(event,bonOrdre,this.cartesEnJeu,0,this);
+        }
+    }
+
+    List <Joueur> ordreJoueur(){
+        Collections.sort(ordreCroissant);
+
+        List<Joueur> bonOrdre = new ArrayList<>();
+
+        for (int c: ordreCroissant){
+            bonOrdre.add((Joueur) map.get(c));
+        }
+        ordreJoueurs.clear();
+        this.ordreJoueurs =bonOrdre;
+        return  bonOrdre;
+    }
+
+    private void affichageNomsJoueurs(Label label){
+        label.setText("C'est à "+joueurQuiChoisis.getNom()+" de choisir");
     }
 }

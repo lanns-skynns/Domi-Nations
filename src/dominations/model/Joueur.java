@@ -18,8 +18,7 @@ public class Joueur {
         this.royaume = royaume;
         this.couleur = royaume.getCouleur();
         this.nbrCouronnes = nbrCouronnes;
-
-        //setChateau(0, 0);// passager, les joeurs devront placer leurs chateaux eux même;
+        setChateau(4, 4);// passager, les joeurs devront placer leurs chateaux eux même;
     }
 
     public String getNom() {

@@ -20,6 +20,7 @@ public class Pile {
         this.nbrCartesApiocher = nbrCartesApiocher;
     }
 
+
     public List<Carte> getCartesPile() {
         return cartesPile;
     }

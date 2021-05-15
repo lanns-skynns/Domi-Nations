@@ -1,44 +1,28 @@
 package dominations.Controller;
 
 import dominations.model.*;
-import javafx.scene.*;
+import javafx.event.ActionEvent;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.*;
 import javafx.scene.shape.*;
-import java.lang.Math;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.w3c.dom.css.Rect;
 
-import javax.swing.border.EmptyBorder;
-import java.io.File;
 import java.net.URL;
-import java.sql.Array;
-import java.sql.Struct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class CRoyaume {
 
@@ -57,6 +41,14 @@ public class CRoyaume {
     int grilleHeight = 630;
     int cellWidth = (grilleHeight)/spots;
     private ArrayList<PaysagePane> tileArray;
+    private List<Joueur> ordreJoueur;
+    private List<Carte> ordreCartes;
+    private boolean sceneIntermediaire = false;
+
+    private Color couleurJoueur;
+
+    CChoixCarte choixCarte;
+
 
     Button rotateButtonAntiHorr;
     Button rotateButtonHorr;
@@ -71,26 +63,41 @@ public class CRoyaume {
     PaysagePane cartePays2;
     Button validerButton;
 
+    int indice;
+
     Carte carteAPlacer;
 
-    public CRoyaume(Joueur joueur, Carte carteAPlacer){
-        this.nomJoueur = joueur.getNom();
-        this.royaume = joueur.getRoyaume();
+    ActionEvent event;
+
+    public CRoyaume(ActionEvent event,List<Joueur> joueur, List <Carte> carteAPlacer,int indice,CChoixCarte choixCarte) {
+        this.choixCarte =choixCarte;
+        this.indice = indice;
+        this.ordreJoueur = joueur;
+        this.ordreCartes = carteAPlacer;
+        initialiserRoyaume(this.indice, event);
+    }
+
+    public  void initialiserRoyaume(int indice, ActionEvent event){
+        this.event = event;
+        this.nomJoueur = ordreJoueur.get(indice).getNom();
+        System.out.println("J suivant "+this.nomJoueur);
+        this.couleurJoueur= styleEnFonctionJoueur(ordreJoueur.get(indice).getCouleur());
+        this.royaume = ordreJoueur.get(indice).getRoyaume();
         this.grille = this.royaume.getGrilleCellules();
 
-        this.carteAPlacer = carteAPlacer;
+        this.carteAPlacer = ordreCartes.get(indice);
 
-        this.numeroCarte = carteAPlacer.getNumeroDeCarte();
-        this.paysage1 = LISTEPAYSAGES[numeroCarte-1][0];
-        this.paysage2 = LISTEPAYSAGES[numeroCarte-1][1];
+        this.numeroCarte = ordreCartes.get(indice).getNumeroDeCarte();
+        this.paysage1 = LISTEPAYSAGES[numeroCarte - 1][0];
+        this.paysage2 = LISTEPAYSAGES[numeroCarte - 1][1];
 
-        this.numCouronnes1 = LISTECOURONNES[numeroCarte-1][0];
-        this.numCouronnes2 = LISTECOURONNES[numeroCarte-1][1];
+        this.numCouronnes1 = LISTECOURONNES[numeroCarte - 1][0];
+        this.numCouronnes2 = LISTECOURONNES[numeroCarte - 1][1];
 
         String typeImage1;
         String typeImage2;
 
-        switch (paysage1) {
+        switch (this.paysage1) {
             case 'c':
                 typeImage1 = "F";
                 break;
@@ -113,7 +120,7 @@ public class CRoyaume {
                 typeImage1 = "error";
         }
 
-        switch (paysage2) {
+        switch (this.paysage2) {
             case 'c':
                 typeImage2 = "F";
                 break;
@@ -139,30 +146,36 @@ public class CRoyaume {
         this.pathImage1 = "/dominations/images/dominos/" + typeImage1 + numCouronnes1 + ".png";
         this.pathImage2 = "/dominations/images/dominos/" + typeImage2 + numCouronnes2 + ".png";
 
-
+        RoyaumeScene();
     }
 
-    public Scene RoyaumeScene() {
+    public void RoyaumeScene() {
 
         final URL cssURL = getClass().getResource("/dominations/css/royaume.css");//css
 
         final Screen screen = Screen.getPrimary();
-        double height = screen.getBounds().getHeight();
-        double width = screen.getBounds().getWidth();
+        Rectangle2D bounds = screen.getVisualBounds();
+        Stage window;
+        window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+
 
         List<Node> listeNode=new  ArrayList<>();
 
         BorderPane bp=new BorderPane();
 
-        Scene scene = new Scene(bp);
+        Scene scene = new Scene(bp,bounds.getWidth(), bounds.getHeight());
+        scene.getStylesheets().add(cssURL.toExternalForm());
 
         String labelTopText = "C'est à " + nomJoueur + " de jouer";
+
 
         //top
         HBox topHBox = new HBox();
         Label labelTop = new Label(labelTopText);
         labelTop.setAlignment(Pos.CENTER);
         labelTop.setFont(Font.font(50));
+        labelTop.setTextFill(couleurJoueur);
 
         topHBox.setAlignment(Pos.CENTER);
         topHBox.getChildren().add(labelTop);
@@ -182,7 +195,8 @@ public class CRoyaume {
                 Rectangle r = new Rectangle(i*cellWidth, j*cellWidth, cellWidth, cellWidth);
                 r.setFill(Color.WHITE);
                 if(i<9){
-                    r.setStroke(Color.BLACK);
+                    r.setStroke(couleurJoueur);
+                    r.setOpacity(0.8);
                 } else if (i == 10 && (j==1 || j==0)){
                     r.setStroke(Color.BLACK);
                 }
@@ -254,7 +268,7 @@ public class CRoyaume {
 
         bp.setCenter(grillePaneBody);
 
-            //carte à placer
+        //carte à placer
 
         imagePays1 = new Image(pathImage1);
         imagePays2 = new Image(pathImage2);
@@ -295,10 +309,12 @@ public class CRoyaume {
         rightVBox.getChildren().add(rotateButtonHorr);
         rightVBox.getChildren().add(rotateButtonAntiHorr);
         rightVBox.getChildren().add(validerButton);
+        rightVBox.setSpacing(15);
+        rightVBox.setPadding(new Insets(10,15,10,15));
 
         rotateButtonHorr.setOnAction(event -> rotationHorraire(cartePays2, cartePays1));
         rotateButtonAntiHorr.setOnAction(event -> rotationAntiHorraire(cartePays2, cartePays1));
-        validerButton.setOnAction(event -> validerPlacement());
+        validerButton.setOnAction(event -> validerPlacement(event));
 
         rightVBox.setStyle("-fx-border-color: black");
 
@@ -306,7 +322,13 @@ public class CRoyaume {
         bp.setTop(topHBox);
         bp.setRight(rightVBox);
 
-        return scene;
+        window.setScene(scene);
+        Image logo = new Image("dominations/images/Kingdomino-Logo.png");
+        window.getIcons().add(logo);
+        window.setTitle("King-Domino");
+        window.show();
+
+
     }
 
     private void pressed(MouseEvent event, PaysagePane tile, PaysagePane tile2, int tileN){
@@ -351,19 +373,19 @@ public class CRoyaume {
         } else {
             //vérification que le placement au sein de la grille est valide
             //Si non: on place le domino mais on grise le bouton pour valider le placement
-             if(tileN==0) {
-                 if (verifierPlacement(gridx, gridy, gridx2, gridy2) == true) {
-                     validerButton.setDisable(false);
-                 } else {
-                     validerButton.setDisable(true);
-                 }
-             }else{
-                 if (verifierPlacement(gridx2, gridy2, gridx, gridy) == true) {
-                     validerButton.setDisable(false);
-                 } else {
-                     validerButton.setDisable(true);
-                 }
-             }
+            if(tileN==0) {
+                if (verifierPlacement(gridx, gridy, gridx2, gridy2) == true) {
+                    validerButton.setDisable(false);
+                } else {
+                    validerButton.setDisable(true);
+                }
+            }else{
+                if (verifierPlacement(gridx2, gridy2, gridx, gridy) == true) {
+                    validerButton.setDisable(false);
+                } else {
+                    validerButton.setDisable(true);
+                }
+            }
         }
 
         //En cas de bug (les deux tiles sont positionnées sur la meme case) on renvoie le domino dans la reserve
@@ -596,7 +618,7 @@ public class CRoyaume {
         return royaume.bonPlacement(paysages);
     }
 
-    public void validerPlacement(){
+    public void validerPlacement(ActionEvent event){
         int x1 = (int) (cartePays1.getX()/cellWidth);
         int y1 = (int) (cartePays1.getY()/cellWidth);
 
@@ -625,6 +647,18 @@ public class CRoyaume {
         System.out.println(numCouronnes1 + " ; " + numCouronnes2);
 
         royaume.afficherTypesGrille();
+        if( this.indice<this.ordreCartes.size()-1) {
+            this.indice++;
+            System.out.println("indiceeeeeeeeeeeeee "+ this.indice);
+            initialiserRoyaume(indice,event);
+        }
+        else{
+
+            choixCarte.setActionEvent(event);
+            choixCarte.ChoixScene();
+
+        }
+
     }
 
     final private int[][] LISTECOURONNES = { // liste des couronnes, récupérées dans le fichier excel du projet.
@@ -729,5 +763,20 @@ public class CRoyaume {
             {'m', 'n'},
             {'c', 'n'},
     };
+
+    public static Color styleEnFonctionJoueur(Couleur couleurJoueur){
+        Color styleCouleurJoueur;
+        if(couleurJoueur == Couleur.BLEU ){
+            styleCouleurJoueur = Color.BLUE;
+        }else  if(couleurJoueur == Couleur.ROUGE){
+            styleCouleurJoueur= Color.RED;
+        }
+        else  if(couleurJoueur == Couleur.VERT){
+            styleCouleurJoueur= Color.GREEN;
+        }else {
+            styleCouleurJoueur = Color.rgb(200,150,50);
+        }
+        return styleCouleurJoueur;
+    }
 
 }

@@ -173,12 +173,6 @@ public class CAccueil extends Application {
         BorderPane.setAlignment(hBox1, Pos.CENTER);
 
         Scene scene=new Scene(bp);
-        scene.setFill(new LinearGradient(
-                0, 0, 1, 1, true,                      //sizing
-                CycleMethod.NO_CYCLE,                  //cycling
-                new Stop(0, Color.web("#81c483")),     //colors
-                new Stop(1, Color.web("#fcc200")))
-        );
         scene.getStylesheets().add(cssURL.toExternalForm());
         Stage stage= new Stage();
         stage.setScene(scene);

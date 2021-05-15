@@ -55,10 +55,7 @@ public class CarteChoix {
                 couleurAffichee = "green";
             }
 
-
-
-
-            this.carteVbox.setStyle("-fx-border-color: "+couleurAffichee+"; -fx-border-width: 3px");
+            this.carteVbox.setStyle("-fx-border-color: "+couleurAffichee+"; -fx-border-width: 4px");
         }
 
     }

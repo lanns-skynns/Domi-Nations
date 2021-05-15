@@ -186,7 +186,7 @@ public class Royaume {
         }
 
         // vérifiacation de l'atat des cellules cibles : ie, si elles sont vides
-        Cellule cellPaysage1 = grilleCellules[tabCellulePaysage1[1]][tabCellulePaysage1[0]];
+         Cellule cellPaysage1 = grilleCellules[tabCellulePaysage1[1]][tabCellulePaysage1[0]];
         Cellule cellPaysage2 = grilleCellules[tabCellulePaysage2[1]][tabCellulePaysage2[0]];
 
         boolean etatCelluleP1 = cellPaysage1.isEmpty();

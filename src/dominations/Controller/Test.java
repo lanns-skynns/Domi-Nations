@@ -25,6 +25,7 @@ public class Test {
         Scene scene= new Scene(pane);
         window = parametresStages(window);
         window.setScene(scene);
+        window.setFullScreen(true);
         window.show();
     }
 

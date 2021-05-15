@@ -21,19 +21,7 @@ public class Partie {
     private int nbrJoueurs;
     private List<String> recupListeNomsJoueurs;
     private  CAccueil cAccueil;
-
-    /*
-    public   void RecupInfosUtilisateurs(List<String> listeNomsJoueurs){
-        this.recupListeNomsJoueurs=listeNomsJoueurs;
-        this.nbrJoueurs=listeNomsJoueurs.size();
-        System.out.println(" il ya : "+this.nbrJoueurs+" joueurs");
-      ;
-        Iterator nomsListesJouers= listeNomsJoueurs.listIterator();
-        while (nomsListesJouers.hasNext()){
-            System.out.println(nomsListesJouers.next());
-        }
-        Partie2();
-    }*/
+    private int choix = 1;
 
     public  void setRecupListeNomsJoueurs(List <String> recupListeNomsJoueurs){
         this.recupListeNomsJoueurs=recupListeNomsJoueurs;
@@ -49,7 +37,8 @@ public class Partie {
         while (nomsListesJouers.hasNext()){
             System.out.println(nomsListesJouers.next());
         }
-        new Test().test1(e);
+      //  new Test().test1(e);
+        
 
 
         int[] initialisationPartie = initialisationPartie();// c'est un tableau contenant trois valeurs :  nbr de joueurs, nbr carte pour la pile, nbr carte a piocher; nbr couronne
@@ -58,83 +47,34 @@ public class Partie {
         Pile pile = new Pile(initialisationPartie[0], initialisationPartie[1]);//création pile
         CartesEnJeu cartesEnJeu = new CartesEnJeu(pile);// initialisation de la classe cartes en jeu
         Paysage[] paysages;
-        Scanner scanner;
         Carte carteChoisie;
-        List<Integer> numeroCartesTemoins;
+        List<Integer> numeroCartesTemoins = null;
         Royaume rj;
-/*
+
         //tour 1
         // List<Carte> carteEGN=cartesEnJeu.nouvellesCartes();
         List<Joueur> ordreJoueurs = ordreJoueurs(listeJoueurs);// ordre de jeu des joueurs
         Map pourTourSuivant = new HashMap();
         List<Joueur> quandJouer = new ArrayList<>();
         boolean isPossible;
-
         int tourActuel = 1;
         List<Carte> carteEGN;
-        List<Carte> temoins;
-        int t;
-        while (tourActuel < NBRTOUR + 1) {
-            carteEGN = cartesEnJeu.nouvellesCartes();//piochage cartes
-            temoins = new ArrayList<>(carteEGN);
-            numeroCartesTemoins = numeroCarteTemoin(temoins);// récupération des numéros des carte en jeu
-            afficherListeCartesPile(temoins);
-            System.out.println(pile.getNombreCartesRestantes());
+        List<Carte> temoins = null;
 
-            for (t = 0; t < ordreJoueurs.size(); t++) {
-                tourJoueur = ordreJoueurs.get(t); // joueur en cours de jeu
-                afficherOrdreListeJoueurs(ordreJoueurs);
-                scanner = new Scanner(System.in);
-                affichageCartesEnJeu(carteEGN);
-                System.out.println(ordreJoueurs.get(t).getNom() + " Saisissez la position de la carte que vous souhaitez :  entre 1 et " + cartesEnJeu.nbrCartesEnJeuRestantes);
-                int choix = scanner.nextInt();// indice de la carte que le joueur a décidé de prendre
-                // System.out.println(carteEG1.remove(carteEG1.indexOf(choix)));
-                //   tourJoueur.setTour(false);
-                if ((t < ordreJoueurs.size() - 1)) {
-                    System.out.print("Bien jouée, maintenant autour de : " + ordreJoueurs.get(t + 1).getNom() + " ");
-                } else {
-                    System.out.println("Passons au tour suivant ");
-                }
-                int k;
-                for (k = 0; k < initialisationPartie[2]; k++) {
-                    if (numeroCartesTemoins.get(k) == carteEGN.get(choix - 1).getNumeroDeCarte()) {
-                        System.out.println(numeroCartesTemoins.indexOf(temoins.get(k).getNumeroDeCarte()));
-                        System.out.println("huùù " + carteEGN.get(choix - 1).getNumeroDeCarte());
-                        pourTourSuivant.put(numeroCartesTemoins.indexOf(carteEGN.get(choix - 1).getNumeroDeCarte()), ordreJoueurs.get(t));
-                    }
-                }
 
-                carteChoisie = cartesEnJeu.carteChoisie(choix - 1);// suppression de la carte choisie dans la pile de carte en jeu
-                paysages = carteChoisie.toPaysages();// recupère les deux paysages de la carte choisie.
+            CChoixCarte choixCartes = new CChoixCarte(e, ordreJoueurs);
+            choixCartes.setCartesEnG(cartesEnJeu);
+            choixCartes.setPile(pile);
+            choixCartes.ChoixScene();
 
-                System.out.println(carteChoisie.getInfoCarte());
-                System.out.println(paysages[0].getType());
-                System.out.println(paysages[1].getType());
+            //new Test().test1(e);
 
-                int[] cell = {0, 1};// ephemère : cellule cible pour les paysages
-                int[] cell2 = {1, 1};//
-                paysages[0].setCelluleCible(cell);
-                paysages[1].setCelluleCible(cell2);
-                rj = tourJoueur.getRoyaume();
-                // System.out.println(rj.BonPlacement(paysages));
-                isPossible=rj.placerCarte(paysages);// placement de la carte dans le royaume du joueur en cours.
-                if( ! isPossible) {// s'il n'était pas possible de placer la carte, on affiche un message
-                    System.out.println("Cellule occupée");
-                }
-                rj.afficherTypesGrille();
-                rj.afficherEtatGrille();
-                System.out.println(carteChoisie.getNumeroDeCarte());
-            }
-            temoins.clear();
-            ordreJoueurs.clear();
-            numeroCartesTemoins.clear();
-            ordreJoueurs = tourDeQUi(pourTourSuivant);
-            tourActuel++;
-        }
-        */
+
 
 
     }
+
+
 
     /* ************
         tourDeQUi(Map joueur) :  cette méthode permet de classer les joueurs dans le bon ordre pour le tour suivant
