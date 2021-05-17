@@ -64,10 +64,19 @@ public class CChoixCarte {
     Label labelTop=new Label("");
     private Color couleurJoueur;
 
+    int nombreDeTour;
+    int tourActuel;
+
+    String affichageTour;
+
     Map map = new HashMap();
     List<Integer> ordreCroissant=new ArrayList<>();
 
     Button validerChoixButton = new Button("Valider");
+
+    public String getAffichageTour() {
+        return affichageTour;
+    }
 
     public  void setPile(Pile pile){
         this.pile = pile;
@@ -82,14 +91,16 @@ public class CChoixCarte {
 
     }
 
-    public CChoixCarte(ActionEvent event, List<Joueur> ordreJoueurs){
+    public CChoixCarte(ActionEvent event, List<Joueur> ordreJoueurs,int nbrTour){
         this.event = event;
         this.ordreJoueurs = ordreJoueurs;
-
+        this.nombreDeTour = nbrTour;
 
     }
 
     void  piocherCartes(){
+        tourActuel++;
+        this.affichageTour ="tour " +Integer.toString(this.tourActuel)+"/"+this.nombreDeTour;
         this.cartesEnJeu = cartesEnG.nouvellesCartes();
         for(int i = 0; i<cartesEnJeu.size(); i++){
             numerosCartes.add(cartesEnJeu.get(i).getNumeroDeCarte());
@@ -109,8 +120,6 @@ public class CChoixCarte {
         final URL cssURL = getClass().getResource("/dominations/css/choixCartes.css");//css
        // final URL cssURL = getClass().getResource("/dominations/css/accueil.css");//css
 
-
-
         BorderPane bp = new BorderPane();
 
         final Screen screen = Screen.getPrimary();
@@ -125,9 +134,21 @@ public class CChoixCarte {
         affichageNomsJoueurs(labelTop);
 
         labelTop.setAlignment(Pos.CENTER);
-        topHBox.setAlignment(Pos.CENTER);
+        topHBox.setAlignment(Pos.TOP_LEFT);
+
         labelTop.setFont(Font.font(50));
+        Label labelTourActuel = new Label(this.affichageTour);
+        labelTourActuel.setFont(Font.font(30));
+       // topHBox.setSpacing(bounds.getWidth()/2-10*labelTop.getPrefWidth());
+        //labelTop.setPadding(new Insets(0,0,0,600));
+        labelTourActuel.setAlignment(Pos.CENTER);
+        labelTourActuel.setLayoutX(0);
+        labelTourActuel.setPadding(new Insets(0,bounds.getWidth()*0.30,0,0));
+
+
+        topHBox.getChildren().add(labelTourActuel);
         topHBox.getChildren().add(labelTop);
+
 
         bp.setTop(topHBox);
 

@@ -8,6 +8,13 @@ import java.util.Random;
 public class Royaume {
     private Couleur couleur;
     private Cellule[][] grilleCellules;
+    private int longMin;
+    private int longMax;
+    private int latMin;
+    private int latMax;
+    private int [] bordureRoyaume = {0,8,0,8};//longi min, lonig max,lati min, lati max
+
+
 
     /* **************
         Constructeur de la classe
@@ -47,18 +54,37 @@ public class Royaume {
         elle modifie donc deux cellules adjacent
     ********** */
 
+    public void setLongMax(int longMax) {
+        this.longMax = longMax;
+    }
+
+    public int[] getBorduresRoyaume() {
+        return this.bordureRoyaume;
+    }
+
+    public void setLongMin(int longMin) {
+        this.longMin = longMin;
+    }
+
+    public void setLatMin(int latMin) {
+        this.latMin = latMin;
+    }
+
+    public void setLatMax(int latMax) {
+        this.latMax = latMax;
+    }
+
     public boolean placerCarte(Paysage[] nouveauPaysage) {
-        boolean correct=bonPlacement(nouveauPaysage);
-        if(correct) {
+        boolean correct = bonPlacement(nouveauPaysage);
+        if (correct) {
             int longp1 = nouveauPaysage[0].getCelluleCible()[0];// recup longitude paysage 1
             int latp1 = nouveauPaysage[0].getCelluleCible()[1];// recup latitude paysage 1
             int longp2 = nouveauPaysage[1].getCelluleCible()[0];//  recup longitude paysage 2
             int latp2 = nouveauPaysage[1].getCelluleCible()[1]; // recup latitude paysage 2
             this.grilleCellules[latp1][longp1].setPaysage(nouveauPaysage[0]);//ajout du paysage dans la bonne cellule
             this.grilleCellules[latp2][longp2].setPaysage(nouveauPaysage[1]);// ajout du seconde paysage dans la bonne cellule
-            return  true;
-        }
-        else{
+            return true;
+        } else {
             System.out.println("fuck");
             return false;
         }
@@ -74,16 +100,16 @@ public class Royaume {
         return cell;
     }
 
-    public ArrayList<ArrayList<Character>> getTypesCellules(){
+    public ArrayList<ArrayList<Character>> getTypesCellules() {
         ArrayList<ArrayList<Character>> typesArray;
         typesArray = new ArrayList<>();
 
         int i;
         int j;
 
-        for(i=0; i<9; i++){
+        for (i = 0; i < 9; i++) {
             ArrayList<Character> ligne = new ArrayList<>();
-            for(j=0; j<9; j++){
+            for (j = 0; j < 9; j++) {
                 Cellule c = this.getCellule(j, i);
                 char type = c.getPaysage().getType().charAt(0);
                 ligne.add(type);
@@ -93,16 +119,16 @@ public class Royaume {
         return typesArray;
     }
 
-    public ArrayList<ArrayList<Integer>> getNbrCouronnesGrille(){
+    public ArrayList<ArrayList<Integer>> getNbrCouronnesGrille() {
         ArrayList<ArrayList<Integer>> nbrArray;
         nbrArray = new ArrayList<>();
 
         int i;
         int j;
 
-        for(i=0; i<9; i++){
+        for (i = 0; i < 9; i++) {
             ArrayList<Integer> ligne = new ArrayList<>();
-            for(j=0; j<9; j++){
+            for (j = 0; j < 9; j++) {
                 Cellule c = this.getCellule(j, i);
                 int nbr = c.getPaysage().getNbrDeCouronne();
                 ligne.add(nbr);
@@ -175,6 +201,158 @@ public class Royaume {
         placer dans le royaume
      */
 
+    private int[] tailleLongLat(){
+
+        return new int[]{(this.longMax - this.longMin+1), (this.latMax - this.latMin+1)};
+    }
+
+    public void mAJLimiteReelleRoyaume(int[]coordoPaysage1, int[]coordoPaysage2){
+        int [] tailleLongLat=tailleLongLat();
+        if(tailleLongLat[0]<5){
+            if(coordoPaysage1[0]<this.longMin){
+                this.longMin =coordoPaysage1[0];
+            }
+            if(coordoPaysage1[0]>this.longMax){
+                this.longMax =coordoPaysage1[0];
+            }
+
+            if(coordoPaysage2[0]<this.longMin){
+                this.longMin =coordoPaysage2[0];
+            }
+            if(coordoPaysage2[0]>this.longMax){
+                this.longMax =coordoPaysage2[0];
+            }
+        }
+
+        if (tailleLongLat[1]<5){
+            if(coordoPaysage1[1]<this.latMin){
+                this.latMin =coordoPaysage1[1];
+            }
+            if(coordoPaysage1[1]>this.latMax){
+                this.latMax =coordoPaysage1[1];
+            }
+
+            if(coordoPaysage2[1]<this.latMin){
+                this.latMin =coordoPaysage2[1];
+            }
+            if(coordoPaysage2[1]>this.latMax){
+                this.latMax =coordoPaysage2[1];
+            }
+        }
+        mAJLimiteAbsolueRoyaume();
+    }
+
+    public void testLimiteRoyaume(){
+        int[]t=tailleLongLat();
+        System.out.println("-----------------------\n");
+        System.out.println("longueur long : " +t[0]);
+        System.out.println("longueur lat : " +t[1]);
+        System.out.println("long min : "+this.longMin +"\nlong max : "+ this.longMax);
+        System.out.println("lat min : "+this.latMin +"\nlong max : "+ this.latMax);
+        System.out.println("lim long min : "+this.bordureRoyaume[0]+ "\nlim lon max : "+ this.bordureRoyaume[1]);
+        System.out.println("lim lat min : "+this.bordureRoyaume[2]+ "\nlim latmax : "+ this.bordureRoyaume[3]);
+        System.out.println("-----------------------\n");
+
+    }
+
+    private void mAJLimiteAbsolueRoyaume(){
+        int [] tailleLongLat=tailleLongLat();
+        this.bordureRoyaume = limiteRoyaume(tailleLongLat);
+    }
+
+    public  int[] limiteRoyaume(int[] tailleLongLat){
+        int [] limiteRoyaume = new int[4];//longi min, lonig max,lati min, lati max
+        int tailleLongitude = tailleLongLat[0];
+        int tailleLatitude = tailleLongLat[1];
+
+
+        if(tailleLongitude==5 && tailleLatitude == 5){
+            limiteRoyaume[0]=this.longMin;
+            limiteRoyaume[1]=this.longMax;
+            limiteRoyaume[2]=this.latMin;
+            limiteRoyaume[3]=this.latMax;
+        }
+        else {
+            int i;
+            for (i = 1; i < 5; i++) {
+                if (tailleLongitude == 5) {
+                    limiteRoyaume[0] = this.longMin;
+                    limiteRoyaume[1] = this.longMax;
+                } else {
+                    if (tailleLongitude == i) {
+                        limiteRoyaume[0] = this.longMin - (5 - i);
+                        limiteRoyaume[1] = this.longMax + (5 - i);
+                    }
+                }
+
+                if (tailleLatitude == 5) {
+                    limiteRoyaume[2] = this.latMin;
+                    limiteRoyaume[3] = this.latMax;
+                } else {
+
+                    if (tailleLatitude == i) {
+                        limiteRoyaume[2] = this.latMin - (5 - i);
+                        limiteRoyaume[3] = this.latMax + (5 - i);
+                    }
+                }
+            }
+        }
+
+        return limiteRoyaume;
+
+    }
+
+    private boolean dansRoyaume(int[] tabCellulePaysage1, int[] tabCellulePaysage2){
+        int [] tailleLongLat=tailleLongLat();
+        if (tailleLongLat[0]==5 || tailleLongLat[1]==5){
+            if(tailleLongLat[0]==5 ) {
+                if (!(tabCellulePaysage1[0] >= this.longMin && tabCellulePaysage1[0] <= this.longMax))
+                {
+                    return false;
+                }
+
+                if (!(tabCellulePaysage2[0] >= this.longMin && tabCellulePaysage2[0] <= this.longMax))
+                {
+                    return false;
+                }
+            }
+            if(tailleLongLat[1]==5 )
+            {
+                if (!(tabCellulePaysage1[1] >= this.latMin && tabCellulePaysage1[1] <= this.latMax))
+                {
+                    return false;
+                }
+                if (!(tabCellulePaysage2[1] >= this.latMin && tabCellulePaysage2[1] <= this.latMax))
+                {
+                    return false;
+                }
+            }
+        }
+        else {
+            if (!(tabCellulePaysage1[0] >= this.bordureRoyaume[0] && tabCellulePaysage1[0] <= this.bordureRoyaume[1]))
+            {
+                return false;
+            }
+
+            if (!(tabCellulePaysage2[0] >= this.bordureRoyaume[0] && tabCellulePaysage2[0] <= this.bordureRoyaume[1]))
+            {
+                return false;
+            }
+
+            if (!(tabCellulePaysage1[1] >= this.bordureRoyaume[2] && tabCellulePaysage1[1] <= this.bordureRoyaume[3]))
+            {
+                return false;
+            }
+            if (!(tabCellulePaysage2[1] >= this.bordureRoyaume[2] && tabCellulePaysage2[1] <= this.bordureRoyaume[3]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
     public boolean bonPlacement(Paysage[] paysages) {
         // récupération des coordonnées de la cellule cible de chaque paysages
         int[] tabCellulePaysage1 = paysages[0].getCelluleCible();
@@ -185,8 +363,10 @@ public class Royaume {
             return false;
         }
 
-        // vérifiacation de l'atat des cellules cibles : ie, si elles sont vides
-         Cellule cellPaysage1 = grilleCellules[tabCellulePaysage1[1]][tabCellulePaysage1[0]];
+        if( ! dansRoyaume(tabCellulePaysage1,tabCellulePaysage2)){return  false;}
+
+            // vérifiacation de l'atat des cellules cibles : ie, si elles sont vides
+        Cellule cellPaysage1 = grilleCellules[tabCellulePaysage1[1]][tabCellulePaysage1[0]];
         Cellule cellPaysage2 = grilleCellules[tabCellulePaysage2[1]][tabCellulePaysage2[0]];
 
         boolean etatCelluleP1 = cellPaysage1.isEmpty();
@@ -220,22 +400,22 @@ public class Royaume {
         return false;
     }
 
-    public void genererRoyaumeAleatoire(){
+    public void genererRoyaumeAleatoire() {
         //fonction qui génère un royaume aléatoire avce tous les paysages remplis (deboggage)
 
-        String[] typesDispo = {"c",  "f", "s", "p", "m", "n", "x", "x", "x", "x"};
+        String[] typesDispo = {"c", "f", "s", "p", "m", "n", "x", "x", "x", "x"};
         int[] couronnesDispo = {0, 1, 2, 3};
 
         int i;
         int j;
 
-        for(i=0; i<9; i++){
-            for(j=0; j<9; j++){
-                Random r=new Random();
-                int randomType=r.nextInt(typesDispo.length);
+        for (i = 0; i < 9; i++) {
+            for (j = 0; j < 9; j++) {
+                Random r = new Random();
+                int randomType = r.nextInt(typesDispo.length);
                 String type = typesDispo[randomType];
 
-                int randomCour=r.nextInt(couronnesDispo.length);
+                int randomCour = r.nextInt(couronnesDispo.length);
 
                 int couronne = couronnesDispo[randomCour];
 
@@ -248,7 +428,7 @@ public class Royaume {
 
     }
 
-    public List<List<Integer>> detectionVoisinsCellule(int i, int j, int direction, List<List<Integer>> dejaVisites){
+    public List<List<Integer>> detectionVoisinsCellule(int i, int j, int direction, List<List<Integer>> dejaVisites) {
         //Fonction regroupant les cellules adjacentes de meme type en groupes à partir d'une cellule
         /*direction est la position relative à la cellule précédente dans la recurcivité:
         0 -> premiere fois qu'on execute la fonction
@@ -259,7 +439,7 @@ public class Royaume {
         cela empeche d'avoir une boucle ou la recurcivité fait gauche/droite en boucle.
          */
 
-        List<Integer> coordonneesCellule =new ArrayList<Integer>();
+        List<Integer> coordonneesCellule = new ArrayList<Integer>();
         coordonneesCellule.add(i);
         coordonneesCellule.add(j);
 
@@ -275,12 +455,12 @@ public class Royaume {
         //System.out.println(coords);
 
 
-        if(typeCellule.toString() == voisins.get(1).toString() && direction != 1){
+        if (typeCellule.toString() == voisins.get(1).toString() && direction != 1) {
             //droite
-            Integer[] coord = {i+1, j};
+            Integer[] coord = {i + 1, j};
             List<Integer> coordList = Arrays.asList(coord);
 
-            if(!dejaVisites.contains(coordList)) {
+            if (!dejaVisites.contains(coordList)) {
 
                 //coords.add(coordList);
                 dejaVisites.add(coordList);
@@ -294,12 +474,12 @@ public class Royaume {
             }
         }
 
-        if(typeCellule.toString() == voisins.get(2).toString() && direction != 4){
+        if (typeCellule.toString() == voisins.get(2).toString() && direction != 4) {
             //bas
-            Integer[] coord = {i, j+1};
+            Integer[] coord = {i, j + 1};
             List<Integer> coordList = Arrays.asList(coord);
 
-            if(!dejaVisites.contains(coordList)) {
+            if (!dejaVisites.contains(coordList)) {
 
                 //coords.add(coordList);
                 dejaVisites.add(coordList);
@@ -313,12 +493,12 @@ public class Royaume {
             }
         }
 
-        if(typeCellule.toString() == voisins.get(3).toString() && direction != 3){
+        if (typeCellule.toString() == voisins.get(3).toString() && direction != 3) {
             //gauche
-            Integer[] coord = {i-1, j};
+            Integer[] coord = {i - 1, j};
             List<Integer> coordList = Arrays.asList(coord);
 
-            if(!dejaVisites.contains(coordList)) {
+            if (!dejaVisites.contains(coordList)) {
 
                 //coords.add(coordList);
                 dejaVisites.add(coordList);
@@ -332,12 +512,12 @@ public class Royaume {
 
         }
 
-        if(typeCellule.toString() == voisins.get(0).toString() && direction != 2){
+        if (typeCellule.toString() == voisins.get(0).toString() && direction != 2) {
             //haut
-            Integer[] coord = {i, j-1};
+            Integer[] coord = {i, j - 1};
             List<Integer> coordList = Arrays.asList(coord);
 
-            if(!dejaVisites.contains(coordList)) {
+            if (!dejaVisites.contains(coordList)) {
 
                 //coords.add(coordList);
                 dejaVisites.add(coordList);
@@ -355,7 +535,7 @@ public class Royaume {
 
     }
 
-    public List<List<List<Integer>>> analyserGroupesGrille(){
+    public List<List<List<Integer>>> analyserGroupesGrille() {
         //Fonction qui regroupe les differentes zones de la grille
 
         List<List<Integer>> cellulesAnalysees = new ArrayList<>();
@@ -365,14 +545,14 @@ public class Royaume {
         int i;
         int j;
 
-        for (i=0; i<9; i++){
-            for(j=0; j<9; j++){
+        for (i = 0; i < 9; i++) {
+            for (j = 0; j < 9; j++) {
 
-                List<Integer> coordonneesCellule =new ArrayList<Integer>();
+                List<Integer> coordonneesCellule = new ArrayList<Integer>();
                 coordonneesCellule.add(i);
                 coordonneesCellule.add(j);
 
-                if(!cellulesAnalysees.contains(coordonneesCellule)){
+                if (!cellulesAnalysees.contains(coordonneesCellule)) {
                     //System.out.println(coordonneesCellule);
 
                     List<List<Integer>> listRef = new ArrayList<>();
@@ -384,7 +564,6 @@ public class Royaume {
 
                     //System.out.println(cellulesAnalysees);
                 }
-
 
 
             }

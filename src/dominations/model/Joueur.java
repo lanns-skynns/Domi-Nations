@@ -19,7 +19,13 @@ public class Joueur {
         this.couleur = royaume.getCouleur();
         this.nbrCouronnes = nbrCouronnes;
         setChateau(4, 4);// passager, les joeurs devront placer leurs chateaux eux même;
+        royaume.setLatMax(4);
+        royaume.setLongMax(4);
+        royaume.setLongMin(4);
+        royaume.setLatMin(4);
     }
+
+
 
     public String getNom() {
         return nom;

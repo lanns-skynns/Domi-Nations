@@ -16,7 +16,6 @@ public class Partie {
     private Pile pile;
     private CartesEnJeu cartesEnJeu;
     private int tourActuel;
-    private CartesJouer cartesJouees;
     Scene scene;
     private int nbrJoueurs;
     private List<String> recupListeNomsJoueurs;
@@ -62,7 +61,7 @@ public class Partie {
         List<Carte> temoins = null;
 
 
-            CChoixCarte choixCartes = new CChoixCarte(e, ordreJoueurs);
+            CChoixCarte choixCartes = new CChoixCarte(e, ordreJoueurs,initialisationPartie[3]);
             choixCartes.setCartesEnG(cartesEnJeu);
             choixCartes.setPile(pile);
             choixCartes.ChoixScene();
@@ -200,12 +199,12 @@ public class Partie {
     */
 
     private int[] initialisationPartie() {
-        int[] initialisationPartie = new int[3];
+        int[] initialisationPartie = new int[4];
         int nbrCartesPourPile = 0;
 
         switch (this.nbrJoueurs) {
             case 2:
-                nbrCartesPourPile = 48;
+                nbrCartesPourPile = 24;
                 break;
             case 3:
                 nbrCartesPourPile = 36;
@@ -219,9 +218,12 @@ public class Partie {
 
         int nbrCouronnes = (nbrJoueurs == 2) ? 2 : 1;
         int nbrCarteAPiocher = (nbrJoueurs == 3) ? 3 : 4;
+        int nbrdeTour = (nbrJoueurs==2)?6:12;
         initialisationPartie[0] = nbrCartesPourPile;
         initialisationPartie[1] = nbrCarteAPiocher;
         initialisationPartie[2] = nbrCouronnes;
+        initialisationPartie[3] = nbrdeTour;
+
         System.out.println(",nbr de carte a piocher"+nbrCarteAPiocher);
         return initialisationPartie;
     }

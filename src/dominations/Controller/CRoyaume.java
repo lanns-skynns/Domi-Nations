@@ -47,6 +47,8 @@ public class CRoyaume {
 
     private Color couleurJoueur;
 
+    private int[] borduresRoyaume;
+
     CChoixCarte choixCarte;
 
 
@@ -83,6 +85,7 @@ public class CRoyaume {
         System.out.println("J suivant "+this.nomJoueur);
         this.couleurJoueur= styleEnFonctionJoueur(ordreJoueur.get(indice).getCouleur());
         this.royaume = ordreJoueur.get(indice).getRoyaume();
+        this.borduresRoyaume = royaume.getBorduresRoyaume();
         this.grille = this.royaume.getGrilleCellules();
 
         this.carteAPlacer = ordreCartes.get(indice);
@@ -172,13 +175,18 @@ public class CRoyaume {
 
         //top
         HBox topHBox = new HBox();
+        Label labelTourActuel=new Label(choixCarte.affichageTour);
+        labelTourActuel.setFont(Font.font(30));
         Label labelTop = new Label(labelTopText);
         labelTop.setAlignment(Pos.CENTER);
         labelTop.setFont(Font.font(50));
         labelTop.setTextFill(couleurJoueur);
-
-        topHBox.setAlignment(Pos.CENTER);
+        topHBox.setAlignment(Pos.TOP_LEFT);
+        topHBox.getChildren().add(labelTourActuel);
         topHBox.getChildren().add(labelTop);
+        labelTourActuel.setAlignment(Pos.CENTER);
+        labelTourActuel.setLayoutX(0);
+        labelTourActuel.setPadding(new Insets(0,bounds.getWidth()*0.30,0,0));
 
         //center (grille)
         StackPane grillePaneBody = new StackPane();
@@ -193,10 +201,19 @@ public class CRoyaume {
         for(i = 0; i<spots+2; i++){
             for(j = 0; j<spots; j++){
                 Rectangle r = new Rectangle(i*cellWidth, j*cellWidth, cellWidth, cellWidth);
-                r.setFill(Color.WHITE);
+                if(i<borduresRoyaume[0] || i>borduresRoyaume[1] || j<borduresRoyaume[2] || j>borduresRoyaume[3])
+                {
+                    r.setFill(Color.BLACK);
+                    if(i>8){
+                        r.setFill(Color.rgb(220,235,235));
+                    }
+                }
+                else {
+                    r.setFill(Color.WHITE);
+                }
                 if(i<9){
                     r.setStroke(couleurJoueur);
-                    r.setOpacity(0.8);
+                    r.setOpacity(0.7);
                 } else if (i == 10 && (j==1 || j==0)){
                     r.setStroke(Color.BLACK);
                 }
@@ -355,7 +372,7 @@ public class CRoyaume {
 
         //vérification que les dominos sont bien dans la grille
 
-        if(gridx > 8 || gridx < 0 || gridx2 > 8 || gridx2 < 0 || gridy2 > 8 || gridy2 < 0 || gridy > 8 || gridy < 0 ){
+        if(gridx > borduresRoyaume[1] || gridx < borduresRoyaume[0] || gridx2 > borduresRoyaume[1] || gridx2 < borduresRoyaume[0] || gridy2 > borduresRoyaume[3] || gridy2 < borduresRoyaume[2] || gridy > borduresRoyaume[3] || gridy < borduresRoyaume[2] ){
             //On les replaces dans la réserve en haut à droite
             if(tileN == 0){
                 gridx = 10;
@@ -645,6 +662,11 @@ public class CRoyaume {
         System.out.println(paysage1 + " ; " + paysage2);
         System.out.println(x2 + " ; " + y2);
         System.out.println(numCouronnes1 + " ; " + numCouronnes2);
+
+        royaume.testLimiteRoyaume();
+        royaume.mAJLimiteReelleRoyaume(cible1,cible2);
+        royaume.testLimiteRoyaume();
+
 
         royaume.afficherTypesGrille();
         if( this.indice<this.ordreCartes.size()-1) {
