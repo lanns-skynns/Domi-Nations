@@ -259,7 +259,7 @@ public class CAccueil extends Application {
              }
              else{
                  //pas.getChildren().add(new Text("yes"));
-                  Partie partie = new Partie();
+                 Partie partie = new Partie();
                  partie.setRecupListeNomsJoueurs(listeJoueurs);
                  partie.setNbrJoueurs(listeJoueurs.size());
                  partie.Partie2(e);

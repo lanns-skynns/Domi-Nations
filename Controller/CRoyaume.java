@@ -2,7 +2,10 @@ package dominations.Controller;
 
 import dominations.model.*;
 import javafx.event.ActionEvent;
+import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.*;
 
@@ -45,6 +48,8 @@ public class CRoyaume {
     private List<Carte> ordreCartes;
     private boolean sceneIntermediaire = false;
 
+    private List<Image>imagesRoyaume=new ArrayList<>();
+
     private Color couleurJoueur;
 
     private int[] borduresRoyaume;
@@ -76,7 +81,12 @@ public class CRoyaume {
         this.indice = indice;
         this.ordreJoueur = joueur;
         this.ordreCartes = carteAPlacer;
+        imagesRoyaume.clear();
         initialiserRoyaume(this.indice, event);
+    }
+
+    public List<Image> getImagesRoyaume() {
+        return imagesRoyaume;
     }
 
     public  void initialiserRoyaume(int indice, ActionEvent event){
@@ -331,7 +341,7 @@ public class CRoyaume {
 
         rotateButtonHorr.setOnAction(event -> rotationHorraire(cartePays2, cartePays1));
         rotateButtonAntiHorr.setOnAction(event -> rotationAntiHorraire(cartePays2, cartePays1));
-        validerButton.setOnAction(event -> validerPlacement(event));
+        validerButton.setOnAction(event -> validerPlacement(event,grillePane));
 
         rightVBox.setStyle("-fx-border-color: black");
 
@@ -635,7 +645,7 @@ public class CRoyaume {
         return royaume.bonPlacement(paysages);
     }
 
-    public void validerPlacement(ActionEvent event){
+    public void validerPlacement(ActionEvent event,Node root){
         int x1 = (int) (cartePays1.getX()/cellWidth);
         int y1 = (int) (cartePays1.getY()/cellWidth);
 
@@ -672,10 +682,14 @@ public class CRoyaume {
         if( this.indice<this.ordreCartes.size()-1) {
             this.indice++;
             System.out.println("indiceeeeeeeeeeeeee "+ this.indice);
+           // Image image =snap(root); // capture que le node
+            imagesRoyaume.add(snap(root));
+            System.out.println(imagesRoyaume.size()+" iiiiiiiiiiiiiiiiiiqssssss");
             initialiserRoyaume(indice,event);
         }
         else{
-
+            imagesRoyaume.add(snap(root));
+            choixCarte.setImagesRoyaume(imagesRoyaume);
             choixCarte.setActionEvent(event);
             choixCarte.ChoixScene();
 
@@ -785,6 +799,27 @@ public class CRoyaume {
             {'m', 'n'},
             {'c', 'n'},
     };
+
+    public  Image snap(Node node) {
+        try {
+            final Bounds bounds = node.getLayoutBounds();
+            double scale = 1;
+            int imageWidth = (int) Math.round(bounds.getWidth() * scale-2*cellWidth);
+            int imageHeight = (int) Math.round(bounds.getHeight() * scale);
+
+
+            final SnapshotParameters snapPara = new SnapshotParameters();
+            snapPara.setFill(Color.TRANSPARENT);
+            snapPara.setTransform(javafx.scene.transform.Transform.scale(scale, scale));
+            WritableImage snapshot = new WritableImage(imageWidth, imageHeight);
+            snapshot = node.snapshot(snapPara, snapshot);
+            return snapshot;
+        } catch (Exception e) {
+            //logger.debug(e.toString());
+            return null;
+        }
+
+    }
 
     public static Color styleEnFonctionJoueur(Couleur couleurJoueur){
         Color styleCouleurJoueur;

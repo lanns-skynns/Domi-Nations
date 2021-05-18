@@ -64,9 +64,11 @@ public class CChoixCarte {
     Label labelTop=new Label("");
     private Color couleurJoueur;
 
+    Rectangle2D bounds;
+
     int nombreDeTour;
     int tourActuel;
-
+    private List<Image>imagesRoyaume=new ArrayList<>();
     String affichageTour;
 
     Map map = new HashMap();
@@ -74,8 +76,13 @@ public class CChoixCarte {
 
     Button validerChoixButton = new Button("Valider");
 
+
     public String getAffichageTour() {
         return affichageTour;
+    }
+
+    public void setImagesRoyaume(List <Image> imagesRoyaume) {
+        this.imagesRoyaume=imagesRoyaume;
     }
 
     public  void setPile(Pile pile){
@@ -123,7 +130,7 @@ public class CChoixCarte {
         BorderPane bp = new BorderPane();
 
         final Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
+         bounds = screen.getVisualBounds();
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setResizable(false);
 
@@ -135,6 +142,7 @@ public class CChoixCarte {
 
         labelTop.setAlignment(Pos.CENTER);
         topHBox.setAlignment(Pos.TOP_LEFT);
+        topHBox.setId("topHBox");
 
         labelTop.setFont(Font.font(50));
         Label labelTourActuel = new Label(this.affichageTour);
@@ -144,11 +152,20 @@ public class CChoixCarte {
         labelTourActuel.setAlignment(Pos.CENTER);
         labelTourActuel.setLayoutX(0);
         labelTourActuel.setPadding(new Insets(0,bounds.getWidth()*0.30,0,0));
+        System.out.println("image R taille "+imagesRoyaume.size());
+        if (imagesRoyaume.size()>1){
+            System.out.println( "tailllllle : " +imagesRoyaume.size());
+            ImageView imv =new ImageView(imagesRoyaume.get(0));
+            imv.setFitWidth(bounds.getWidth()*0.30);
+            imv.setFitHeight(bounds.getWidth()*0.30);
+            bp.setLeft(imv);
 
+            BorderPane.setAlignment(imv,Pos.CENTER);
+            BorderPane.setMargin(imv,new Insets(0,10,0,10));
+        }
 
         topHBox.getChildren().add(labelTourActuel);
         topHBox.getChildren().add(labelTop);
-
 
         bp.setTop(topHBox);
 
@@ -157,16 +174,18 @@ public class CChoixCarte {
 
         validerChoixButton.setFont(Font.font(40));
         validerChoixButton.setDisable(true);
-        validerChoixButton.setOnAction(event -> confirmerChoix(choixJoueurPane,event));
+        validerChoixButton.setOnAction(event -> confirmerChoix(choixJoueurPane,event,bp));
 
         botHbox.getChildren().add(validerChoixButton);
         botHbox.setPadding(new Insets(1,0,0,1));
         bp.setBottom(botHbox);
-
+botHbox.setId("botHbox");
         botHbox.setAlignment(Pos.CENTER);
+
 
         //Center
         HBox centerHbox = new HBox();
+        centerHbox.setId("centerHbox");
 
         centerHbox.setAlignment(Pos.CENTER);
 
@@ -211,6 +230,7 @@ public class CChoixCarte {
             iw2.setFitHeight(200);
 
             cartesHbox.getChildren().add(carteVbox);
+
             paysagesVBox.getChildren().add(iw1);
             paysagesVBox.getChildren().add(iw2);
             carteVbox.getChildren().add(paysagesVBox);
@@ -222,6 +242,7 @@ public class CChoixCarte {
 
             carteVbox.setAlignment(Pos.TOP_CENTER);
             Carte carte = cartesEnJeu.get(i);
+
 
             CarteChoix cartePane = new CarteChoix(paysagesVBox, carte);
 
@@ -236,7 +257,6 @@ public class CChoixCarte {
 
         centerHbox.getChildren().add(cartesHbox);
 
-        centerHbox.setStyle("-fx-border-color: black");
 
         bp.setCenter(centerHbox);
 
@@ -275,7 +295,7 @@ public class CChoixCarte {
         }
     }
 
-    private void confirmerChoix(CarteChoix cartechoisie,ActionEvent event){
+    private void confirmerChoix(CarteChoix cartechoisie,ActionEvent event,BorderPane bp){
 
         if(this.nbrJoueursTourPrecedent == this.choixDesJoueurs.size()-2){
             this.nbrJoueursTourPrecedent++;
@@ -299,6 +319,16 @@ public class CChoixCarte {
             map.put(choixJoueur.getNumeroDeCarte(),joueurQuiChoisis);
             if (n < ordreJoueurs.size() - 1) {
                 n++;
+                if(imagesRoyaume.size()>0) {
+                    ImageView imv =new ImageView(imagesRoyaume.get(n));
+                    imv.setFitWidth(bounds.getWidth()*0.30);
+                    imv.setFitHeight(bounds.getWidth()*0.30);
+                    bp.setLeft(imv);
+
+                    BorderPane.setAlignment(imv,Pos.CENTER);
+                    BorderPane.setMargin(imv,new Insets(0,10,0,10));
+                }
+
                 joueurQuiChoisis = ordreJoueurs.get(n);
                 this.couleurJoueur = CRoyaume.styleEnFonctionJoueur(ordreJoueurs.get(n).getCouleur());
                 labelTop.setTextFill(couleurJoueur);

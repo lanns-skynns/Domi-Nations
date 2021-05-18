@@ -15,6 +15,18 @@ Button:hover{
     -fx-border-color: #d8e3ea;
 }
 
+#centerHbox{
+    -fx-border-color: #1e74a2 ;
+    -fx-border-width: 2;
+    -fx-border-style: hidden hidden hidden solid;
+}
+#topHBox{
+    -fx-border-color: #1e74a2 ;
+    -fx-border-width: 2;
+    -fx-border-style: hidden hidden  solid hidden;
+}
 
+#botHbox{
 
+}
 
