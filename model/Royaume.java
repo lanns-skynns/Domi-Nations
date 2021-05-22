@@ -1,9 +1,6 @@
 package dominations.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Royaume {
     private Couleur couleur;
@@ -136,6 +133,23 @@ public class Royaume {
             nbrArray.add(ligne);
         }
         return nbrArray;
+    }
+
+    public void afficherNbrCouronnes(){
+        int i;
+        int j;
+        System.out.println("Nbr couronnes de la grille: ");
+        for (i = 0; i < 9; i++) {
+            System.out.print("| ");
+            for (j = 0; j < 9; j++) {
+                Cellule c = this.grilleCellules[i][j];
+                Paysage paysage = c.getPaysage();
+                int nbrC = paysage.getNbrDeCouronne();
+
+                System.out.print(nbrC + " | ");
+            }
+            System.out.println("");
+        }
     }
 
     public Cellule[] getLine(int ligne) {
@@ -560,7 +574,13 @@ public class Royaume {
 
                     cellulesAnalysees.addAll(regroupement);
 
+                    Set<List<Integer>> setGroupement = new HashSet<>(regroupement);
+                    regroupement.clear();
+                    regroupement.addAll(setGroupement);
+
                     regroupements.add(regroupement);
+
+
 
                     //System.out.println(cellulesAnalysees);
                 }
@@ -571,6 +591,48 @@ public class Royaume {
 
         //System.out.println(regroupements);
         return regroupements;
+    }
+
+    public int calculerPoints(){
+        List<List<List<Integer>>> groupes = this.analyserGroupesGrille();
+        List<List<Integer>> groupementsCouronnes = new ArrayList<>();
+
+        //On regroupe les nbr de couronnes par groupe
+        //on inclue les 0, ce qui fait qu'un groupe de nbrCouronne a autant d'élément
+        //qu'un groupe de cellules (utile pour la suite)
+        for(List<List<Integer>> groupe : groupes){
+            List<Integer> groupeCouronnes = new ArrayList<>();
+
+            for(List<Integer> cellule : groupe){
+                int nbrCouronnes = this.getCellule(cellule.get(0), cellule.get(1)).getPaysage().getNbrDeCouronne();
+                groupeCouronnes.add(nbrCouronnes);
+            }
+
+            //on évité d'ajouter les groupements de cellules vides
+            if(!this.getCellule(groupe.get(0).get(0), groupe.get(0).get(1)).getPaysage().getType().equals("x")){
+                groupementsCouronnes.add(groupeCouronnes);
+            }
+        }
+
+        List<Integer> totaux = new ArrayList<>();
+
+        //On calcul le total de point de chaque groupe à partir de la liste créée précédemment
+        for(List<Integer> groupe : groupementsCouronnes){
+            int somme = 0;
+
+            for(int i : groupe)
+                somme += i;
+
+            int total = somme * groupe.size();
+            totaux.add(total);
+        }
+
+        int total = 0;
+
+        for(int i : totaux)
+            total += i;
+
+        return total;
     }
 
 }
