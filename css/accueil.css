@@ -35,7 +35,6 @@ SplitPane{
     -fx-font-weight: bold;
     -fx-font-size: 5.5em;
     -fx-padding: 0,10,0,10;
-
 }
 #texteErreur{
     -fx-text-fill: #1e74a2;

@@ -61,15 +61,12 @@ public class Partie {
         List<Carte> temoins = null;
 
 
-            CChoixCarte choixCartes = new CChoixCarte(e, ordreJoueurs,initialisationPartie[3]);
+            CChoixCarte choixCartes = new CChoixCarte(e, ordreJoueurs,initialisationPartie[3],this.nbrJoueurs);
             choixCartes.setCartesEnG(cartesEnJeu);
             choixCartes.setPile(pile);
             choixCartes.ChoixScene();
 
             //new Test().test1(e);
-
-
-
 
     }
 

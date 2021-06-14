@@ -63,6 +63,7 @@ public class CChoixCarte {
     CartesEnJeu cartesEnG;
     Label labelTop=new Label("");
     private Color couleurJoueur;
+    int nbrTotalJoueurs;
 
     Rectangle2D bounds;
 
@@ -75,10 +76,18 @@ public class CChoixCarte {
     List<Integer> ordreCroissant=new ArrayList<>();
 
     Button validerChoixButton = new Button("Valider");
+    int toursRestants;
 
 
     public String getAffichageTour() {
         return affichageTour;
+    }
+
+    public int getToursRestants(){
+        return this.toursRestants;
+    }
+    public int getNbrTotalJoueurs(){
+        return this.nbrTotalJoueurs;
     }
 
     public void setImagesRoyaume(List <Image> imagesRoyaume) {
@@ -98,16 +107,18 @@ public class CChoixCarte {
 
     }
 
-    public CChoixCarte(ActionEvent event, List<Joueur> ordreJoueurs,int nbrTour){
+    public CChoixCarte(ActionEvent event, List<Joueur> ordreJoueurs,int nbrTour,int nbrTotalJoueurs){
         this.event = event;
         this.ordreJoueurs = ordreJoueurs;
         this.nombreDeTour = nbrTour;
+        this.nbrTotalJoueurs=nbrTotalJoueurs;
 
     }
 
     void  piocherCartes(){
         tourActuel++;
         this.affichageTour ="tour " +Integer.toString(this.tourActuel)+"/"+this.nombreDeTour;
+        this.toursRestants= this.nombreDeTour-this.tourActuel;
         this.cartesEnJeu = cartesEnG.nouvellesCartes();
         for(int i = 0; i<cartesEnJeu.size(); i++){
             numerosCartes.add(cartesEnJeu.get(i).getNumeroDeCarte());

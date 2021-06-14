@@ -1,0 +1,33 @@
+.root {
+    /* -fx-background-image: url("https://paradoxetemporel.fr/wp-content/uploads/2018/08/Ce-Kingdomino-dominos.png");*/
+    -fx-background-color: #e5f6f6;
+
+
+}
+Label{
+    -fx-font-size: 30;
+}
+
+#labelTop{
+    -fx-text-fill: blue;
+    -fx-opacity: 0.6;
+    -fx-font-size: 5.5em;
+    -fx-padding: 0,10,0,10;
+}
+HBox{
+    -fx-border-color: #1e74a2 ;
+    -fx-border-width: 2;
+    -fx-border-style: hidden hidden  solid hidden;
+    -fx-background-color: #dcecec;
+}
+
+Button{
+    -fx-background-color: #1e74a2;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+}
+
+Button:hover{
+    -fx-background-color: #3ba2db;
+    -fx-border-color: #d8e3ea;
+}

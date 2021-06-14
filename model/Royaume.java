@@ -12,7 +12,6 @@ public class Royaume {
     private int [] bordureRoyaume = {0,8,0,8};//longi min, lonig max,lati min, lati max
 
 
-
     /* **************
         Constructeur de la classe
     ************** */
@@ -114,6 +113,28 @@ public class Royaume {
             typesArray.add(ligne);
         }
         return typesArray;
+    }
+
+    public boolean royaumeComplet(){
+        int i;
+        int j;
+
+        for (i = this.latMin; i < this.latMax+1; i++) {
+            for (j = this.longMin; j < this.longMax; j++) {
+                Cellule c = this.getCellule(j, i);
+                 if(c.isEmpty()){
+                     return false;
+                };
+            }
+        }
+        return  true;
+    }
+
+    public boolean chateauCentre(){
+        if( this.latMin==2 && this.longMin==2 &&this.latMax==6 && this.longMax==6 ){
+            return  true;
+        }
+        return  false;
     }
 
     public ArrayList<ArrayList<Integer>> getNbrCouronnesGrille() {
@@ -555,7 +576,6 @@ public class Royaume {
         List<List<Integer>> cellulesAnalysees = new ArrayList<>();
         List<List<List<Integer>>> regroupements = new ArrayList<>();
 
-
         int i;
         int j;
 
@@ -629,10 +649,15 @@ public class Royaume {
 
         int total = 0;
 
-        for(int i : totaux)
+        for(int i : totaux) {
             total += i;
-
+        }
+        if (royaumeComplet()){
+            total+=5;
+        }
+        if(chateauCentre()){
+            total+=10;
+        }
         return total;
     }
-
 }

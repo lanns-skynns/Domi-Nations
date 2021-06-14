@@ -24,8 +24,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CRoyaume {
 
@@ -348,6 +347,7 @@ public class CRoyaume {
         //BP
         bp.setTop(topHBox);
         bp.setRight(rightVBox);
+
 
         window.setScene(scene);
         Image logo = new Image("dominations/images/Kingdomino-Logo.png");
@@ -689,9 +689,58 @@ public class CRoyaume {
         }
         else{
             imagesRoyaume.add(snap(root));
-            choixCarte.setImagesRoyaume(imagesRoyaume);
-            choixCarte.setActionEvent(event);
-            choixCarte.ChoixScene();
+            if(choixCarte.toursRestants!=8){
+                choixCarte.setImagesRoyaume(imagesRoyaume);
+                choixCarte.setActionEvent(event);
+                choixCarte.ChoixScene();
+
+            }
+            else{
+                Set<Joueur> ordreJ=new HashSet<>(ordreJoueur);
+                List<Joueur> classement =new ArrayList<>();
+                System.out.println("lololoolo"+ordreJ.size());
+
+
+                List<Integer> scoreTrie=new ArrayList<>();
+                if(choixCarte.nbrTotalJoueurs==2){
+                    for (Joueur j:ordreJ){
+                        scoreTrie.add(j.getRoyaume().calculerPoints());
+                        //associationJoueurScore.put(j,j.getRoyaume().calculerPoints());
+                    }
+                    
+                }
+                
+                else {
+                    for (Joueur j:ordreJ){
+                        scoreTrie.add(j.getRoyaume().calculerPoints());
+                        //associationJoueurScore.put(j,j.getRoyaume().calculerPoints());
+                    }
+                }
+                Collections.sort(scoreTrie);
+                System.out.println("abba");
+                System.out.println(scoreTrie);
+                Collections.reverse(scoreTrie);
+                System.out.println("yeaaa");
+                System.out.println(scoreTrie);
+                System.out.println(scoreTrie.size());
+                Set<Integer> scoreSansRepetion=new HashSet<>(scoreTrie);
+                for(int score:scoreSansRepetion){
+                    //System.out.println(score);
+                //classement.put(associationJoueurScore.get(scoreTrie.get(score)),score);
+                    for(Joueur j:ordreJ){
+                        if(j.getRoyaume().calculerPoints()==score){
+                            classement.add(j);
+                            System.out.println(j.getNom());
+                            System.out.println(score);
+                        }
+                    }
+                }
+                System.out.println("juuuuuuu"+classement.size());
+
+                new CResultat(event,classement);
+            }
+
+
 
         }
 
