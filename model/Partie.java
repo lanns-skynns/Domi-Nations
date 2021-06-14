@@ -126,6 +126,10 @@ public class Partie {
         int j;
         for (j = 0; j < intermediaire.size(); j++) {
             listeJoueursOrdonnee.add((Joueur) map.get(intermediaire.get(j)));
+            if(listeJoueurs.size()==2){
+                listeJoueursOrdonnee.add((Joueur) map.get(intermediaire.get(j)));
+            }
+
         }
 
         return listeJoueursOrdonnee;

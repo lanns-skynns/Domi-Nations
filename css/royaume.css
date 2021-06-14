@@ -11,3 +11,9 @@ Button:hover{
     -fx-background-color: #3ba2db;
     -fx-border-color: #d8e3ea;
 }
+#plusDePlace{
+    -fx-background-color: rgba(239, 27, 117, 0.88);
+}
+#plusDePlace:hover{
+    -fx-background-color: rgba(234, 16, 16, 0.88);
+}

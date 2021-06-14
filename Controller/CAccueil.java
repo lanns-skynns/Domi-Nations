@@ -31,6 +31,7 @@ public class CAccueil extends Application {
     Map map = new HashMap();
     private int nbrJoueurs = 0;
     ActionEvent actionEvent=null;
+
     public void setActionEvent(ActionEvent actionEvent) {
         this.actionEvent = actionEvent;
     }

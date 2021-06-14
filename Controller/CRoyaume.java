@@ -5,6 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.*;
@@ -68,6 +71,7 @@ public class CRoyaume {
     PaysagePane cartePays1;
     PaysagePane cartePays2;
     Button validerButton;
+    Button plusDePlaceDispo = new Button();
 
     int indice;
 
@@ -285,7 +289,7 @@ public class CRoyaume {
             }
         }
 
-        grillePaneBody.setStyle("-fx-border-color: black");
+        grillePaneBody.setStyle("-fx-border-color: rgba(43, 184, 156, 0.91);");
         grillePane.setStyle("-fx-border-color: red");
 
         grillePaneBody.getChildren().add(grillePane);
@@ -301,6 +305,8 @@ public class CRoyaume {
 
         imageViewP1 = new ImageView(imagePays1);
         imageViewP2 = new ImageView(imagePays2);
+
+
 
         cartePays1 = new PaysagePane(10*cellWidth, 0, cellWidth, imageViewP1);
         cartePays2 = new PaysagePane(10*cellWidth, 1*cellWidth, cellWidth, imageViewP2);
@@ -318,31 +324,41 @@ public class CRoyaume {
         imageViewP2.setOnMousePressed(event -> pressed(event, cartePays2, cartePays1, 1));
         imageViewP2.setOnMouseDragged(event -> dragged(event, cartePays2, cartePays1));
         imageViewP2.setOnMouseReleased(event -> released(event, cartePays2, cartePays1, 1));
+        imageViewP1.setEffect(new DropShadow(10,this.couleurJoueur));
+        imageViewP2.setEffect(new DropShadow(10,this.couleurJoueur));
+
+
 
         //right
 
         VBox rightVBox = new VBox();
-        rightVBox.setAlignment(Pos.CENTER);
+        rightVBox.setAlignment(Pos.TOP_CENTER);
 
-        rotateButtonHorr = new Button("Rotation horraire");
-        rotateButtonAntiHorr = new Button("Rotation anti-horraire");
+        rotateButtonHorr = new Button("Rotation horaire");
+        rotateButtonAntiHorr = new Button("Rotation anti-horaire");
 
         validerButton = new Button("Valider le placement");
         rotateButtonHorr.setAlignment(Pos.CENTER);
         validerButton.setAlignment(Pos.CENTER);
         validerButton.setDisable(true);
+        plusDePlaceDispo.setText("Aucune place disponible");
 
+
+        VBox.setMargin(plusDePlaceDispo,new Insets(10,10, bounds.getHeight()*0.4, 10));
+        plusDePlaceDispo.setAlignment(Pos.TOP_CENTER);
+        plusDePlaceDispo.setId("plusDePlace");
+        rightVBox.getChildren().add(plusDePlaceDispo);
         rightVBox.getChildren().add(rotateButtonHorr);
         rightVBox.getChildren().add(rotateButtonAntiHorr);
         rightVBox.getChildren().add(validerButton);
         rightVBox.setSpacing(15);
-        rightVBox.setPadding(new Insets(10,15,10,15));
 
         rotateButtonHorr.setOnAction(event -> rotationHorraire(cartePays2, cartePays1));
         rotateButtonAntiHorr.setOnAction(event -> rotationAntiHorraire(cartePays2, cartePays1));
         validerButton.setOnAction(event -> validerPlacement(event,grillePane));
+        plusDePlaceDispo.setOnAction(event ->forcerFinPartie(event) );
 
-        rightVBox.setStyle("-fx-border-color: black");
+        rightVBox.setStyle("-fx-border-color:  rgba(43, 184, 156, 0.91);");
 
         //BP
         bp.setTop(topHBox);
@@ -374,6 +390,8 @@ public class CRoyaume {
     }
 
     private void released(MouseEvent event, PaysagePane tile, PaysagePane tile2, int tileN){
+
+
         int gridx = (int) (tile.getX() + (tile.getWidth() / 2)) / cellWidth;
         int gridy = (int) (tile.getY() + (tile.getWidth() / 2)) / cellWidth;
 
@@ -646,6 +664,10 @@ public class CRoyaume {
     }
 
     public void validerPlacement(ActionEvent event,Node root){
+
+        this.imageViewP1.setEffect(new DropShadow(0,this.couleurJoueur));
+        this.imageViewP2.setEffect(new DropShadow(0,this.couleurJoueur));
+
         int x1 = (int) (cartePays1.getX()/cellWidth);
         int y1 = (int) (cartePays1.getY()/cellWidth);
 
@@ -689,58 +711,15 @@ public class CRoyaume {
         }
         else{
             imagesRoyaume.add(snap(root));
-            if(choixCarte.toursRestants!=8){
+            if(choixCarte.toursRestants!=0){
                 choixCarte.setImagesRoyaume(imagesRoyaume);
                 choixCarte.setActionEvent(event);
                 choixCarte.ChoixScene();
 
             }
             else{
-                Set<Joueur> ordreJ=new HashSet<>(ordreJoueur);
-                List<Joueur> classement =new ArrayList<>();
-                System.out.println("lololoolo"+ordreJ.size());
-
-
-                List<Integer> scoreTrie=new ArrayList<>();
-                if(choixCarte.nbrTotalJoueurs==2){
-                    for (Joueur j:ordreJ){
-                        scoreTrie.add(j.getRoyaume().calculerPoints());
-                        //associationJoueurScore.put(j,j.getRoyaume().calculerPoints());
-                    }
-                    
-                }
-                
-                else {
-                    for (Joueur j:ordreJ){
-                        scoreTrie.add(j.getRoyaume().calculerPoints());
-                        //associationJoueurScore.put(j,j.getRoyaume().calculerPoints());
-                    }
-                }
-                Collections.sort(scoreTrie);
-                System.out.println("abba");
-                System.out.println(scoreTrie);
-                Collections.reverse(scoreTrie);
-                System.out.println("yeaaa");
-                System.out.println(scoreTrie);
-                System.out.println(scoreTrie.size());
-                Set<Integer> scoreSansRepetion=new HashSet<>(scoreTrie);
-                for(int score:scoreSansRepetion){
-                    //System.out.println(score);
-                //classement.put(associationJoueurScore.get(scoreTrie.get(score)),score);
-                    for(Joueur j:ordreJ){
-                        if(j.getRoyaume().calculerPoints()==score){
-                            classement.add(j);
-                            System.out.println(j.getNom());
-                            System.out.println(score);
-                        }
-                    }
-                }
-                System.out.println("juuuuuuu"+classement.size());
-
-                new CResultat(event,classement);
+                sceneResultat(event);
             }
-
-
 
         }
 
@@ -883,6 +862,57 @@ public class CRoyaume {
             styleCouleurJoueur = Color.rgb(200,150,50);
         }
         return styleCouleurJoueur;
+    }
+
+    public void sceneResultat(ActionEvent event){
+        Set<Joueur> ordreJ=new HashSet<>(ordreJoueur);
+        List<Joueur> classement =new ArrayList<>();
+        System.out.println("lololoolo"+ordreJ.size());
+
+
+        List<Integer> scoreTrie=new ArrayList<>();
+
+        for (Joueur j:ordreJ){
+            scoreTrie.add(j.getRoyaume().calculerPoints());
+            //associationJoueurScore.put(j,j.getRoyaume().calculerPoints());
+        }
+
+        Collections.sort(scoreTrie);
+        System.out.println("abba");
+        System.out.println(scoreTrie);
+        Collections.reverse(scoreTrie);
+        System.out.println("yeaaa");
+        System.out.println(scoreTrie);
+        System.out.println(scoreTrie.size());
+        Set<Integer> scoreSansRepetion=new HashSet<>(scoreTrie);
+        for(int score:scoreSansRepetion){
+            //System.out.println(score);
+            //classement.put(associationJoueurScore.get(scoreTrie.get(score)),score);
+            for(Joueur j:ordreJ){
+                if(j.getRoyaume().calculerPoints()==score){
+                    classement.add(j);
+                    System.out.println(j.getNom());
+                    System.out.println(score);
+                }
+            }
+        }
+        System.out.println("juuuuuuu"+classement.size());
+
+        new CResultat(event,classement);
+    }
+
+    public  void forcerFinPartie(ActionEvent event){
+        Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Impossibilité de placer le domino");
+        alert.setHeaderText("Si vous ne pouvez pas placer votre domino, \n" +
+                             "cliquez sur OK pour mettre fin à la partie, \n" +
+                              "vous verrez alors le classement final" );
+        alert.setContentText("Cette action mettra fin à la partie en cours immediatement");
+
+        if(alert.showAndWait().get()== ButtonType.OK){
+           sceneResultat(event);
+        }
+
     }
 
 }

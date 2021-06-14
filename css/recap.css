@@ -6,6 +6,7 @@
 }
 Label{
     -fx-font-size: 30;
+
 }
 
 #labelTop{
@@ -27,7 +28,7 @@ Button{
     -fx-font-size: 20;
 }
 
-Button:hover{
+Button:hover {
     -fx-background-color: #3ba2db;
     -fx-border-color: #d8e3ea;
 }

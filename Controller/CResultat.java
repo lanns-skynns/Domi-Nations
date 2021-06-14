@@ -131,7 +131,7 @@ public class CResultat {
             Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Quitter");
             alert.setHeaderText(" Fermeture de la fenêtre");
-            alert.setContentText("êtes vous sur de vouloir quitter");
+            alert.setContentText("êtes vous sûr de vouloir quitter");
 
             if(alert.showAndWait().get()== ButtonType.OK){
                 stage=(Stage)bp.getScene().getWindow();// pour recup la fenetre courant;
