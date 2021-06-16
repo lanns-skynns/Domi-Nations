@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -27,29 +27,37 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class CAccueil extends Application {
-    List<String> listeJoueurs =new ArrayList<>();
+    List<String> listeJoueurs = new ArrayList<>();
     Map map = new HashMap();
+    ActionEvent actionEvent = null;
     private int nbrJoueurs = 0;
-    ActionEvent actionEvent=null;
 
     public void setActionEvent(ActionEvent actionEvent) {
         this.actionEvent = actionEvent;
     }
 
+    /* **********
+    Méthode appelée lors du lancement du jeu.
+     ********** */
     @Override
     public void start(Stage primaryStage) throws Exception {
         codesceneAccueil(false);
     }
-
-    public  void Recommencer(){
+    /* **********
+    Méthode appelée quand on veut rejouer une partie
+     ********** */
+    public void Recommencer() {
         codesceneAccueil(true);
     }
 
-    public void lancer(){
+    public void lancer() {
         launch();
     }
 
-    private ImageView creerImageView(String url,int width,int height){
+    /* **********
+        Cette méthode permet de créer des images View
+     ********** */
+    private ImageView creerImageView(String url, int width, int height) {
         File file = new File(url);
 
         Image image = new Image(file.toURI().toString());
@@ -57,66 +65,72 @@ public class CAccueil extends Application {
         imageView.setId("imageView");
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
-        return  imageView;
+        return imageView;
     }
 
-    private List <String> getNomJsoueurs(GridPane gridPane){
-        List <String> nomsJoueurs= new ArrayList<>();
-        boolean dejaClear=false;
+    /* **********
+        Cette méthode retourne le nom de joueur de la partie en cours
+     ********** */
+    private List<String> getNomJsoueurs(GridPane gridPane) {
+        List<String> nomsJoueurs = new ArrayList<>();
+        boolean dejaClear = false;
         byte i;
         TextField tf;
-        for (i=0;i<nbrJoueurs;i++){
-            tf= (TextField) getNodeFromGridPane(gridPane,1,i);
-            if (tf.getText().length()==0){
-                if( ! dejaClear) {
+        for (i = 0; i < nbrJoueurs; i++) {
+            tf = (TextField) getNodeFromGridPane(gridPane, 1, i);
+            if (tf.getText().length() == 0) {
+                if (!dejaClear) {
                     nomsJoueurs.clear();
                     nomsJoueurs.add(null);
-                    nomsJoueurs.add(String.valueOf(i+1));
-                    dejaClear=true;
-                }
-                else {
-                    nomsJoueurs.add(String.valueOf(i+1));
-                    System.out.println("Veillez saisir un nom pour le joueur " + i);
+                    nomsJoueurs.add(String.valueOf(i + 1));
+                    dejaClear = true;
+                } else {
+                    nomsJoueurs.add(String.valueOf(i + 1));
+                   // //System.out.println("Veillez saisir un nom pour le joueur " + i);
                 }
             }
-            if( ! dejaClear) {
+            if (!dejaClear) {
                 nomsJoueurs.add(tf.getText());
             }
         }
-        if (dejaClear){
+        if (dejaClear) {
             return nomsJoueurs;
         }
-        int j,k;
-        int nbrJoueurs=nomsJoueurs.size();
+        int j, k;
+        int nbrJoueurs = nomsJoueurs.size();
         boolean nomsIdentiques = false;
         List<String> memeNoms = new ArrayList<>();
-        for (j=0;j<nbrJoueurs;j++){
-            for (k=j+1;k<nbrJoueurs;k++){
-                if(nomsJoueurs.get(j).equals(nomsJoueurs.get(k))){
-                    if ( ! nomsIdentiques) {
+        for (j = 0; j < nbrJoueurs; j++) {
+            for (k = j + 1; k < nbrJoueurs; k++) {
+                if (nomsJoueurs.get(j).equals(nomsJoueurs.get(k))) {
+                    if (!nomsIdentiques) {
                         memeNoms.add("00");
-                        memeNoms.add(Integer.toString(j+1));
-                        memeNoms.add(Integer.toString(k+1));
+                        memeNoms.add(Integer.toString(j + 1));
+                        memeNoms.add(Integer.toString(k + 1));
                         nomsIdentiques = true;
-                    }else{
-                        memeNoms.add(Integer.toString(j+1));
-                        memeNoms.add(Integer.toString(k+1));
+                    } else {
+                        memeNoms.add(Integer.toString(j + 1));
+                        memeNoms.add(Integer.toString(k + 1));
                     }
                 }
             }
         }
 
-        if(nomsIdentiques){
+        if (nomsIdentiques) {
             Set<String> setListe = memeNoms.stream().collect(Collectors.toSet());
             memeNoms.clear();
-            for (String noms:setListe){
+            for (String noms : setListe) {
                 memeNoms.add(noms);
             }
             return memeNoms;
         }
         // faire ube double boucle pour vérifier que tous les noms sont différents.
-        return  nomsJoueurs;
+        return nomsJoueurs;
     }
+
+    /* **********
+        Cette méthode permet de récupérer les nodes contenus dans le gridpan
+     ********** */
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
@@ -127,20 +141,28 @@ public class CAccueil extends Application {
         return null;
     }
 
-    private List<Node> ajouterJoeur(){
-        List<Node> list=new ArrayList();
+    /* **********
+        Cette méthode permet d'ajouter des joueurs
+     ********** */
 
-        this.nbrJoueurs+=1;
-        Label j = new Label("Joueur "+this.nbrJoueurs);
+    private List<Node> ajouterJoeur() {
+        List<Node> list = new ArrayList();
+
+        this.nbrJoueurs += 1;
+        Label j = new Label("Joueur " + this.nbrJoueurs);
         j.setId("labelJoueurs");
         TextField champ = new TextField();
         list.add(j);
         list.add(champ);
-        this.map.put(this.nbrJoueurs,champ);
-        return  list;
+        this.map.put(this.nbrJoueurs, champ);
+        return list;
 
     }
-    public void codesceneAccueil(boolean nouvellePartie){
+
+    /* **********
+        Code de la fenêtre d'accueil
+     ********** */
+    public void codesceneAccueil(boolean nouvellePartie) {
         Stage stage;
 
         final URL cssURL = getClass().getResource("/dominations/css/accueil.css");//css
@@ -150,19 +172,19 @@ public class CAccueil extends Application {
         double height = screen.getBounds().getHeight();
         double width = screen.getBounds().getWidth();
 
-        List<Node> listeNode=new  ArrayList<>();
+        List<Node> listeNode = new ArrayList<>();
 
         // les différents conteneurs
-        BorderPane bp=new BorderPane();
-        HBox hBox=new HBox();
+        BorderPane bp = new BorderPane();
+        HBox hBox = new HBox();
         GridPane gridPane = new GridPane();
         gridPane.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
 
         //paramètre border pan
-        bp.setPadding(new Insets(20,20,20,20));
+        bp.setPadding(new Insets(20, 20, 20, 20));
 
         //top
-        Label label=new Label("Nouvelle partie");
+        Label label = new Label("Nouvelle partie");
         label.setAlignment(Pos.CENTER);
         label.setTextFill(Color.WHITE);
         label.setId("textHeader");
@@ -175,32 +197,31 @@ public class CAccueil extends Application {
         //center
         //paramètre grid pan
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setPadding(new Insets(0,width*0.05,height*0.4,0));
+        gridPane.setPadding(new Insets(0, width * 0.05, height * 0.4, 0));
         gridPane.setVgap(20);
         gridPane.setHgap(20);
         // gridPane.setMaxWidth(width*0.5);
 
-        AtomicReference<List<Node>> joueurs= new AtomicReference<>(ajouterJoeur());
+        AtomicReference<List<Node>> joueurs = new AtomicReference<>(ajouterJoeur());
         gridPane.add(joueurs.get().get(0), 0, 0);
         gridPane.add(joueurs.get().get(1), 1, 0);
 
 
-
-        System.out.println(this.nbrJoueurs);
+        //System.out.println(this.nbrJoueurs);
         joueurs.set(ajouterJoeur());
         gridPane.add(joueurs.get().get(0), 0, 1);
         gridPane.add(joueurs.get().get(1), 1, 1);
 
 
-        System.out.println(this.nbrJoueurs);
+        //System.out.println(this.nbrJoueurs);
 
-        ImageView imageViewPlus=creerImageView("src/dominations/images/accueil/boutonPlus.png",30,30);
+        ImageView imageViewPlus = creerImageView("src/dominations/images/accueil/boutonPlus.png", 30, 30);
 
-        gridPane.add(imageViewPlus, nbrJoueurs-1, 2);
-        ImageView imageViewSupprimerj3=creerImageView("src/dominations/images/accueil/boutonSupprimer.jpg",30,30);
-        ImageView imageViewSupprimerj4=creerImageView("src/dominations/images/accueil/boutonSupprimer.jpg",30,30);
+        gridPane.add(imageViewPlus, nbrJoueurs - 1, 2);
+        ImageView imageViewSupprimerj3 = creerImageView("src/dominations/images/accueil/boutonSupprimer.jpg", 30, 30);
+        ImageView imageViewSupprimerj4 = creerImageView("src/dominations/images/accueil/boutonSupprimer.jpg", 30, 30);
         imageViewPlus.setOnMouseClicked(mouseEvent -> {
-            if(nbrJoueurs+1<5) {
+            if (nbrJoueurs + 1 < 5) {
 
                 joueurs.set(ajouterJoeur());
                 gridPane.add(joueurs.get().get(0), 0, nbrJoueurs - 1);
@@ -208,71 +229,68 @@ public class CAccueil extends Application {
                 listeNode.add(joueurs.get().get(0));
                 listeNode.add(joueurs.get().get(1));
 
-                if (nbrJoueurs==3){
-                    gridPane.add(imageViewSupprimerj3,2,nbrJoueurs-1);
-                }
-                else {
-                    gridPane.add(imageViewSupprimerj4,2,nbrJoueurs-1);
+                if (nbrJoueurs == 3) {
+                    gridPane.add(imageViewSupprimerj3, 2, nbrJoueurs - 1);
+                } else {
+                    gridPane.add(imageViewSupprimerj4, 2, nbrJoueurs - 1);
                     imageViewSupprimerj3.setVisible(false);
                 }
 
-                System.out.println(nbrJoueurs);
+                //System.out.println(nbrJoueurs);
                 try {
                     gridPane.add(imageViewPlus, 1, nbrJoueurs);
 
+                } catch (Exception e) {
+                    // //System.out.println(e);
                 }
-                catch(Exception e) {
-                    // System.out.println(e);
-                }
-            }
-            else{
-                System.out.println("assez de joueurs");
+            } else {
+                //System.out.println("assez de joueurs");
             }
 
-            if (nbrJoueurs==4) {
+            if (nbrJoueurs == 4) {
                 gridPane.getChildren().remove(imageViewPlus);
             }
         });
 
-        Button button=new Button("Commencer");
+        Button button = new Button("Commencer");
         button.setId("bouton");
         button.setMinWidth(30);
         button.setMaxWidth(300);
 
-        imageViewSupprimerj3.setOnMouseClicked(mouseEvent ->{
-            gridPane.getChildren().removeAll(imageViewSupprimerj3,listeNode.get(0),listeNode.get(1));
+        imageViewSupprimerj3.setOnMouseClicked(mouseEvent -> {
+            gridPane.getChildren().removeAll(imageViewSupprimerj3, listeNode.get(0), listeNode.get(1));
             listeNode.remove(0);
             listeNode.remove(0);
             this.nbrJoueurs--;
             gridPane.getChildren().remove(imageViewPlus); // je supprime l'image afin de le récréé dans à nouveau en la changeant de position
-            gridPane.add(imageViewPlus,1,nbrJoueurs);
+            gridPane.add(imageViewPlus, 1, nbrJoueurs);
 
         });
 
-        imageViewSupprimerj4.setOnMouseClicked(mouseEvent ->{
-            gridPane.getChildren().removeAll(imageViewSupprimerj4,listeNode.get(2),listeNode.get(3));
+        imageViewSupprimerj4.setOnMouseClicked(mouseEvent -> {
+            gridPane.getChildren().removeAll(imageViewSupprimerj4, listeNode.get(2), listeNode.get(3));
             listeNode.remove(2);
             listeNode.remove(2);
             imageViewSupprimerj3.setVisible(true);
             this.nbrJoueurs--;
-            gridPane.add(imageViewPlus,1,nbrJoueurs);
+            gridPane.add(imageViewPlus, 1, nbrJoueurs);
         });
-        SplitPane sp=new SplitPane();
+        SplitPane sp = new SplitPane();
         sp.setOrientation(Orientation.VERTICAL);
 
 
-        gridPane.add(button,1,this.nbrJoueurs+2);
+        gridPane.add(button, 1, this.nbrJoueurs + 2);
         bp.setCenter(sp);
         bp.setTop(hBox);
         HBox hBox1 = new HBox();
-        Label texte =new Label(" Que le meilleur gagne ...");
+        Label texte = new Label(" Que le meilleur gagne ...");
         texte.setId("texteErreur");
         hBox1.getChildren().add(texte);
 
-        BorderPane.setMargin(hBox,new Insets(5,0,1,0));
+        BorderPane.setMargin(hBox, new Insets(5, 0, 1, 0));
         gridPane.setId("gridPane");
 
-        sp.getItems().addAll(hBox1,gridPane);
+        sp.getItems().addAll(hBox1, gridPane);
         sp.setDividerPositions(0.1);
         hBox1.setAlignment(Pos.CENTER);//
 
@@ -280,11 +298,11 @@ public class CAccueil extends Application {
         bp.getStyleClass().add("grey");
 
         BorderPane.setAlignment(hBox1, Pos.CENTER);
-        Scene scene= new Scene(bp,width,height);
+        Scene scene = new Scene(bp, width, height);
         scene.getStylesheets().add(cssURL.toExternalForm());
-        if( !nouvellePartie) {
-             stage = new Stage();
-        }else{
+        if (!nouvellePartie) {
+            stage = new Stage();
+        } else {
             stage = (Stage) ((Node) this.actionEvent.getSource()).getScene().getWindow();
 
         }
@@ -296,90 +314,88 @@ public class CAccueil extends Application {
         stage.show();
 
 
-        button.setOnAction((e)->{
-            this.listeJoueurs=getNomJsoueurs(gridPane);
-            System.out.println(listeJoueurs.size());
-            if(listeJoueurs.get(0)==null){
+        button.setOnAction((e) -> {
+            this.listeJoueurs = getNomJsoueurs(gridPane);
+            //System.out.println(listeJoueurs.size());
+            if (listeJoueurs.get(0) == null) {
                 String champsVide;
                 int d;
-                int tailleListeoueurs=listeJoueurs.size();
+                int tailleListeoueurs = listeJoueurs.size();
                 String bonAccord = " le joueur numéro ";
-                if (tailleListeoueurs>2){
-                    bonAccord= " les joueurs numéros ";
+                if (tailleListeoueurs > 2) {
+                    bonAccord = " les joueurs numéros ";
                 }
                 TextField tf;
-                champsVide= "Attention, Veillez saisir un pseudo pour" +bonAccord;
-                for (d=1;d<tailleListeoueurs;d++){
-                    champsVide += ( d !=tailleListeoueurs-1)? (listeJoueurs.get(d) + " et "):listeJoueurs.get(d);
-                    tf= (TextField) map.get(Integer.parseInt(listeJoueurs.get(d)));
-                    tf.setBorder(new Border(new BorderStroke(Color.rgb(250,50,100), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+                champsVide = "Attention, Veillez saisir un pseudo pour" + bonAccord;
+                for (d = 1; d < tailleListeoueurs; d++) {
+                    champsVide += (d != tailleListeoueurs - 1) ? (listeJoueurs.get(d) + " et ") : listeJoueurs.get(d);
+                    tf = (TextField) map.get(Integer.parseInt(listeJoueurs.get(d)));
+                    tf.setBorder(new Border(new BorderStroke(Color.rgb(250, 50, 100), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
                 }
                 texte.setText(champsVide);
 
-                int s,q;
-                boolean supprimerBorder=true;
-                for (s=1;s< map.size()+1;s++){
-                    supprimerBorder=true;
-                    for (q=1;q<tailleListeoueurs;q++){
-                        if(s==Integer.parseInt(listeJoueurs.get(q))){
-                            supprimerBorder=false;
+                int s, q;
+                boolean supprimerBorder = true;
+                for (s = 1; s < map.size() + 1; s++) {
+                    supprimerBorder = true;
+                    for (q = 1; q < tailleListeoueurs; q++) {
+                        if (s == Integer.parseInt(listeJoueurs.get(q))) {
+                            supprimerBorder = false;
                         }
                     }
-                    if (supprimerBorder){
-                        tf= (TextField) map.get(s);
+                    if (supprimerBorder) {
+                        tf = (TextField) map.get(s);
                         tf.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
                     }
 
                 }
 
 
-                texte.setTextFill(Color.rgb(250,50,100));
+                texte.setTextFill(Color.rgb(250, 50, 100));
                 //TextField lab= (TextField)listeNode.get(3);
                 // lab.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
 
-            }
-            else if( listeJoueurs.get(0)=="00"){
+            } else if (listeJoueurs.get(0) == "00") {
                 String champsIdentique;
                 int d;
-                champsIdentique= "Attention, les joueurs numéros ";
-                int tailleListeoueurs=listeJoueurs.size();
+                champsIdentique = "Attention, les joueurs numéros ";
+                int tailleListeoueurs = listeJoueurs.size();
                 TextField tf;
-                for (d=1;d<tailleListeoueurs;d++){
-                    champsIdentique += ( d !=tailleListeoueurs-1)? (listeJoueurs.get(d) + " et "):listeJoueurs.get(d) + "  ";
-                    tf= (TextField) map.get(Integer.parseInt(listeJoueurs.get(d)));
-                    tf.setBorder(new Border(new BorderStroke(Color.rgb(200,75,150), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+                for (d = 1; d < tailleListeoueurs; d++) {
+                    champsIdentique += (d != tailleListeoueurs - 1) ? (listeJoueurs.get(d) + " et ") : listeJoueurs.get(d) + "  ";
+                    tf = (TextField) map.get(Integer.parseInt(listeJoueurs.get(d)));
+                    tf.setBorder(new Border(new BorderStroke(Color.rgb(200, 75, 150), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
                 }
-                champsIdentique +=  "ont le même pseudo";
+                champsIdentique += "ont le même pseudo";
 
-                int s,q;
+                int s, q;
                 boolean supprimerBorder;
-                for (s=1;s<map.size()+1;s++){
-                    supprimerBorder=true;
-                    for (q=1;q<tailleListeoueurs;q++){
-                        if(s==Integer.parseInt(listeJoueurs.get(q))){
-                            supprimerBorder=false;
+                for (s = 1; s < map.size() + 1; s++) {
+                    supprimerBorder = true;
+                    for (q = 1; q < tailleListeoueurs; q++) {
+                        if (s == Integer.parseInt(listeJoueurs.get(q))) {
+                            supprimerBorder = false;
                         }
                     }
-                    if (supprimerBorder){
-                        tf= (TextField) map.get(s);
+                    if (supprimerBorder) {
+                        tf = (TextField) map.get(s);
                         tf.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
                     }
 
                 }
                 texte.setText(champsIdentique);
-                texte.setTextFill(Color.rgb(200,75,150));
+                texte.setTextFill(Color.rgb(200, 75, 150));
 
-            }
-            else{
+            } else {
                 //pas.getChildren().add(new Text("yes"));
                 Partie partie = new Partie();
                 partie.setRecupListeNomsJoueurs(listeJoueurs);
                 partie.setNbrJoueurs(listeJoueurs.size());
                 partie.Partie2(e);
                 // new Test().test1(e);
-                System.out.println("kfkf");
+                ////System.out.println("kfkf");
             }
-            System.out.println("nb : "+nbrJoueurs);
+            //System.out.println("nb : " + nbrJoueurs);
         });
     }
 }

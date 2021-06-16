@@ -1,18 +1,10 @@
 package dominations.model;
 
-import java.util.Arrays;
-
 public class Carte {
 
-    private int numeroCarte;
-    private int[] nombreCouronne;
-    private char[] typeCarte;
-    private boolean jouee;
-    private int orientation;
-    //0: vers le haut
-    //1: vers la droite
-    //2: vers le bas
-    //3: vers la gauche
+    private final int numeroCarte;
+    private final int[] nombreCouronne;
+    private final char[] typeCarte;
 
     /* **************
         Constructeur de la classe
@@ -27,7 +19,6 @@ public class Carte {
         this.typeCarte[0] = typeCarte[0];
         this.typeCarte[1] = typeCarte[1];
     }
-
 
     public int getNumeroDeCarte() {
         return numeroCarte;
@@ -61,7 +52,5 @@ public class Carte {
         toPaysages[1] = new Paysage(Character.toString(this.typeCarte[1]), this.numeroCarte, this.nombreCouronne[1]);
         return toPaysages;
     }
-
-
 
 }

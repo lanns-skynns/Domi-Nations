@@ -1,6 +1,5 @@
 package dominations.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,13 +8,13 @@ changePaysageType ??
  */
 public class Cellule {
 
-    private Paysage paysage;
     private final int longitude; // abscisse / Numero de colonne
     private final int latitude; // ordonnées / Numero de ligne
-    private int[] coordonnees = new int[2];
-    private int numeroCarte;
-    private boolean caseVide;
     private final Royaume royaume; // Royaume auquel appartient la cellule
+    private final int[] coordonnees = new int[2];
+    private final int numeroCarte;
+    private Paysage paysage;
+    private boolean caseVide;
 
 
     /* **************
@@ -44,11 +43,6 @@ public class Cellule {
         return this.caseVide;
     }
 
-    public void setPaysage(Paysage nouveauPaysage) {
-        this.paysage = nouveauPaysage;
-        changeCellState();
-    }
-
     public void changePaysageType(String typePaysage) {
         this.paysage.changeType(typePaysage);
 
@@ -58,16 +52,17 @@ public class Cellule {
     public void changeCellState() {
         //Vérifie si la case est vide et change la valeur de "caseVide" en conséquence
 
-        if (this.paysage.getType() != "x") {
-            this.caseVide = false;
-        } else {
-            this.caseVide = true;
-        }
+        this.caseVide = this.paysage.getType() == "x";
     }
 
     public Paysage getPaysage() {
 
         return this.paysage;
+    }
+
+    public void setPaysage(Paysage nouveauPaysage) {
+        this.paysage = nouveauPaysage;
+        changeCellState();
     }
 
     public List<String> getVoisins() {

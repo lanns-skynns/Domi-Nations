@@ -1,13 +1,13 @@
 package dominations.model;
 
 public class Joueur {
-    private String nom;
-    private Royaume royaume;
-    private Couleur couleur;
-    private int nbrCouronnes;
-    private int score = 0;
+    private final String nom;
+    private final Royaume royaume;
+    private final Couleur couleur;
+    private final int nbrCouronnes;
+    private final int score = 0;
+    private final int[] coordonneesChateau = new int[2];
     private boolean tour = false;
-    private int[] coordonneesChateau = new int[2];
 
     /* **************
         Constructeur de la classe
@@ -25,8 +25,6 @@ public class Joueur {
         royaume.setLatMin(4);
     }
 
-
-
     public String getNom() {
         return nom;
     }
@@ -39,13 +37,7 @@ public class Joueur {
         return this.score;
     }
 
-    public boolean getTour() {
-        return this.tour;
-    }
 
-    public void setTour(boolean tour) {
-        this.tour = tour;
-    }
 
 
     /* **********
@@ -64,7 +56,7 @@ public class Joueur {
         setChateau(int lon, int lat) : Cette méthode permet de placer le chateau dans le royaume
     *********** */
     public void setChateau(int lon, int lat) {
-        this.royaume.getCellule(lon, lat).setPaysage(new Paysage("chateau"));//surtout ne pas modifie le type chateau
+        this.royaume.getCellule(lon, lat).setPaysage(new Paysage("k"));//surtout ne pas modifie le type chateau
         this.coordonneesChateau[0] = lon;
         this.coordonneesChateau[1] = lat;
     }
@@ -74,12 +66,10 @@ public class Joueur {
     }
 
     public int[] getCoordonneesChateau() {
-        if( this.coordonneesChateau.length!=0 && this.coordonneesChateau !=null) {
+        if (this.coordonneesChateau.length != 0 && this.coordonneesChateau != null) {
             return this.coordonneesChateau;
         }
-        return  null;
+        return null;
     }
-
-    //public CartesEnJeu choxCarte(){}
 
 }

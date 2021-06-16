@@ -1,27 +1,25 @@
 package dominations.Controller;
-
 import dominations.model.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.*;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -31,72 +29,178 @@ import java.util.*;
 
 public class CRoyaume {
 
+    final private int[][] LISTECOURONNES = { // liste des couronnes, récupérées dans le fichier excel du projet.
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {0, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {1, 0},
+            {0, 1},
+            {0, 1},
+            {0, 1},
+            {0, 1},
+            {1, 0},
+            {0, 2},
+            {0, 2},
+            {0, 2},
+            {0, 2},
+            {2, 0},
+            {0, 2},
+            {0, 2},
+            {0, 3},
+    };
+    final private char[][] LISTEPAYSAGES = {//liste des paysages  : récupérée dans le fichier excel du proje
+            {'c', 'c'},
+            {'c', 'c'},
+            {'f', 'f'},
+            {'f', 'f'},
+            {'f', 'f'},
+            {'f', 'f'},
+            {'s', 's'},
+            {'s', 's'},
+            {'s', 's'},
+            {'p', 'p'},
+            {'p', 'p'},
+            {'m', 'm'},
+            {'c', 'f'},
+            {'c', 's'},
+            {'c', 'p'},
+            {'c', 'm'},
+            {'f', 's'},
+            {'f', 'p'},
+            {'c', 'f'},
+            {'c', 's'},
+            {'c', 'p'},
+            {'c', 'm'},
+            {'c', 'n'},
+            {'f', 'c'},
+            {'f', 'c'},
+            {'f', 'c'},
+            {'f', 'c'},
+            {'f', 's'},
+            {'f', 'p'},
+            {'s', 'c'},
+            {'s', 'c'},
+            {'s', 'f'},
+            {'s', 'f'},
+            {'s', 'f'},
+            {'s', 'f'},
+            {'c', 'p'},
+            {'s', 'p'},
+            {'c', 'm'},
+            {'p', 'm'},
+            {'n', 'c'},
+            {'c', 'p'},
+            {'s', 'p'},
+            {'c', 'm'},
+            {'p', 'm'},
+            {'n', 'c'},
+            {'m', 'n'},
+            {'m', 'n'},
+            {'c', 'n'},
+    };
+    private final List<Joueur> ordreJoueur;
+    private final List<Carte> ordreCartes;
+    private final boolean sceneIntermediaire = false;
+    private final List<Image> imagesRoyaume = new ArrayList<>();
     String nomJoueur;
     Royaume royaume;
     Cellule[][] grille;
-
     int numeroCarte;
     char paysage1;
     char paysage2;
     int numCouronnes1;
     int numCouronnes2;
-
     int spots = 9;
     int grilleWidth = 770;
     int grilleHeight = 630;
-    int cellWidth = (grilleHeight)/spots;
-    private ArrayList<PaysagePane> tileArray;
-    private List<Joueur> ordreJoueur;
-    private List<Carte> ordreCartes;
-    private boolean sceneIntermediaire = false;
-
-    private List<Image>imagesRoyaume=new ArrayList<>();
-
-    private Color couleurJoueur;
-
-    private int[] borduresRoyaume;
-
+    int cellWidth = (grilleHeight) / spots;
     CChoixCarte choixCarte;
-
-
     Button rotateButtonAntiHorr;
     Button rotateButtonHorr;
-
     String pathImage1;
     String pathImage2;
     Image imagePays1;
-    Image imagePays2 ;
+    Image imagePays2;
     ImageView imageViewP2;
     ImageView imageViewP1;
     PaysagePane cartePays1;
     PaysagePane cartePays2;
     Button validerButton;
     Button plusDePlaceDispo = new Button();
-
     int indice;
-
     Carte carteAPlacer;
-
     ActionEvent event;
-
-    public CRoyaume(ActionEvent event,List<Joueur> joueur, List <Carte> carteAPlacer,int indice,CChoixCarte choixCarte) {
-        this.choixCarte =choixCarte;
+    private ArrayList<PaysagePane> tileArray;
+    private Color couleurJoueur;
+    private int[] borduresRoyaume;
+    /* **********
+        Constructeur
+     ********** */
+    public CRoyaume(ActionEvent event, List<Joueur> joueur, List<Carte> carteAPlacer, int indice, CChoixCarte choixCarte) {
+        this.choixCarte = choixCarte;
         this.indice = indice;
         this.ordreJoueur = joueur;
         this.ordreCartes = carteAPlacer;
         imagesRoyaume.clear();
         initialiserRoyaume(this.indice, event);
     }
+    /* **********
+        Méthode qui permet de styliser la scène en fonction de la couleur du joueur
+     ********** */
+    public static Color styleEnFonctionJoueur(Couleur couleurJoueur) {
+        Color styleCouleurJoueur;
+        if (couleurJoueur == Couleur.BLEU) {
+            styleCouleurJoueur = Color.BLUE;
+        } else if (couleurJoueur == Couleur.ROUGE) {
+            styleCouleurJoueur = Color.RED;
+        } else if (couleurJoueur == Couleur.VERT) {
+            styleCouleurJoueur = Color.GREEN;
+        } else {
+            styleCouleurJoueur = Color.rgb(200, 150, 50);
+        }
+        return styleCouleurJoueur;
+    }
 
     public List<Image> getImagesRoyaume() {
         return imagesRoyaume;
     }
 
-    public  void initialiserRoyaume(int indice, ActionEvent event){
+    public void initialiserRoyaume(int indice, ActionEvent event) {
         this.event = event;
         this.nomJoueur = ordreJoueur.get(indice).getNom();
-        System.out.println("J suivant "+this.nomJoueur);
-        this.couleurJoueur= styleEnFonctionJoueur(ordreJoueur.get(indice).getCouleur());
+        //System.out.println("J suivant " + this.nomJoueur);
+        this.couleurJoueur = styleEnFonctionJoueur(ordreJoueur.get(indice).getCouleur());
         this.royaume = ordreJoueur.get(indice).getRoyaume();
         this.borduresRoyaume = royaume.getBorduresRoyaume();
         this.grille = this.royaume.getGrilleCellules();
@@ -165,6 +269,10 @@ public class CRoyaume {
         RoyaumeScene();
     }
 
+    /* **********
+        Méthode qui affiche la scène du royaume
+     ********** */
+
     public void RoyaumeScene() {
 
         final URL cssURL = getClass().getResource("/dominations/css/royaume.css");//css
@@ -175,12 +283,11 @@ public class CRoyaume {
         window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
 
+        List<Node> listeNode = new ArrayList<>();
 
-        List<Node> listeNode=new  ArrayList<>();
+        BorderPane bp = new BorderPane();
 
-        BorderPane bp=new BorderPane();
-
-        Scene scene = new Scene(bp,bounds.getWidth(), bounds.getHeight());
+        Scene scene = new Scene(bp, bounds.getWidth(), bounds.getHeight());
         scene.getStylesheets().add(cssURL.toExternalForm());
 
         String labelTopText = "C'est à " + nomJoueur + " de jouer";
@@ -188,7 +295,7 @@ public class CRoyaume {
 
         //top
         HBox topHBox = new HBox();
-        Label labelTourActuel=new Label(choixCarte.affichageTour);
+        Label labelTourActuel = new Label(choixCarte.affichageTour);
         labelTourActuel.setFont(Font.font(30));
         Label labelTop = new Label(labelTopText);
         labelTop.setAlignment(Pos.CENTER);
@@ -199,7 +306,7 @@ public class CRoyaume {
         topHBox.getChildren().add(labelTop);
         labelTourActuel.setAlignment(Pos.CENTER);
         labelTourActuel.setLayoutX(0);
-        labelTourActuel.setPadding(new Insets(0,bounds.getWidth()*0.30,0,0));
+        labelTourActuel.setPadding(new Insets(0, bounds.getWidth() * 0.30, 0, 0));
 
         //center (grille)
         StackPane grillePaneBody = new StackPane();
@@ -211,23 +318,21 @@ public class CRoyaume {
         int j;
 
         //Création de la grille
-        for(i = 0; i<spots+2; i++){
-            for(j = 0; j<spots; j++){
-                Rectangle r = new Rectangle(i*cellWidth, j*cellWidth, cellWidth, cellWidth);
-                if(i<borduresRoyaume[0] || i>borduresRoyaume[1] || j<borduresRoyaume[2] || j>borduresRoyaume[3])
-                {
+        for (i = 0; i < spots + 2; i++) {
+            for (j = 0; j < spots; j++) {
+                Rectangle r = new Rectangle(i * cellWidth, j * cellWidth, cellWidth, cellWidth);
+                if (i < borduresRoyaume[0] || i > borduresRoyaume[1] || j < borduresRoyaume[2] || j > borduresRoyaume[3]) {
                     r.setFill(Color.BLACK);
-                    if(i>8){
-                        r.setFill(Color.rgb(220,235,235));
+                    if (i > 8) {
+                        r.setFill(Color.rgb(220, 235, 235));
                     }
-                }
-                else {
+                } else {
                     r.setFill(Color.WHITE);
                 }
-                if(i<9){
+                if (i < 9) {
                     r.setStroke(couleurJoueur);
                     r.setOpacity(0.7);
-                } else if (i == 10 && (j==1 || j==0)){
+                } else if (i == 10 && (j == 1 || j == 0)) {
                     r.setStroke(Color.BLACK);
                 }
 
@@ -243,8 +348,8 @@ public class CRoyaume {
 
         ArrayList<PaysagePane> tiles = new ArrayList<>();
 
-        for(i=0; i<spots; i++){
-            for(j=0; j<spots; j++){
+        for (i = 0; i < spots; i++) {
+            for (j = 0; j < spots; j++) {
 
                 char type = typesGrille.get(j).get(i);
                 int couronnes = couronnesGrille.get(j).get(i);
@@ -271,11 +376,22 @@ public class CRoyaume {
                         typeImage = "M";
                         break;
                     default:
+
                         typeImage = "error";
                 }
 
-                if(type != 'x') {
-                    String imagePath = "/dominations/images/dominos/"+typeImage+""+couronnes+".png";
+                if (type != 'x') {
+                    String imagePath;
+                    System.out.println(typeImage);
+                    System.out.println(type);
+                    if(typeImage=="error"){// si une case est non vide et de type inconnue, alors c'est un chateau
+                        imagePath = "/dominations/images/dominos/K.png";
+
+                    }else {
+                        imagePath = "/dominations/images/dominos/" + typeImage + "" + couronnes + ".png";
+                    }
+                    System.out.println(imagePath);
+
 
                     Image tileImage = new Image(imagePath);
                     ImageView tileIW = new ImageView(tileImage);
@@ -307,9 +423,8 @@ public class CRoyaume {
         imageViewP2 = new ImageView(imagePays2);
 
 
-
-        cartePays1 = new PaysagePane(10*cellWidth, 0, cellWidth, imageViewP1);
-        cartePays2 = new PaysagePane(10*cellWidth, 1*cellWidth, cellWidth, imageViewP2);
+        cartePays1 = new PaysagePane(10 * cellWidth, 0, cellWidth, imageViewP1);
+        cartePays2 = new PaysagePane(10 * cellWidth, 1 * cellWidth, cellWidth, imageViewP2);
 
         grillePane.getChildren().add(imageViewP1);
         grillePane.getChildren().add(imageViewP2);
@@ -324,9 +439,8 @@ public class CRoyaume {
         imageViewP2.setOnMousePressed(event -> pressed(event, cartePays2, cartePays1, 1));
         imageViewP2.setOnMouseDragged(event -> dragged(event, cartePays2, cartePays1));
         imageViewP2.setOnMouseReleased(event -> released(event, cartePays2, cartePays1, 1));
-        imageViewP1.setEffect(new DropShadow(10,this.couleurJoueur));
-        imageViewP2.setEffect(new DropShadow(10,this.couleurJoueur));
-
+        imageViewP1.setEffect(new DropShadow(10, this.couleurJoueur));
+        imageViewP2.setEffect(new DropShadow(10, this.couleurJoueur));
 
 
         //right
@@ -344,7 +458,7 @@ public class CRoyaume {
         plusDePlaceDispo.setText("Aucune place disponible");
 
 
-        VBox.setMargin(plusDePlaceDispo,new Insets(10,10, bounds.getHeight()*0.4, 10));
+        VBox.setMargin(plusDePlaceDispo, new Insets(10, 10, bounds.getHeight() * 0.4, 10));
         plusDePlaceDispo.setAlignment(Pos.TOP_CENTER);
         plusDePlaceDispo.setId("plusDePlace");
         rightVBox.getChildren().add(plusDePlaceDispo);
@@ -355,8 +469,8 @@ public class CRoyaume {
 
         rotateButtonHorr.setOnAction(event -> rotationHorraire(cartePays2, cartePays1));
         rotateButtonAntiHorr.setOnAction(event -> rotationAntiHorraire(cartePays2, cartePays1));
-        validerButton.setOnAction(event -> validerPlacement(event,grillePane));
-        plusDePlaceDispo.setOnAction(event ->forcerFinPartie(event) );
+        validerButton.setOnAction(event -> validerPlacement(event, grillePane));
+        plusDePlaceDispo.setOnAction(event -> forcerFinPartie(event));
 
         rightVBox.setStyle("-fx-border-color:  rgba(43, 184, 156, 0.91);");
 
@@ -374,11 +488,11 @@ public class CRoyaume {
 
     }
 
-    private void pressed(MouseEvent event, PaysagePane tile, PaysagePane tile2, int tileN){
-        //System.out.println("pressed");
+    private void pressed(MouseEvent event, PaysagePane tile, PaysagePane tile2, int tileN) {
+        ////System.out.println("pressed");
     }
 
-    private void dragged(MouseEvent event, PaysagePane tile, PaysagePane tile2){
+    private void dragged(MouseEvent event, PaysagePane tile, PaysagePane tile2) {
         tile.setX(tile.getX() + event.getX() - (tile.getWidth() / 2));
         tile.setY(tile.getY() + event.getY() - (tile.getWidth() / 2));
 
@@ -389,7 +503,7 @@ public class CRoyaume {
         tile2.draw();
     }
 
-    private void released(MouseEvent event, PaysagePane tile, PaysagePane tile2, int tileN){
+    private void released(MouseEvent event, PaysagePane tile, PaysagePane tile2, int tileN) {
 
 
         int gridx = (int) (tile.getX() + (tile.getWidth() / 2)) / cellWidth;
@@ -400,9 +514,9 @@ public class CRoyaume {
 
         //vérification que les dominos sont bien dans la grille
 
-        if(gridx > borduresRoyaume[1] || gridx < borduresRoyaume[0] || gridx2 > borduresRoyaume[1] || gridx2 < borduresRoyaume[0] || gridy2 > borduresRoyaume[3] || gridy2 < borduresRoyaume[2] || gridy > borduresRoyaume[3] || gridy < borduresRoyaume[2] ){
+        if (gridx > borduresRoyaume[1] || gridx < borduresRoyaume[0] || gridx2 > borduresRoyaume[1] || gridx2 < borduresRoyaume[0] || gridy2 > borduresRoyaume[3] || gridy2 < borduresRoyaume[2] || gridy > borduresRoyaume[3] || gridy < borduresRoyaume[2]) {
             //On les replaces dans la réserve en haut à droite
-            if(tileN == 0){
+            if (tileN == 0) {
                 gridx = 10;
                 gridy = 0;
                 gridx2 = 10;
@@ -418,24 +532,16 @@ public class CRoyaume {
         } else {
             //vérification que le placement au sein de la grille est valide
             //Si non: on place le domino mais on grise le bouton pour valider le placement
-            if(tileN==0) {
-                if (verifierPlacement(gridx, gridy, gridx2, gridy2) == true) {
-                    validerButton.setDisable(false);
-                } else {
-                    validerButton.setDisable(true);
-                }
-            }else{
-                if (verifierPlacement(gridx2, gridy2, gridx, gridy) == true) {
-                    validerButton.setDisable(false);
-                } else {
-                    validerButton.setDisable(true);
-                }
+            if (tileN == 0) {
+                validerButton.setDisable(verifierPlacement(gridx, gridy, gridx2, gridy2) != true);
+            } else {
+                validerButton.setDisable(verifierPlacement(gridx2, gridy2, gridx, gridy) != true);
             }
         }
 
         //En cas de bug (les deux tiles sont positionnées sur la meme case) on renvoie le domino dans la reserve
-        if(gridx == gridx2 && gridy == gridy2){
-            if(tileN == 0){
+        if (gridx == gridx2 && gridy == gridy2) {
+            if (tileN == 0) {
                 gridx = 10;
                 gridy = 0;
                 gridx2 = 10;
@@ -452,7 +558,7 @@ public class CRoyaume {
         int newX = gridx * cellWidth;
         int newY = gridy * cellWidth;
         int newX2 = gridx2 * cellWidth;
-        int newY2 = gridy2* cellWidth;
+        int newY2 = gridy2 * cellWidth;
 
         tile.setX(newX);
         tile.setY(newY);
@@ -464,68 +570,60 @@ public class CRoyaume {
         tile2.draw();
 
         //vérification qu'un rotation est possible
-        if(verifierRotationH() == true){
-            rotateButtonHorr.setDisable(false);
-        } else {
-            rotateButtonHorr.setDisable(true);
-        }
+        rotateButtonHorr.setDisable(verifierRotationH() != true);
 
-        if(verifierRotationAntiH() == true){
-            rotateButtonAntiHorr.setDisable(false);
-        } else {
-            rotateButtonAntiHorr.setDisable(true);
-        }
+        rotateButtonAntiHorr.setDisable(verifierRotationAntiH() != true);
 
     }
 
-    public boolean verifierRotationH(){
+    public boolean verifierRotationH() {
         boolean possible = true;
 
-        double  dx = (cartePays1.getX() - cartePays2.getX())/cellWidth;
-        double  dy = (cartePays1.getY() - cartePays2.getY())/cellWidth;
+        double dx = (cartePays1.getX() - cartePays2.getX()) / cellWidth;
+        double dy = (cartePays1.getY() - cartePays2.getY()) / cellWidth;
 
 
-        if(dx == 0 && dy == -1 && cartePays2.getX() == 0){
+        if (dx == 0 && dy == -1 && cartePays2.getX() == 0) {
             possible = false;
-        } else if(dx == 1 && dy == 0 && cartePays2.getY() == 0) {
+        } else if (dx == 1 && dy == 0 && cartePays2.getY() == 0) {
             possible = false;
-        } else if(dx == 0 && dy == 1 && cartePays2.getX()/cellWidth == 8){
+        } else if (dx == 0 && dy == 1 && cartePays2.getX() / cellWidth == 8) {
             possible = false;
-        } else if(dx == -1 && dy == 0 && cartePays2.getY()/cellWidth == 8){
+        } else if (dx == -1 && dy == 0 && cartePays2.getY() / cellWidth == 8) {
             possible = false;
         }
 
         return possible;
     }
 
-    public boolean verifierRotationAntiH(){
+    public boolean verifierRotationAntiH() {
         boolean possible = true;
 
-        double  dx = (cartePays1.getX() - cartePays2.getX())/cellWidth;
-        double  dy = (cartePays1.getY() - cartePays2.getY())/cellWidth;
+        double dx = (cartePays1.getX() - cartePays2.getX()) / cellWidth;
+        double dy = (cartePays1.getY() - cartePays2.getY()) / cellWidth;
 
 
-        if(dx == 0 && dy == -1 && cartePays2.getX()/cellWidth == 8){
+        if (dx == 0 && dy == -1 && cartePays2.getX() / cellWidth == 8) {
             possible = false;
-        } else if(dx == 1 && dy == 0 && cartePays2.getY()/cellWidth == 8) {
+        } else if (dx == 1 && dy == 0 && cartePays2.getY() / cellWidth == 8) {
             possible = false;
-        } else if(dx == 0 && dy == 1 && cartePays2.getX()/cellWidth == 0){
+        } else if (dx == 0 && dy == 1 && cartePays2.getX() / cellWidth == 0) {
             possible = false;
-        } else if(dx == -1 && dy == 0 && cartePays2.getY()/cellWidth == 0){
+        } else if (dx == -1 && dy == 0 && cartePays2.getY() / cellWidth == 0) {
             possible = false;
         }
 
         return possible;
     }
 
-    public void rotationHorraire(PaysagePane tile, PaysagePane axe){
+    public void rotationHorraire(PaysagePane tile, PaysagePane axe) {
         tile.setDirection(tile.getDirection() + 1);
 
-        if(tile.getDirection() == 5){
+        if (tile.getDirection() == 5) {
             tile.setDirection(1);
         }
 
-        //System.out.println(tile.getDirection());
+        ////System.out.println(tile.getDirection());
 
         int gridx = (int) (tile.getX() + (tile.getWidth() / 2)) / cellWidth;
         int gridy = (int) (tile.getY() + (tile.getWidth() / 2)) / cellWidth;
@@ -538,22 +636,22 @@ public class CRoyaume {
         int deltaX = axex - gridx;
         int deltaY = axey - gridy;
 
-        if(deltaX == 0 && deltaY == -1){
+        if (deltaX == 0 && deltaY == -1) {
             newX = gridx - 1;
             newY = gridy - 1;
-        } else if (deltaX == 1 && deltaY == 0){
+        } else if (deltaX == 1 && deltaY == 0) {
             newX = gridx + 1;
             newY = gridy - 1;
-        } else if (deltaX == 0 && deltaY == 1){
+        } else if (deltaX == 0 && deltaY == 1) {
             newX = gridx + 1;
             newY = gridy + 1;
-        } else if (deltaX == -1 && deltaY == 0){
+        } else if (deltaX == -1 && deltaY == 0) {
             newX = gridx - 1;
             newY = gridy + 1;
         }
 
         int newposX = newX * cellWidth;
-        int newposY = newY* cellWidth;
+        int newposY = newY * cellWidth;
 
         tile.setX(newposX);
         tile.setY(newposY);
@@ -561,36 +659,24 @@ public class CRoyaume {
         tile.draw();
 
         //on grise les boutons de rotation si besoin
-        if(verifierRotationH() == true){
-            rotateButtonHorr.setDisable(false);
-        } else {
-            rotateButtonHorr.setDisable(true);
-        }
+        rotateButtonHorr.setDisable(verifierRotationH() != true);
 
-        if(verifierRotationAntiH() == true){
-            rotateButtonAntiHorr.setDisable(false);
-        } else {
-            rotateButtonAntiHorr.setDisable(true);
-        }
+        rotateButtonAntiHorr.setDisable(verifierRotationAntiH() != true);
 
         //on vérifie qu'on peut valider le placement en grisant ou non le bouton valider
-        System.out.println(axex + ": "+ axey);
-        System.out.println(newX + ": " + newY);
+        //System.out.println(axex + ": " + axey);
+        //System.out.println(newX + ": " + newY);
 
-        System.out.println(verifierPlacement(axex, axey, newX, newY));
+        //System.out.println(verifierPlacement(axex, axey, newX, newY));
 
-        if(verifierPlacement(axex, axey, newX, newY)){
-            validerButton.setDisable(false);
-        } else {
-            validerButton.setDisable(true);
-        }
+        validerButton.setDisable(!verifierPlacement(axex, axey, newX, newY));
 
     }
 
-    public void rotationAntiHorraire(PaysagePane tile, PaysagePane axe){
+    public void rotationAntiHorraire(PaysagePane tile, PaysagePane axe) {
         tile.setDirection(tile.getDirection() - 1);
 
-        if(tile.getDirection() == 0){
+        if (tile.getDirection() == 0) {
             tile.setDirection(4);
         }
 
@@ -605,22 +691,22 @@ public class CRoyaume {
         int deltaX = axex - gridx;
         int deltaY = axey - gridy;
 
-        if(deltaX == 0 && deltaY == -1){
+        if (deltaX == 0 && deltaY == -1) {
             newX = gridx + 1;
             newY = gridy - 1;
-        } else if (deltaX == 1 && deltaY == 0){
+        } else if (deltaX == 1 && deltaY == 0) {
             newX = gridx + 1;
             newY = gridy + 1;
-        } else if (deltaX == 0 && deltaY == 1){
+        } else if (deltaX == 0 && deltaY == 1) {
             newX = gridx - 1;
             newY = gridy + 1;
-        } else if (deltaX == -1 && deltaY == 0){
+        } else if (deltaX == -1 && deltaY == 0) {
             newX = gridx - 1;
             newY = gridy - 1;
         }
 
         int newposX = newX * cellWidth;
-        int newposY = newY* cellWidth;
+        int newposY = newY * cellWidth;
 
         tile.setX(newposX);
         tile.setY(newposY);
@@ -628,26 +714,14 @@ public class CRoyaume {
         tile.draw();
 
         //on grise les boutons de rotation si besoin
-        if(verifierRotationH() == true){
-            rotateButtonHorr.setDisable(false);
-        } else {
-            rotateButtonHorr.setDisable(true);
-        }
+        rotateButtonHorr.setDisable(verifierRotationH() != true);
 
-        if(verifierRotationAntiH() == true){
-            rotateButtonAntiHorr.setDisable(false);
-        } else {
-            rotateButtonAntiHorr.setDisable(true);
-        }
+        rotateButtonAntiHorr.setDisable(verifierRotationAntiH() != true);
 
-        if(verifierPlacement(axex, axey, newX, newY)){
-            validerButton.setDisable(false);
-        } else {
-            validerButton.setDisable(true);
-        }
+        validerButton.setDisable(!verifierPlacement(axex, axey, newX, newY));
     }
 
-    private boolean verifierPlacement(int gridx, int gridy, int gridx2, int gridy2){
+    private boolean verifierPlacement(int gridx, int gridy, int gridx2, int gridy2) {
 
         int[] celluleCible1 = {gridx, gridy};
         int[] celluleCible2 = {gridx2, gridy2};
@@ -663,18 +737,18 @@ public class CRoyaume {
         return royaume.bonPlacement(paysages);
     }
 
-    public void validerPlacement(ActionEvent event,Node root){
+    public void validerPlacement(ActionEvent event, Node root) {
 
-        this.imageViewP1.setEffect(new DropShadow(0,this.couleurJoueur));
-        this.imageViewP2.setEffect(new DropShadow(0,this.couleurJoueur));
+        this.imageViewP1.setEffect(new DropShadow(0, this.couleurJoueur));
+        this.imageViewP2.setEffect(new DropShadow(0, this.couleurJoueur));
 
-        int x1 = (int) (cartePays1.getX()/cellWidth);
-        int y1 = (int) (cartePays1.getY()/cellWidth);
+        int x1 = (int) (cartePays1.getX() / cellWidth);
+        int y1 = (int) (cartePays1.getY() / cellWidth);
 
         int[] cible1 = {x1, y1};
 
-        int x2 = (int) (cartePays2.getX()/cellWidth);
-        int y2 = (int) (cartePays2.getY()/cellWidth);
+        int x2 = (int) (cartePays2.getX() / cellWidth);
+        int y2 = (int) (cartePays2.getY() / cellWidth);
 
         int[] cible2 = {x2, y2};
 
@@ -691,148 +765,45 @@ public class CRoyaume {
 
         royaume.placerCarte(paysagesAPlacer);
 
-        System.out.println(paysage1 + " ; " + paysage2);
-        System.out.println(x2 + " ; " + y2);
-        System.out.println(numCouronnes1 + " ; " + numCouronnes2);
+        //System.out.println(paysage1 + " ; " + paysage2);
+        //System.out.println(x2 + " ; " + y2);
+        //System.out.println(numCouronnes1 + " ; " + numCouronnes2);
 
         royaume.testLimiteRoyaume();
-        royaume.mAJLimiteReelleRoyaume(cible1,cible2);
+        royaume.mAJLimiteReelleRoyaume(cible1, cible2);
         royaume.testLimiteRoyaume();
 
 
         royaume.afficherTypesGrille();
-        if( this.indice<this.ordreCartes.size()-1) {
+        if (this.indice < this.ordreCartes.size() - 1) {
             this.indice++;
-            System.out.println("indiceeeeeeeeeeeeee "+ this.indice);
-           // Image image =snap(root); // capture que le node
+            //System.out.println("indiceeeeeeeeeeeeee " + this.indice);
+            // Image image =snap(root); // capture que le node
             imagesRoyaume.add(snap(root));
-            System.out.println(imagesRoyaume.size()+" iiiiiiiiiiiiiiiiiiqssssss");
-            initialiserRoyaume(indice,event);
-        }
-        else{
+            //System.out.println(imagesRoyaume.size() + " iiiiiiiiiiiiiiiiiiqssssss");
+            initialiserRoyaume(indice, event);
+        } else {
             imagesRoyaume.add(snap(root));
-            if(choixCarte.toursRestants!=0){
+            if (choixCarte.toursRestants != 0) {
                 choixCarte.setImagesRoyaume(imagesRoyaume);
                 choixCarte.setActionEvent(event);
                 choixCarte.ChoixScene();
 
-            }
-            else{
+            } else {
                 sceneResultat(event);
             }
 
         }
 
     }
-
-    final private int[][] LISTECOURONNES = { // liste des couronnes, récupérées dans le fichier excel du projet.
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {0, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {1, 0},
-            {0, 1},
-            {0, 1},
-            {0, 1},
-            {0, 1},
-            {1, 0},
-            {0, 2},
-            {0, 2},
-            {0, 2},
-            {0, 2},
-            {2, 0},
-            {0, 2},
-            {0, 2},
-            {0, 3},
-    };
-
-
-    final private char[][] LISTEPAYSAGES = {//liste des paysages  : récupérée dans le fichier excel du proje
-            {'c', 'c'},
-            {'c', 'c'},
-            {'f', 'f'},
-            {'f', 'f'},
-            {'f', 'f'},
-            {'f', 'f'},
-            {'s', 's'},
-            {'s', 's'},
-            {'s', 's'},
-            {'p', 'p'},
-            {'p', 'p'},
-            {'m', 'm'},
-            {'c', 'f'},
-            {'c', 's'},
-            {'c', 'p'},
-            {'c', 'm'},
-            {'f', 's'},
-            {'f', 'p'},
-            {'c', 'f'},
-            {'c', 's'},
-            {'c', 'p'},
-            {'c', 'm'},
-            {'c', 'n'},
-            {'f', 'c'},
-            {'f', 'c'},
-            {'f', 'c'},
-            {'f', 'c'},
-            {'f', 's'},
-            {'f', 'p'},
-            {'s', 'c'},
-            {'s', 'c'},
-            {'s', 'f'},
-            {'s', 'f'},
-            {'s', 'f'},
-            {'s', 'f'},
-            {'c', 'p'},
-            {'s', 'p'},
-            {'c', 'm'},
-            {'p', 'm'},
-            {'n', 'c'},
-            {'c', 'p'},
-            {'s', 'p'},
-            {'c', 'm'},
-            {'p', 'm'},
-            {'n', 'c'},
-            {'m', 'n'},
-            {'m', 'n'},
-            {'c', 'n'},
-    };
-
-    public  Image snap(Node node) {
+    /* **********
+        Méthode pour prendre une capture d'écran du rouyame actuel.
+     ********** */
+    public Image snap(Node node) {
         try {
             final Bounds bounds = node.getLayoutBounds();
             double scale = 1;
-            int imageWidth = (int) Math.round(bounds.getWidth() * scale-2*cellWidth);
+            int imageWidth = (int) Math.round(bounds.getWidth() * scale - 2 * cellWidth);
             int imageHeight = (int) Math.round(bounds.getHeight() * scale);
 
 
@@ -849,68 +820,53 @@ public class CRoyaume {
 
     }
 
-    public static Color styleEnFonctionJoueur(Couleur couleurJoueur){
-        Color styleCouleurJoueur;
-        if(couleurJoueur == Couleur.BLEU ){
-            styleCouleurJoueur = Color.BLUE;
-        }else  if(couleurJoueur == Couleur.ROUGE){
-            styleCouleurJoueur= Color.RED;
-        }
-        else  if(couleurJoueur == Couleur.VERT){
-            styleCouleurJoueur= Color.GREEN;
-        }else {
-            styleCouleurJoueur = Color.rgb(200,150,50);
-        }
-        return styleCouleurJoueur;
-    }
-
-    public void sceneResultat(ActionEvent event){
-        Set<Joueur> ordreJ=new HashSet<>(ordreJoueur);
-        List<Joueur> classement =new ArrayList<>();
-        System.out.println("lololoolo"+ordreJ.size());
+    public void sceneResultat(ActionEvent event) {
+        Set<Joueur> ordreJ = new HashSet<>(ordreJoueur);
+        List<Joueur> classement = new ArrayList<>();
+        //System.out.println("lololoolo" + ordreJ.size());
 
 
-        List<Integer> scoreTrie=new ArrayList<>();
+        List<Integer> scoreTrie = new ArrayList<>();
 
-        for (Joueur j:ordreJ){
+        for (Joueur j : ordreJ) {
             scoreTrie.add(j.getRoyaume().calculerPoints());
             //associationJoueurScore.put(j,j.getRoyaume().calculerPoints());
         }
 
         Collections.sort(scoreTrie);
-        System.out.println("abba");
-        System.out.println(scoreTrie);
+        //System.out.println("abba");
+        //System.out.println(scoreTrie);
         Collections.reverse(scoreTrie);
-        System.out.println("yeaaa");
-        System.out.println(scoreTrie);
-        System.out.println(scoreTrie.size());
-        Set<Integer> scoreSansRepetion=new HashSet<>(scoreTrie);
-        for(int score:scoreSansRepetion){
-            //System.out.println(score);
+        //System.out.println("yeaaa");
+        //System.out.println(scoreTrie);
+        //System.out.println(scoreTrie.size());
+        Set<Integer> scoreSansRepetion = new HashSet<>(scoreTrie);
+        for (int score : scoreSansRepetion) {
+            ////System.out.println(score);
             //classement.put(associationJoueurScore.get(scoreTrie.get(score)),score);
-            for(Joueur j:ordreJ){
-                if(j.getRoyaume().calculerPoints()==score){
+            for (Joueur j : ordreJ) {
+                if (j.getRoyaume().calculerPoints() == score) {
                     classement.add(j);
-                    System.out.println(j.getNom());
-                    System.out.println(score);
+                    //System.out.println(j.getNom());
+                    //System.out.println(score);
                 }
             }
         }
-        System.out.println("juuuuuuu"+classement.size());
+        //System.out.println("juuuuuuu" + classement.size());
 
-        new CResultat(event,classement);
+        new CResultat(event, classement);
     }
 
-    public  void forcerFinPartie(ActionEvent event){
-        Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
+    public void forcerFinPartie(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Impossibilité de placer le domino");
         alert.setHeaderText("Si vous ne pouvez pas placer votre domino, \n" +
-                             "cliquez sur OK pour mettre fin à la partie, \n" +
-                              "vous verrez alors le classement final" );
+                "cliquez sur OK pour mettre fin à la partie, \n" +
+                "vous verrez alors le classement final");
         alert.setContentText("Cette action mettra fin à la partie en cours immediatement");
 
-        if(alert.showAndWait().get()== ButtonType.OK){
-           sceneResultat(event);
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            sceneResultat(event);
         }
 
     }
