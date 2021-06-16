@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>dominations.Controller</OriginalElement>
+  <nodes>
+    <node x="280.96627727383657" y="0.0">dominations.model.Paysage</node>
+    <node x="947.6322325336207" y="2269.0">dominations.Controller.CChoixCarte</node>
+    <node x="372.09127727383657" y="329.5">dominations.model.Couleur</node>
+    <node x="353.2916666666667" y="3723.5">dominations.Controller.CResultat</node>
+    <node x="895.3269230769231" y="3723.0">dominations.model.PaysagePane</node>
+    <node x="1179.75" y="1485.0">dominations.model.Pile</node>
+    <node x="489.5" y="1551.0">dominations.model.Joueur</node>
+    <node x="1203.5902348455152" y="1977.0">dominations.model.CartesEnJeu</node>
+    <node x="30.51926414954437" y="263.0">dominations.model.Cellule</node>
+    <node x="1327.0833333333335" y="946.0">dominations.model.Carte</node>
+    <node x="556.25" y="3106.0">dominations.model.Partie</node>
+    <node x="21.5" y="660.0">dominations.model.Royaume</node>
+    <node x="537.25" y="3348.0">dominations.Controller.CAccueil</node>
+    <node x="953.5902348455152" y="1966.0">dominations.model.CarteChoix</node>
+    <node x="892.1510743074032" y="4070.0">dominations.Controller.CRoyaume</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="dominations.model.CarteChoix" target="dominations.model.Joueur" relationship="TO_ONE">
+      <point x="-28.75" y="-95.5" />
+      <point x="1039.8402348455152" y="1935.0" />
+      <point x="841.1510743074033" y="1935.0" />
+      <point x="841.1510743074033" y="1915.0" />
+      <point x="639.5" y="1915.0" />
+      <point x="50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.model.Partie" target="dominations.model.Couleur" relationship="DEPENDENCY">
+      <point x="-22.0" y="-95.0" />
+      <point x="666.25" y="3075.0" />
+      <point x="717.0644915595508" y="3075.0" />
+      <point x="717.0644915595508" y="628.0" />
+      <point x="625.3144915595508" y="628.0" />
+      <point x="625.3144915595508" y="618.0" />
+      <point x="501.09127727383657" y="618.0" />
+      <point x="43.0" y="95.0" />
+    </edge>
+    <edge source="dominations.model.CartesEnJeu" target="dominations.model.Pile" relationship="TO_ONE">
+      <point x="0.0" y="-84.5" />
+      <point x="1304.5902348455152" y="1915.0" />
+      <point x="1376.4010743074032" y="1915.0" />
+      <point x="1376.4010743074032" y="1895.0" />
+      <point x="1339.75" y="1895.0" />
+      <point x="64.0" y="194.5" />
+    </edge>
+    <edge source="dominations.Controller.CAccueil" target="dominations.model.Partie" relationship="CREATE">
+      <point x="0.0" y="-161.5" />
+      <point x="0.0" y="95.0" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Carte" relationship="TO_ONE">
+      <point x="144.3529411764705" y="-601.5" />
+      <point x="1241.0040154838737" y="4028.0" />
+      <point x="1508.4010743074032" y="4028.0" />
+      <point x="1508.4010743074032" y="1454.0" />
+      <point x="1453.8333333333335" y="1454.0" />
+      <point x="42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.model.CarteChoix" target="dominations.model.Couleur" relationship="DEPENDENCY">
+      <point x="28.75" y="-95.5" />
+      <point x="1097.3402348455152" y="1915.0" />
+      <point x="923.5260743074033" y="1915.0" />
+      <point x="923.5260743074033" y="628.0" />
+      <point x="625.3144915595508" y="628.0" />
+      <point x="625.3144915595508" y="618.0" />
+      <point x="501.09127727383657" y="618.0" />
+      <point x="43.0" y="95.0" />
+    </edge>
+    <edge source="dominations.model.CarteChoix" target="dominations.model.Carte" relationship="DEPENDENCY">
+      <point x="86.25" y="-95.5" />
+      <point x="1154.8402348455152" y="1905.0" />
+      <point x="993.2091556105438" y="1905.0" />
+      <point x="993.2091556105438" y="1464.0" />
+      <point x="1398.75" y="1464.0" />
+      <point x="1398.75" y="1444.0" />
+      <point x="1369.3333333333335" y="1444.0" />
+      <point x="-42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.model.CartesEnJeu" target="dominations.model.Pile" relationship="GENERALIZATION">
+      <point x="-67.33333333333326" y="-84.5" />
+      <point x="1237.256901512182" y="1915.0" />
+      <point x="1275.75" y="1915.0" />
+      <point x="0.0" y="194.5" />
+    </edge>
+    <edge source="dominations.model.Joueur" target="dominations.model.Couleur" relationship="DEPENDENCY">
+      <point x="40.0" y="-128.5" />
+      <point x="629.5" y="1464.0" />
+      <point x="625.3144915595508" y="1464.0" />
+      <point x="625.3144915595508" y="618.0" />
+      <point x="501.09127727383657" y="618.0" />
+      <point x="43.0" y="95.0" />
+    </edge>
+    <edge source="dominations.model.Partie" target="dominations.Controller.CChoixCarte" relationship="CREATE">
+      <point x="110.0" y="-95.0" />
+      <point x="798.25" y="3085.0" />
+      <point x="1221.826923076923" y="3085.0" />
+      <point x="1221.826923076923" y="3075.0" />
+      <point x="1125.1322325336207" y="3075.0" />
+      <point x="0.0" y="392.5" />
+    </edge>
+    <edge source="dominations.model.Pile" target="dominations.model.Carte" relationship="CREATE">
+      <point x="-48.0" y="-194.5" />
+      <point x="1227.75" y="1464.0" />
+      <point x="1398.75" y="1464.0" />
+      <point x="1398.75" y="1444.0" />
+      <point x="1369.3333333333335" y="1444.0" />
+      <point x="-42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.Controller.CRoyaume" relationship="CREATE">
+      <point x="-118.33333333333337" y="392.5" />
+      <point x="1006.7988992002875" y="3075.0" />
+      <point x="884.8269230769231" y="3075.0" />
+      <point x="884.8269230769231" y="4048.0" />
+      <point x="1072.5922507779915" y="4048.0" />
+      <point x="-24.05882352941171" y="-601.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Couleur" relationship="DEPENDENCY">
+      <point x="-120.2941176470589" y="-601.5" />
+      <point x="976.3569566603443" y="3998.0" />
+      <point x="187.1799784352587" y="3998.0" />
+      <point x="187.1799784352587" y="1925.0" />
+      <point x="479.0" y="1925.0" />
+      <point x="479.0" y="628.0" />
+      <point x="625.3144915595508" y="628.0" />
+      <point x="625.3144915595508" y="618.0" />
+      <point x="501.09127727383657" y="618.0" />
+      <point x="43.0" y="95.0" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.CartesEnJeu" relationship="DEPENDENCY">
+      <point x="-163.8461538461538" y="-392.5" />
+      <point x="961.2860786874669" y="2248.0" />
+      <point x="910.5902348455152" y="2248.0" />
+      <point x="910.5902348455152" y="2188.0" />
+      <point x="1254.0902348455152" y="2188.0" />
+      <point x="-50.5" y="84.5" />
+    </edge>
+    <edge source="dominations.model.Joueur" target="dominations.model.Royaume" relationship="TO_ONE">
+      <point x="-80.0" y="-128.5" />
+      <point x="509.5" y="1464.0" />
+      <point x="176.1799784352587" y="1464.0" />
+      <point x="176.1799784352587" y="1454.0" />
+      <point x="133.25" y="1454.0" />
+      <point x="-111.75" y="381.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Joueur" relationship="DEPENDENCY">
+      <point x="-96.23529411764707" y="-601.5" />
+      <point x="1000.4157801897561" y="3988.0" />
+      <point x="273.75" y="3988.0" />
+      <point x="273.75" y="1945.0" />
+      <point x="539.5" y="1945.0" />
+      <point x="-50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.model.Royaume" target="dominations.model.Couleur" relationship="TO_ONE">
+      <point x="127.71428571428567" y="-381.5" />
+      <point x="372.71428571428567" y="638.0" />
+      <point x="441.95676414954437" y="638.0" />
+      <point x="441.95676414954437" y="618.0" />
+      <point x="415.09127727383657" y="618.0" />
+      <point x="-43.0" y="95.0" />
+    </edge>
+    <edge source="dominations.model.Royaume" target="dominations.model.Cellule" relationship="TO_MANY">
+      <point x="-63.85714285714289" y="-381.5" />
+      <point x="181.1428571428571" y="638.0" />
+      <point x="168.64426414954437" y="638.0" />
+      <point x="27.625" y="161.5" />
+    </edge>
+    <edge source="dominations.model.Cellule" target="dominations.model.Royaume" relationship="TO_ONE">
+      <point x="82.875" y="161.5" />
+      <point x="223.89426414954437" y="638.0" />
+      <point x="245.0" y="638.0" />
+      <point x="0.0" y="-381.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Cellule" relationship="DEPENDENCY">
+      <point x="-192.47058823529414" y="-601.5" />
+      <point x="904.180486072109" y="4028.0" />
+      <point x="0.0" y="4028.0" />
+      <point x="0.0" y="628.0" />
+      <point x="120.9299784352587" y="628.0" />
+      <point x="120.9299784352587" y="608.0" />
+      <point x="58.14426414954437" y="608.0" />
+      <point x="-82.875" y="161.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.Controller.CChoixCarte" relationship="DEPENDENCY">
+      <point x="72.17647058823536" y="-601.5" />
+      <point x="1168.8275448956385" y="3998.0" />
+      <point x="1221.826923076923" y="3998.0" />
+      <point x="1221.826923076923" y="3075.0" />
+      <point x="1125.1322325336207" y="3075.0" />
+      <point x="0.0" y="392.5" />
+    </edge>
+    <edge source="dominations.model.Pile" target="dominations.model.Carte" relationship="TO_MANY">
+      <point x="48.0" y="-194.5" />
+      <point x="1323.75" y="1454.0" />
+      <point x="1453.8333333333335" y="1454.0" />
+      <point x="42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.model.Royaume" target="dominations.model.Paysage" relationship="CREATE">
+      <point x="63.85714285714283" y="-381.5" />
+      <point x="308.85714285714283" y="638.0" />
+      <point x="330.62699155955085" y="638.0" />
+      <point x="330.62699155955085" y="243.0" />
+      <point x="657.5644915595508" y="243.0" />
+      <point x="657.5644915595508" y="233.0" />
+      <point x="414.46627727383657" y="233.0" />
+      <point x="44.5" y="106.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.CarteChoix" relationship="TO_MANY">
+      <point x="0.0" y="-392.5" />
+      <point x="1125.1322325336207" y="2248.0" />
+      <point x="1083.0833333333335" y="2248.0" />
+      <point x="1083.0833333333335" y="2178.0" />
+      <point x="1126.0902348455152" y="2178.0" />
+      <point x="57.5" y="95.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Carte" relationship="TO_ONE">
+      <point x="163.8461538461538" y="-392.5" />
+      <point x="1288.9783863797745" y="2248.0" />
+      <point x="1486.4010743074032" y="2248.0" />
+      <point x="1486.4010743074032" y="1454.0" />
+      <point x="1453.8333333333335" y="1454.0" />
+      <point x="42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Pile" relationship="DEPENDENCY">
+      <point x="54.61538461538453" y="-392.5" />
+      <point x="1179.7476171490052" y="2208.0" />
+      <point x="1416.0902348455152" y="2208.0" />
+      <point x="1416.0902348455152" y="1925.0" />
+      <point x="1130.5260743074032" y="1925.0" />
+      <point x="1130.5260743074032" y="1895.0" />
+      <point x="1211.75" y="1895.0" />
+      <point x="-64.0" y="194.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.Controller.CResultat" relationship="CREATE">
+      <point x="-72.17647058823536" y="-601.5" />
+      <point x="1024.4746037191678" y="3978.0" />
+      <point x="414.5416666666667" y="3978.0" />
+      <point x="-61.25" y="106.0" />
+    </edge>
+    <edge source="dominations.model.Carte" target="dominations.model.Paysage" relationship="CREATE">
+      <point x="0.0" y="-95.5" />
+      <point x="1411.5833333333335" y="243.0" />
+      <point x="657.5644915595508" y="243.0" />
+      <point x="657.5644915595508" y="233.0" />
+      <point x="414.46627727383657" y="233.0" />
+      <point x="44.5" y="106.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Joueur" relationship="DEPENDENCY">
+      <point x="-136.53846153846143" y="-392.5" />
+      <point x="988.5937709951593" y="2238.0" />
+      <point x="921.0902348455152" y="2238.0" />
+      <point x="921.0902348455152" y="1945.0" />
+      <point x="539.5" y="1945.0" />
+      <point x="-50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.CarteChoix" relationship="TO_ONE">
+      <point x="-27.30769230769215" y="-392.5" />
+      <point x="1097.8245402259286" y="2248.0" />
+      <point x="1083.0833333333335" y="2248.0" />
+      <point x="1083.0833333333335" y="2178.0" />
+      <point x="1126.0902348455152" y="2178.0" />
+      <point x="57.5" y="95.5" />
+    </edge>
+    <edge source="dominations.model.Partie" target="dominations.model.Royaume" relationship="CREATE">
+      <point x="-110.0" y="-95.0" />
+      <point x="578.25" y="3085.0" />
+      <point x="356.75" y="3085.0" />
+      <point x="356.75" y="1915.0" />
+      <point x="327.09664510192533" y="1915.0" />
+      <point x="327.09664510192533" y="1444.0" />
+      <point x="356.75" y="1444.0" />
+      <point x="111.75" y="381.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Carte" relationship="TO_MANY">
+      <point x="136.53846153846143" y="-392.5" />
+      <point x="1261.6706940720821" y="2238.0" />
+      <point x="1475.4010743074032" y="2238.0" />
+      <point x="1475.4010743074032" y="1454.0" />
+      <point x="1453.8333333333335" y="1454.0" />
+      <point x="42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.Controller.CResultat" target="dominations.model.Joueur" relationship="TO_MANY">
+      <point x="0.0" y="-106.0" />
+      <point x="475.7916666666667" y="3692.0" />
+      <point x="345.75" y="3692.0" />
+      <point x="345.75" y="1935.0" />
+      <point x="841.1510743074033" y="1935.0" />
+      <point x="841.1510743074033" y="1915.0" />
+      <point x="639.5" y="1915.0" />
+      <point x="50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Carte" relationship="DEPENDENCY">
+      <point x="120.29411764705878" y="-601.5" />
+      <point x="1216.945191954462" y="4018.0" />
+      <point x="1497.4010743074032" y="4018.0" />
+      <point x="1497.4010743074032" y="1464.0" />
+      <point x="1398.75" y="1464.0" />
+      <point x="1398.75" y="1444.0" />
+      <point x="1369.3333333333335" y="1444.0" />
+      <point x="-42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.model.Royaume" target="dominations.model.Cellule" relationship="CREATE">
+      <point x="-191.57142857142856" y="-381.5" />
+      <point x="53.428571428571445" y="628.0" />
+      <point x="120.9299784352587" y="628.0" />
+      <point x="120.9299784352587" y="608.0" />
+      <point x="58.14426414954437" y="608.0" />
+      <point x="-82.875" y="161.5" />
+    </edge>
+    <edge source="dominations.model.Partie" target="dominations.model.Pile" relationship="CREATE">
+      <point x="22.0" y="-95.0" />
+      <point x="710.25" y="3085.0" />
+      <point x="743.8144915595508" y="3085.0" />
+      <point x="743.8144915595508" y="1925.0" />
+      <point x="1130.5260743074032" y="1925.0" />
+      <point x="1130.5260743074032" y="1895.0" />
+      <point x="1211.75" y="1895.0" />
+      <point x="-64.0" y="194.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Carte" relationship="DEPENDENCY">
+      <point x="109.23076923076928" y="-392.5" />
+      <point x="1234.36300176439" y="2228.0" />
+      <point x="1464.4010743074032" y="2228.0" />
+      <point x="1464.4010743074032" y="1464.0" />
+      <point x="1398.75" y="1464.0" />
+      <point x="1398.75" y="1444.0" />
+      <point x="1369.3333333333335" y="1444.0" />
+      <point x="-42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.model.Cellule" target="dominations.model.Paysage" relationship="TO_ONE">
+      <point x="-55.25" y="-161.5" />
+      <point x="85.76926414954437" y="233.0" />
+      <point x="325.46627727383657" y="233.0" />
+      <point x="-44.5" y="106.5" />
+    </edge>
+    <edge source="dominations.model.Partie" target="dominations.model.CartesEnJeu" relationship="CREATE">
+      <point x="66.0" y="-95.0" />
+      <point x="754.25" y="3075.0" />
+      <point x="796.5" y="3075.0" />
+      <point x="796.5" y="2248.0" />
+      <point x="910.5902348455152" y="2248.0" />
+      <point x="910.5902348455152" y="2188.0" />
+      <point x="1254.0902348455152" y="2188.0" />
+      <point x="-50.5" y="84.5" />
+    </edge>
+    <edge source="dominations.model.Partie" target="dominations.model.Joueur" relationship="CREATE">
+      <point x="-66.0" y="-95.0" />
+      <point x="622.25" y="3075.0" />
+      <point x="556.5644915595508" y="3075.0" />
+      <point x="556.5644915595508" y="1945.0" />
+      <point x="539.5" y="1945.0" />
+      <point x="-50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.model.CarteChoix" target="dominations.model.Joueur" relationship="DEPENDENCY">
+      <point x="-86.25" y="-95.5" />
+      <point x="982.3402348455152" y="1945.0" />
+      <point x="539.5" y="1945.0" />
+      <point x="-50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.model.Cellule" target="dominations.model.Royaume" relationship="DEPENDENCY">
+      <point x="-27.625" y="161.5" />
+      <point x="113.39426414954437" y="618.0" />
+      <point x="117.28571428571433" y="618.0" />
+      <point x="-127.71428571428567" y="-381.5" />
+    </edge>
+    <edge source="dominations.model.Joueur" target="dominations.model.Royaume" relationship="DEPENDENCY">
+      <point x="-40.0" y="-128.5" />
+      <point x="549.5" y="1454.0" />
+      <point x="327.09664510192533" y="1454.0" />
+      <point x="327.09664510192533" y="1444.0" />
+      <point x="356.75" y="1444.0" />
+      <point x="111.75" y="381.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.PaysagePane" relationship="CREATE">
+      <point x="48.11764705882342" y="-601.5" />
+      <point x="1144.7687213662266" y="4048.0" />
+      <point x="1132.326923076923" y="4048.0" />
+      <point x="79.0" y="106.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.CarteChoix" relationship="CREATE">
+      <point x="-54.61538461538453" y="-392.5" />
+      <point x="1070.5168479182362" y="2208.0" />
+      <point x="1011.0902348455152" y="2208.0" />
+      <point x="-57.5" y="95.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Royaume" relationship="TO_ONE">
+      <point x="-144.35294117647072" y="-601.5" />
+      <point x="952.2981331309325" y="4008.0" />
+      <point x="176.1799784352587" y="4008.0" />
+      <point x="176.1799784352587" y="1454.0" />
+      <point x="133.25" y="1454.0" />
+      <point x="-111.75" y="381.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.CartesEnJeu" relationship="TO_ONE">
+      <point x="27.307692307692378" y="-392.5" />
+      <point x="1152.439924841313" y="2198.0" />
+      <point x="1355.0902348455152" y="2198.0" />
+      <point x="50.5" y="84.5" />
+    </edge>
+    <edge source="dominations.Controller.CResultat" target="dominations.model.Joueur" relationship="DEPENDENCY">
+      <point x="-81.66666666666669" y="-106.0" />
+      <point x="394.125" y="3702.0" />
+      <point x="334.75" y="3702.0" />
+      <point x="334.75" y="1945.0" />
+      <point x="539.5" y="1945.0" />
+      <point x="-50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.model.Joueur" target="dominations.model.Couleur" relationship="TO_ONE">
+      <point x="0.0" y="-128.5" />
+      <point x="589.5" y="1464.0" />
+      <point x="597.25" y="1464.0" />
+      <point x="597.25" y="638.0" />
+      <point x="441.95676414954437" y="638.0" />
+      <point x="441.95676414954437" y="618.0" />
+      <point x="415.09127727383657" y="618.0" />
+      <point x="-43.0" y="95.0" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Carte" relationship="TO_MANY">
+      <point x="168.41176470588243" y="-601.5" />
+      <point x="1265.0628390132856" y="4038.0" />
+      <point x="1519.4010743074032" y="4038.0" />
+      <point x="1519.4010743074032" y="1454.0" />
+      <point x="1453.8333333333335" y="1454.0" />
+      <point x="42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.Controller.CResultat" target="dominations.Controller.CAccueil" relationship="CREATE">
+      <point x="81.66666666666663" y="-106.0" />
+      <point x="557.4583333333333" y="3702.0" />
+      <point x="688.25" y="3702.0" />
+      <point x="0.0" y="161.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Paysage" relationship="CREATE">
+      <point x="192.47058823529414" y="-601.5" />
+      <point x="1289.1216625426973" y="4048.0" />
+      <point x="1551.2760743074032" y="4048.0" />
+      <point x="1551.2760743074032" y="243.0" />
+      <point x="657.5644915595508" y="243.0" />
+      <point x="657.5644915595508" y="233.0" />
+      <point x="414.46627727383657" y="233.0" />
+      <point x="44.5" y="106.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Joueur" relationship="TO_MANY">
+      <point x="-81.9230769230769" y="-392.5" />
+      <point x="1043.2091556105438" y="2218.0" />
+      <point x="943.0902348455152" y="2218.0" />
+      <point x="943.0902348455152" y="1935.0" />
+      <point x="841.1510743074033" y="1935.0" />
+      <point x="841.1510743074033" y="1915.0" />
+      <point x="639.5" y="1915.0" />
+      <point x="50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.Controller.CChoixCarte" relationship="TO_ONE">
+      <point x="96.23529411764707" y="-601.5" />
+      <point x="1192.8863684250503" y="4008.0" />
+      <point x="1287.1510743074032" y="4008.0" />
+      <point x="1287.1510743074032" y="3085.0" />
+      <point x="1243.465565866954" y="3085.0" />
+      <point x="118.33333333333326" y="392.5" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Pile" relationship="TO_ONE">
+      <point x="81.9230769230769" y="-392.5" />
+      <point x="1207.0553094566976" y="2218.0" />
+      <point x="1436.0902348455152" y="2218.0" />
+      <point x="1436.0902348455152" y="1915.0" />
+      <point x="1376.4010743074032" y="1915.0" />
+      <point x="1376.4010743074032" y="1895.0" />
+      <point x="1339.75" y="1895.0" />
+      <point x="64.0" y="194.5" />
+    </edge>
+    <edge source="dominations.model.Cellule" target="dominations.model.Paysage" relationship="CREATE">
+      <point x="55.25" y="-161.5" />
+      <point x="196.26926414954437" y="243.0" />
+      <point x="657.5644915595508" y="243.0" />
+      <point x="657.5644915595508" y="233.0" />
+      <point x="414.46627727383657" y="233.0" />
+      <point x="44.5" y="106.5" />
+    </edge>
+    <edge source="dominations.model.Joueur" target="dominations.model.Paysage" relationship="CREATE">
+      <point x="80.0" y="-128.5" />
+      <point x="669.5" y="1464.0" />
+      <point x="657.5644915595508" y="1464.0" />
+      <point x="657.5644915595508" y="233.0" />
+      <point x="414.46627727383657" y="233.0" />
+      <point x="44.5" y="106.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.PaysagePane" relationship="TO_ONE">
+      <point x="0.0" y="-601.5" />
+      <point x="1096.6510743074032" y="4048.0" />
+      <point x="1102.1510743074032" y="4048.0" />
+      <point x="1102.1510743074032" y="3958.0" />
+      <point x="974.3269230769231" y="3958.0" />
+      <point x="-79.0" y="106.5" />
+    </edge>
+    <edge source="dominations.Controller.CResultat" target="dominations.Controller.CRoyaume" relationship="DEPENDENCY">
+      <point x="61.25" y="106.0" />
+      <point x="537.0416666666667" y="4038.0" />
+      <point x="884.8269230769231" y="4038.0" />
+      <point x="884.8269230769231" y="4048.0" />
+      <point x="1072.5922507779915" y="4048.0" />
+      <point x="-24.05882352941171" y="-601.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Joueur" relationship="TO_MANY">
+      <point x="-48.11764705882365" y="-601.5" />
+      <point x="1048.5334272485795" y="3968.0" />
+      <point x="849.75" y="3968.0" />
+      <point x="849.75" y="1935.0" />
+      <point x="841.1510743074033" y="1935.0" />
+      <point x="841.1510743074033" y="1915.0" />
+      <point x="639.5" y="1915.0" />
+      <point x="50.0" y="128.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.PaysagePane" relationship="TO_MANY">
+      <point x="24.05882352941171" y="-601.5" />
+      <point x="1120.709897836815" y="4048.0" />
+      <point x="1102.1510743074032" y="4048.0" />
+      <point x="1102.1510743074032" y="3958.0" />
+      <point x="974.3269230769231" y="3958.0" />
+      <point x="-79.0" y="106.5" />
+    </edge>
+    <edge source="dominations.model.CartesEnJeu" target="dominations.model.Carte" relationship="DEPENDENCY">
+      <point x="67.3333333333332" y="-84.5" />
+      <point x="1371.9235681788482" y="1905.0" />
+      <point x="1402.9010743074032" y="1905.0" />
+      <point x="1402.9010743074032" y="1464.0" />
+      <point x="1398.75" y="1464.0" />
+      <point x="1398.75" y="1444.0" />
+      <point x="1369.3333333333335" y="1444.0" />
+      <point x="-42.25" y="95.5" />
+    </edge>
+    <edge source="dominations.Controller.CRoyaume" target="dominations.model.Cellule" relationship="TO_MANY">
+      <point x="-168.41176470588243" y="-601.5" />
+      <point x="928.2393096015207" y="4018.0" />
+      <point x="11.0" y="4018.0" />
+      <point x="11.0" y="638.0" />
+      <point x="168.64426414954437" y="638.0" />
+      <point x="27.625" y="161.5" />
+    </edge>
+    <edge source="dominations.model.Royaume" target="dominations.model.Couleur" relationship="DEPENDENCY">
+      <point x="191.57142857142856" y="-381.5" />
+      <point x="436.57142857142856" y="628.0" />
+      <point x="625.3144915595508" y="628.0" />
+      <point x="625.3144915595508" y="618.0" />
+      <point x="501.09127727383657" y="618.0" />
+      <point x="43.0" y="95.0" />
+    </edge>
+    <edge source="dominations.Controller.CChoixCarte" target="dominations.model.Joueur" relationship="TO_ONE">
+      <point x="-109.23076923076917" y="-392.5" />
+      <point x="1015.9014633028517" y="2228.0" />
+      <point x="932.0902348455152" y="2228.0" />
+      <point x="932.0902348455152" y="1935.0" />
+      <point x="841.1510743074033" y="1935.0" />
+      <point x="841.1510743074033" y="1915.0" />
+      <point x="639.5" y="1915.0" />
+      <point x="50.0" y="128.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0000000000000002" showDependencies="true" x="642.8879100027104" y="4026.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
